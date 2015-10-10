@@ -3,16 +3,16 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
+title: Vincent Home
+subtitle: Personal blog to track my work
+description: This is Vincent's blog to track personal life and work.
 author: Vincent Hou
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://vincenthou.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -68,4 +68,14 @@ theme: yilia
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: https://github.com/vincenthou/vincenthou.github.io.git
+  branch: master
+
+sitemap:
+  path: sitemap.xml
+
+feed:
+  type: atom
+  path: atom.xml
+  limit: 100
