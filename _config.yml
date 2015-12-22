@@ -65,11 +65,39 @@ pagination_dir: page
 ## Themes: http://hexo.io/themes/
 theme: yilia
 
+# Migration
+## Repo: https://github.com/songchenwen/hexo-migrator-issue
+issue_migrator :
+  repository_name : vincenthou.github.io
+      # Where to pull issues from (can't be empty)
+
+  owner_name : vincenthou
+      # Owner user name (can't be empty)
+
+  label : blog
+      # Only issues with this label will be pulled.
+      # Empty means all the issues will be pulled
+      # Default empty.
+
+  issue_count_per_page : 20
+      # How many issues will be pulled with one api request
+      # Default 20
+
+  clean : true
+      # If true, all files in `_posts` will be deleted before the migrator runs.
+      # Useful when you decide to host all your posts with Github issues like I do.
+      # Default false
+
+  including_closed : false
+      # Usually we don't want to see closed issues on our website.
+      # If true, closed issues will be pulled too.
+      # Default false
+
 # Deployment
 ## Docs: http://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/vincenthou/vincenthou.github.io.git
+  repo: git@github.com:vincenthou/vincenthou.github.io.git
   branch: master
 
 sitemap:
