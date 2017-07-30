@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+- '7.7.4'
+env:
+  global:
+  - PATH: node_modules/.bin/:$PATH
+install:
+- npm install
+cache:
+  directories:
+  - node_modules
+script:
+- hexo clean
+- hexo migrate github-issue vincenthou/vincenthou.github.io
+- hexo generate
+deploy:
+  provider: pages
+  target_branch: master
+  local_dir: public
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
+branches:
+  only:
+  - source

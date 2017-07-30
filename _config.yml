@@ -79,4 +79,4 @@ theme: fexo
 deploy:
   type: git
   repo: https://github.com/vincenthou/vincenthou.github.io
-  branch: gh-pages
+  branch: master

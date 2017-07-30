@@ -1,13 +1,13 @@
 # Blog info
 blog_name: Vincent Home
 slogan: I build things
-url: http://vincenthou.github.io
+url: https://vincenthou.github.io
 
 # Set avatar (Absolute url and relative url)
-avatar: https://avatars3.githubusercontent.com/u/1998742?v=3&s=460
+avatar: https://vdemo.qiniudn.com/avatar.jpg
 
 # Set favicon
-favicon: /favicon.ico
+favicon: https://assets-cdn.github.com/favicon.ico
 
 # For seo
 keywords: vincenthou,前端,前端开发,frontend,nodejs,JavaScript
@@ -86,14 +86,14 @@ backtop:
 donation:
   show: true
   btn_text: 支持一下
-  tip: 扫一扫，支持forsigner
+  tip: 扫一扫，支持vincenthou
   items:
     - type: 微信
       text: 微信扫一扫
-      imgUrl: /images/qr-wechat.png
+      imgUrl: https://vdemo.qiniudn.com/qr-wechat.png
     - type: 支付宝
       text: 支付宝扫一扫
-      imgUrl: /images/qr-alipay.png
+      imgUrl: https://vdemo.qiniudn.com/qr-alipay.png
 
 post:
   header_align: CENTER # LEFT|CENTER
@@ -143,8 +143,8 @@ about:
     icon: icon-user
     text_value:
     - "Vincent, 80/90s, FE, Gopher."
-    - "喜欢设计，擅长编程，喜欢睡懒觉."
-    - "全站开发工程师，常用 HTML / CSS / JavaScript / Golang."
+    - "喜欢一切美好的事物."
+    - "Web软件开发工程师，常用 Frontedn Stack / NodeJS / Golang."
   - type: Github
     icon: icon-github
     text_key: Github
@@ -158,11 +158,11 @@ about:
     icon: icon-location
     text_value: 上海
 
-link:
-  - name: 题叶
-    info: FP, GUI, Writing
-    url: http://tiye.me/
-    avatar: https://avatars2.githubusercontent.com/u/449224?v=3&s=100
+#link:
+#  - name: 题叶
+#    info: FP, GUI, Writing
+#    url: http://tiye.me/
+#    avatar: https://avatars2.githubusercontent.com/u/449224?v=3&s=100
 
 project:
   - type: personal
