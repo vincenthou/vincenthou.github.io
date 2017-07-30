@@ -1,0 +1,207 @@
+# Blog info
+blog_name: Vincent Home
+slogan: I build things
+url: http://vincenthou.github.io
+
+# Set avatar (Absolute url and relative url)
+avatar: https://avatars3.githubusercontent.com/u/1998742?v=3&s=460
+
+# Set favicon
+favicon: /favicon.ico
+
+# For seo
+keywords: vincenthou,前端,前端开发,frontend,nodejs,JavaScript
+
+home_nav:
+  - name: Blog
+    url: /archives
+    target_blank: false
+  - name: Project
+    url: /project
+    target_blank: false
+  - name: Github
+    url: https://github.com/vincenthou
+    target_blank: true
+  - name: ZhiHu
+    url: http://www.zhihu.com/people/hoy-vincent
+    target_blank: true
+  - name: DouBan
+    url: http://www.douban.com/people/vincenthou/
+    target_blank: true
+
+# config page nav
+page_nav:
+  - name: 博客
+    url: /archives/
+    target_blank: false # 不在新页面打开
+  - name: 分类
+    url: /category/
+    target_blank: false
+  - name: 标签
+    url: /tag/
+    target_blank: false
+  - name: 友链
+    url: /link/
+    target_blank: false
+  - name: 关于
+    url: /about/
+    target_blank: false
+  - name: RSS
+    url: /atom.xml
+    target_blank: true # 在新页面打开
+  - name: 搜索
+    url: /search/
+    target_blank: false # 在新页面打开
+
+page_nav_style: CIRCLE  # CIRCLE|ROUND_RECT
+
+# 面包屑
+breadcrumb:
+  isShow: true # true|fase
+
+# 盒子
+toolbox:
+  isShow: true # true|fase
+  text: 更多
+
+search_slogan:
+  isShow: true # true|fase
+  text: Can you find the bug of world ~
+
+link_slogan:
+  isShow: true # true|fase
+  text: 交换友链可以邮件 vincenthou365@gmail.com
+
+
+# set backtop show or hide
+backtop:
+  home: false
+  archive: false
+  category: true
+  tag: true
+  post: true
+  link: false
+  about: false
+
+donation:
+  show: true
+  btn_text: 支持一下
+  tip: 扫一扫，支持forsigner
+  items:
+    - type: 微信
+      text: 微信扫一扫
+      imgUrl: /images/qr-wechat.png
+    - type: 支付宝
+      text: 支付宝扫一扫
+      imgUrl: /images/qr-alipay.png
+
+post:
+  header_align: CENTER # LEFT|CENTER
+  showToc: true # true|false
+  showComments: true
+  open_in_new_window: false
+  show_prev_next: true
+
+# =========================================================
+# 个性化设置
+# =========================================================
+
+# Custom CSS style, 推荐把样式文件放在blog源码文件夹，而不是主题里面
+personal_style: /css/style.css
+
+# 这个值取决于你得背景图片是深色还是浅色，深色用dark，浅色用light
+home_background_scheme: light # dark、light
+
+# custom font-family 暂时只支持这3种英文字体，你可以完全自定义字体(看文档)
+blog_name_font_familiy: calligraffittiregular
+# blog_name_font_familiy: Lobster-Regular
+# blog_name_font_familiy: PoiretOne-Regular
+
+init_page_content: HOME_NAV  # HOME_NAV | POST
+
+
+# =========================================================
+# 第三方服务
+# =========================================================
+# Stats
+google_analytics: UA-39656503-1
+baidu_analytics: 1e5d8068abdfb22e27ebe052a4feae14
+
+# Comment service
+disqus_shortname: vincenthou
+# hypercomments_id: 89821
+# gentie_key: d16a7241e7cd4b389584ed8db2a4e8bc
+
+# 不算子,文章访问量统计和显示
+busuanzi: true
+
+# =========================================================
+# 页面内容设置
+# =========================================================
+about:
+  - type: me
+    icon: icon-user
+    text_value:
+    - "Vincent, 80/90s, FE, Gopher."
+    - "喜欢设计，擅长编程，喜欢睡懒觉."
+    - "全站开发工程师，常用 HTML / CSS / JavaScript / Golang."
+  - type: Github
+    icon: icon-github
+    text_key: Github
+    text_value: "@vincenthou"
+    text_value_url: https://github.com/vincenthou
+  - type: mail
+    icon: icon-mail
+    text_key: Gmail
+    text_value: "vincenthou365@gmail.com"
+  - type: location
+    icon: icon-location
+    text_value: 上海
+
+link:
+  - name: 题叶
+    info: FP, GUI, Writing
+    url: http://tiye.me/
+    avatar: https://avatars2.githubusercontent.com/u/449224?v=3&s=100
+
+project:
+  - type: personal
+    name: btmovie
+    url: https://github.com/vincenthou/btmovie
+    intro: A better interface for bt movie sites
+  - type: personal
+    name: vue-gallery
+    url: https://github.com/vincenthou/vue-gallery
+    intro: A vue demo for nice gallery
+  - type: personal
+    name: free-for-china-dev
+    url: https://github.com/vincenthou/free-for-china-dev
+    intro: A collection for free services in China
+  - type: company
+    name: style-guide
+    url: https://github.com/frontnode/style-guide
+    intro: Style Guide for projects
+  - type: company
+    name: internal-PPT
+    url: https://github.com/frontnode/PPT
+    intro: Internal shared PPT
+  - type: company
+    name: abao
+    url: https://github.com/frontnode/abao
+    intro: Customized automation integration testing tool
+  - type: company
+    name: git-changelog
+    url: https://github.com/frontnode/git-changelog
+    intro: Customized git changelog generator
+  - type: personal
+    name: moon
+    url: https://github.com/vincenthou/moon
+    intro: TODO(API automation testing tool based on definition)
+  - type: personal
+    name: learn-gin
+    url: https://github.com/vincenthou/learn-gin
+    intro: TODO(Document site for learning gin framework)
+  - type: personal
+    name: antd-relax
+    url: https://github.com/vincenthou/antd-relax
+    intro: TODO(Rewrite relax with antd)
