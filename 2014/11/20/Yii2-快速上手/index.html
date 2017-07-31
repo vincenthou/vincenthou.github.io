@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>Yii2 快速上手 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,php," />
+  
+
+  <meta name="description" content="Yii2 快速上手安装Composer安装官方出品详细文档，只要把composer.phar下载就能用(php composer.phar)，不过配置到环境变量中会更方便，直接composer运行命令。 1curl -sS https://getcomposer.org/installer | php 但是没有镜像怎么能玩得转，其中原因大家懂得，配置国内镜像，具体方法看这里，可以作为全局或者对于项">
+<meta name="keywords" content="blog,php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Yii2 快速上手">
+<meta property="og:url" content="https://vincenthou.github.io/2014/11/20/Yii2-快速上手/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="Yii2 快速上手安装Composer安装官方出品详细文档，只要把composer.phar下载就能用(php composer.phar)，不过配置到环境变量中会更方便，直接composer运行命令。 1curl -sS https://getcomposer.org/installer | php 但是没有镜像怎么能玩得转，其中原因大家懂得，配置国内镜像，具体方法看这里，可以作为全局或者对于项">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Yii2 快速上手">
+<meta name="twitter:description" content="Yii2 快速上手安装Composer安装官方出品详细文档，只要把composer.phar下载就能用(php composer.phar)，不过配置到环境变量中会更方便，直接composer运行命令。 1curl -sS https://getcomposer.org/installer | php 但是没有镜像怎么能玩得转，其中原因大家懂得，配置国内镜像，具体方法看这里，可以作为全局或者对于项">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Yii2-快速上手"><span class="toc-text">Yii2 快速上手</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Composer安装"><span class="toc-text">Composer安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Yii2安装"><span class="toc-text">Yii2安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Yii2初始化"><span class="toc-text">Yii2初始化</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Reference"><span class="toc-text">Reference</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Yii2-快速上手" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Yii2 快速上手</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.11.20</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2014/11/20/Yii2-快速上手/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Yii2-快速上手"><a href="#Yii2-快速上手" class="headerlink" title="Yii2 快速上手"></a>Yii2 快速上手</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Composer安装"><a href="#Composer安装" class="headerlink" title="Composer安装"></a>Composer安装</h3><p>官方出品<a href="http://docs.phpcomposer.com/download/" target="_blank" rel="external">详细文档</a>，只要把composer.phar下载就能用(php composer.phar)，不过配置到环境变量中会更方便，直接composer运行命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">curl -sS https://getcomposer.org/installer | php</div></pre></td></tr></table></figure>
+<p>但是没有镜像怎么能玩得转，其中原因大家懂得，配置国内镜像，具体方法看<a href="http://pkg.phpcomposer.com/" target="_blank" rel="external">这里</a>，可以作为全局或者对于项目的配置</p>
+<h3 id="Yii2安装"><a href="#Yii2安装" class="headerlink" title="Yii2安装"></a>Yii2安装</h3><p>官方安装方法看<a href="https://github.com/yiisoft/yii2-app-advanced#install-via-composer" target="_blank" rel="external">这里</a>，首先安装依赖的composer-asset。Yii2.0要求Composer必须安装 composer asset 插件。 这个插件使得Composer可以兼容实现NPM和BOWER包管理器的功能。 NPM 和 BOWER 主要用于前端资源（如JS库等）的管理。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php composer.phar global require <span class="string">"fxp/composer-asset-plugin:1.0.0-beta3"</span></div></pre></td></tr></table></figure>
+<p>接着创建项目</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php composer.phar create-project --prefer-dist --stability=dev yiisoft/yii2-app-advanced advanced</div></pre></td></tr></table></figure>
+<p>安装成功后会看到</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div></pre></td><td class="code"><pre><div class="line">Installing yiisoft/yii2-app-advanced (dev-master bc58c0f1b54cf7cfcf9d7b59ab364c8</div><div class="line">2daa0b483)</div><div class="line">  - Installing yiisoft/yii2-app-advanced (dev-master master)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">Created project <span class="keyword">in</span> advanced</div><div class="line">Loading composer repositories with package information</div><div class="line">Installing dependencies (including require-dev)</div><div class="line">  - Installing yiisoft/yii2-composer (dev-master 0ed315f)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing ezyang/htmlpurifier (v4.6.0)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing swiftmailer/swiftmailer (dev-master d0f361d)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing cebe/markdown (0.9.x-dev 6a3c373)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/jquery (2.1.1)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/jquery-pjax (dev-master f07ce95)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/yii2 (2.0.0-beta)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing phpspec/php-diff (dev-master 30e103d)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/yii2-swiftmailer (dev-master 3b9c27a)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/yii2-codeception (dev-master e4c331f)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing twbs/bootstrap (v3.0.3)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/yii2-bootstrap (2.0.0-beta)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/yii2-debug (dev-master 12fdba8)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/yii2-gii (2.0.0-beta)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing fzaninotto/faker (dev-master 44eae4d)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">  - Installing yiisoft/yii2-faker (dev-master cb109df)</div><div class="line">    Loading from cache</div><div class="line"></div><div class="line">Writing lock file</div><div class="line">Generating <span class="built_in">autoload</span> files</div></pre></td></tr></table></figure>
+<p>项目就在advanced文件夹下了</p>
+<h3 id="Yii2初始化"><a href="#Yii2初始化" class="headerlink" title="Yii2初始化"></a>Yii2初始化</h3><p>进入项目目录，使用命令行初始化项目</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> advanced</div><div class="line">init</div></pre></td></tr></table></figure>
+<p>会看到下面的界面</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">Yii Application Initialization Tool v1.0</div><div class="line"></div><div class="line">Which environment <span class="keyword">do</span> you want the application to be initialized <span class="keyword">in</span>?</div><div class="line"></div><div class="line">  [0] Development</div><div class="line">  [1] Production</div><div class="line"></div><div class="line">  Your choice [0-1, or <span class="string">"q"</span> to quit]</div></pre></td></tr></table></figure>
+<p>补充更加详细中文<a href="http://www.digpage.com/install.html#composeryii" target="_blank" rel="external">安装教程</a></p>
+<p>yii2由于依赖于bower和npm，npm国内有镜像速度较快，但是bower下载很多github上面的依赖，速度较慢（下个jquery要2小时）,需要考虑是否使用。<br><strong>TODO: nginx配置，简单开发示例</strong></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><ul>
+<li><a href="https://github.com/yiisoft/yii2" target="_blank" rel="external">Github Offical Site</a></li>
+<li><a href="https://github.com/yiisoft/yii2-app-advanced" target="_blank" rel="external">Yii2 App Advanced Template</a></li>
+<li><a href="http://www.yiichina.com/api/" target="_blank" rel="external">API Doc</a></li>
+<li><a href="http://www.digpage.com/" target="_blank" rel="external">深入理解Yii2.0</a></li>
+<li><a href="https://jellybool.com/post/programming-with-yii2-getting-started-with-install-and-hello-world" target="_blank" rel="external">实例教程</a></li>
+<li><a href="http://pan.baidu.com/s/1hqswH60" target="_blank" rel="external">直接下载免安装版</a></li>
+<li><a href="https://github.com/yiisoft/yii2/issues/5060" target="_blank" rel="external">Calling unknown method: yii\web\UrlManager::addRules()</a></li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/09/04/MySQL-常用命令/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/04/06/【翻译】-Angularjs-的一些模式/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2014/11/20/Yii2-快速上手/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

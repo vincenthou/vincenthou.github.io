@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>不折腾会死前端系列（一）：拂晓 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,frontend," />
+  
+
+  <meta name="description" content="最近决定立下了个目标，看能坚持周更文章多久，上周回家就搁置了一周，这周接上，感觉写文章有人看，还能给点个赞还是件蛮有成就感的事情，感谢 @CraryPrimitiveMan 同学 :smile: 。其实对自己所了解知识也是很好的反刍过程。恢复单身狗之后有更多的时间思考和学习，开始学习摄影，捡起来绘画，感觉其实也是一件满惬意的事情。毕竟生活是自己的，你选择把她过成什么样子，她就会是什么样子。最近做后">
+<meta name="keywords" content="blog,frontend">
+<meta property="og:type" content="article">
+<meta property="og:title" content="不折腾会死前端系列（一）：拂晓">
+<meta property="og:url" content="https://vincenthou.github.io/2016/11/13/不折腾会死前端系列（一）：拂晓/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="最近决定立下了个目标，看能坚持周更文章多久，上周回家就搁置了一周，这周接上，感觉写文章有人看，还能给点个赞还是件蛮有成就感的事情，感谢 @CraryPrimitiveMan 同学 :smile: 。其实对自己所了解知识也是很好的反刍过程。恢复单身狗之后有更多的时间思考和学习，开始学习摄影，捡起来绘画，感觉其实也是一件满惬意的事情。毕竟生活是自己的，你选择把她过成什么样子，她就会是什么样子。最近做后">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="不折腾会死前端系列（一）：拂晓">
+<meta name="twitter:description" content="最近决定立下了个目标，看能坚持周更文章多久，上周回家就搁置了一周，这周接上，感觉写文章有人看，还能给点个赞还是件蛮有成就感的事情，感谢 @CraryPrimitiveMan 同学 :smile: 。其实对自己所了解知识也是很好的反刍过程。恢复单身狗之后有更多的时间思考和学习，开始学习摄影，捡起来绘画，感觉其实也是一件满惬意的事情。毕竟生活是自己的，你选择把她过成什么样子，她就会是什么样子。最近做后">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-不折腾会死前端系列（一）：拂晓" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">不折腾会死前端系列（一）：拂晓</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.11.13</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2016/11/13/不折腾会死前端系列（一）：拂晓/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近决定立下了个目标，看能坚持周更文章多久，上周回家就搁置了一周，这周接上，感觉写文章有人看，还能给点个赞还是件蛮有成就感的事情，感谢 @CraryPrimitiveMan 同学 :smile: 。其实对自己所了解知识也是很好的反刍过程。恢复单身狗之后有更多的时间思考和学习，开始学习摄影，捡起来绘画，感觉其实也是一件满惬意的事情。毕竟生活是自己的，你选择把她过成什么样子，她就会是什么样子。最近做后端的事情比较多，觉得梳理自己对前端的认知和思考，也是对自己之前积累的阶段性总结吧。当然第一篇就先水一下，主要是定一个大纲出来，主要是这几个方面吧:</p>
+<ul>
+<li>我整理的开发书单</li>
+<li>主流构建工具</li>
+<li>主流开发框架</li>
+<li>开发规范的思考</li>
+<li>模块化开发</li>
+<li>常用模式</li>
+<li>脸蛋和用户体验</li>
+<li>前端的图形开发能力</li>
+<li>绚丽的动画</li>
+<li>手机页面开发</li>
+<li>跨端开发的手段</li>
+<li>开发调试的思路和技巧</li>
+<li>自动化测试</li>
+<li>安全概念和防范</li>
+<li>性能优化</li>
+<li>监控系统</li>
+<li>SEO和语义化</li>
+<li>持续集成的方案</li>
+<li>前后端集成解决方案</li>
+<li>nodejs和所谓全栈</li>
+<li>前端团队的管理</li>
+</ul>
+<p>这里说明下，没感觉自己在前端方面有多么厉害，其实上面的每一点单独拿出来都能长篇大论，但这不是我的初衷，只是希望通过这样的方式，整理一些资料也梳理下自己的思路，如果你不巧看到这些文章，我自知总有挂一漏万之处，但请勿喷，如果只言片语能激荡出你的一些思考和讨论，我会感觉荣幸之至～</p>
+<p>刚进公司大概半年接触到前端的概念，也知道了有FE这种方向，当时还是很新的理念（大概4年多前），前端这个职位在大公司刚刚形成，在其他公司里还没有那么明确的划分。当时最火的算是AJAX的概念，google的gmail是被拿出来说的最典型的案例了，当时还是jquery为王的时代，用它你可以把DOM把玩的666，前端的工作被大家包括很多开发理解为切页面的简单工作（现在这种误解尚存），上海还是有一万一平米的房子的… :sweat_smile: </p>
+<p>由于大学是学电信的，用的最多的是C, C++，觉得hello world真的蛮简单的，简单的几行代码感觉就解锁了一个全新的世界，后来工作原因也接触了其他语言，但感觉只有前端的hello worl是简单的。你只需要打开一个文本编辑器，写下hello world，然后存为<code>.html</code>后缀的文件，双击打开就看到那句咒语一样的文字。当然后来你会慢慢知道，应该写<code>html</code>,<code>head</code>,<code>body</code>，现代浏览器帮你加上这些才让你那鲁莽的问候展示出来。你可以在不刷新浏览器的情况下，通过开发者工具把百度首页给改成个人主页，满足下自己的虚荣心 :joy:。你也可以用JS操纵个方块飞来飞去就感觉自己棒棒嗒。</p>
+<p>前端是离用户最近的一层，它的所见即所得的体验把不少大好青年坑进来，他们有的是工作需要，他们有的是兴趣使然，很庆幸自己是兼而有之。所谓一入侯门深似海，进去了才知道水有多深，其实在当时前端的工作不被重视也是情有可原的，当时的前端工作主要集中在做静态页面，页面特效，表单提交，兼容各个浏览器特性，很多时候需求都是由开发工程师直接实现的，不存在什么前端的工作。我觉的<strong>社会分工的形成意味着一个职业方向的专业化</strong>，随着这几年前端的快速发展，前端的内涵和外延都在惊人的发生着变革。很多人都感慨几个月不做前端就感觉自己不会做前端了，前一段比较火的<a href="http://www.tuicool.com/articles/R3uEJ3r" target="_blank" rel="external">这篇文章</a>，把这种体验描绘得淋漓尽致。其实这是生态繁荣的一种表现，所谓天下大势分久必合，合久必分，百家争鸣最终会让标准化落地，但是想我为这个系列想的题目一样，前端真的是一个积极的社区（不折腾会死），各种框架和工具层出不穷，大家喜欢重复的造轮子和弃轮子，总是有新的东西出来，总是有更好的思路和方法为我们的开发带来便利。</p>
+<p>前端工作地位的提升有一部分也要感谢后端开发的复杂性提升，为什么这么说呢？现在很多前端做的事情原来是由后端来做的，所以在jquery时代之后出现了backbone这样的MVC框架就是从后端思路的借鉴，也是说后端复杂度的提升，让他们放权给前端包揽了所有展示层的工作，后端只是提供数据接口，他们跑去研究CAP, ACID, BASE…等等来保证数据接口的稳定和快速响应。由于前端最主要的编程语言是JS，这些年端能力的拓展给了JS实现各种平台开发的可能性，记得那句话是</p>
+<blockquote>
+<p>所有能用JS完成的程序最终都会用JS重写</p>
+</blockquote>
+<p>世界上最好的语言已经不是PHP咯 :grimacing: 你如果能够熟练掌握JS，再加上平台开发工具的掌握，就可以自诩为一个所谓的<code>全栈工程师</code>了。最近用知乎比较多，总会被人问一些诸如<code>怎样快速速成前端</code>,<code>前端工作是不是已经饱和</code>,<code>前端为什么不受重视</code>这些问题，每次想吐槽都压了压还是耐心得解答一番。其实感觉我们很多时候产生的迷茫来源于不自知，我们自己的定位局限了自己的眼界和思路。一个优秀的前端工程师首先还是应该把自己定位为一个合格的工程师，没有谁应该无条件的仰视你，所谓尊重都是自己给的，你能快速高效解决问题，自然别人会高看一眼，你掌握解决问题的方法和能力越纯熟，饱和的市场永远有你的一席之地。</p>
+<p>前端是个欣欣向荣的行业，很多思想流进来，因为这个行业还年轻，大量的借鉴传统的开发经验裁剪变通都汇流入海变成了看到前端现在的样子，什么时候我们这个职业有大量的思想流出去，才是前端真正成熟的时候。很荣幸在这个最好的时代也是最坏的时代，见证了前端的潮起潮落，也让我遇见一样热爱前端的你们。最后当然希望这个系列不会无疾而终吧，加油!</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/10/23/yarn尝鲜和一些想法/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2016/11/24/Shell编程cheat-sheet/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2016/11/13/不折腾会死前端系列（一）：拂晓/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

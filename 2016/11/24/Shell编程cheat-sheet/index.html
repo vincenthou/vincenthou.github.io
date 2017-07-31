@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>Shell编程cheat sheet | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="collection,linux," />
+  
+
+  <meta name="description" content="原文查看这里，根据最近的使用在原文基础上扩展了一些有用的技巧。 语言基础Bash 是一个为 GNU 计划编写的 Unix shell，是 Linux 和 Mac OS X 下的默认 shell。以下大多数例子可以作为脚本的一部分运行，也可直接在 shell 下交互执行。 更多信息 12345678910111213141516171819202122232425262728293031323334">
+<meta name="keywords" content="collection,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shell编程cheat sheet">
+<meta property="og:url" content="https://vincenthou.github.io/2016/11/24/Shell编程cheat-sheet/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="原文查看这里，根据最近的使用在原文基础上扩展了一些有用的技巧。 语言基础Bash 是一个为 GNU 计划编写的 Unix shell，是 Linux 和 Mac OS X 下的默认 shell。以下大多数例子可以作为脚本的一部分运行，也可直接在 shell 下交互执行。 更多信息 12345678910111213141516171819202122232425262728293031323334">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shell编程cheat sheet">
+<meta name="twitter:description" content="原文查看这里，根据最近的使用在原文基础上扩展了一些有用的技巧。 语言基础Bash 是一个为 GNU 计划编写的 Unix shell，是 Linux 和 Mac OS X 下的默认 shell。以下大多数例子可以作为脚本的一部分运行，也可直接在 shell 下交互执行。 更多信息 12345678910111213141516171819202122232425262728293031323334">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#语言基础"><span class="toc-text">语言基础</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调试技巧"><span class="toc-text">调试技巧</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Shell编程cheat-sheet" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Shell编程cheat sheet</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2016.11.24</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2016/11/24/Shell编程cheat-sheet/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>原文查看<a href="https://github.com/adambard/learnxinyminutes-docs/blob/master/zh-cn/bash-cn.html.markdown" target="_blank" rel="external">这里</a>，根据最近的使用在原文基础上扩展了一些有用的技巧。</p>
+<h1 id="语言基础"><a href="#语言基础" class="headerlink" title="语言基础"></a>语言基础</h1><p>Bash 是一个为 GNU 计划编写的 Unix shell，是 Linux 和 Mac OS X 下的默认 shell。<br>以下大多数例子可以作为脚本的一部分运行，也可直接在 shell 下交互执行。</p>
+<p><a href="http://www.gnu.org/software/bash/manual/bashref.html" target="_blank" rel="external">更多信息</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div><div class="line">256</div><div class="line">257</div><div class="line">258</div><div class="line">259</div><div class="line">260</div><div class="line">261</div><div class="line">262</div><div class="line">263</div><div class="line">264</div><div class="line">265</div><div class="line">266</div><div class="line">267</div><div class="line">268</div><div class="line">269</div><div class="line">270</div><div class="line">271</div><div class="line">272</div><div class="line">273</div><div class="line">274</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"><span class="comment"># 脚本的第一行叫 shebang，用来告知系统如何执行该脚本:</span></div><div class="line"><span class="comment"># 参见： http://en.wikipedia.org/wiki/Shebang_(Unix)</span></div><div class="line"><span class="comment"># 如你所见，注释以 # 开头，shebang 也是注释。</span></div><div class="line"></div><div class="line"><span class="comment"># 出错就退出</span></div><div class="line"><span class="built_in">set</span> -e <span class="comment"># Or `trap exit ERR`</span></div><div class="line"></div><div class="line"><span class="comment"># 显示 “Hello world!”</span></div><div class="line"><span class="built_in">echo</span> Hello world!</div><div class="line"></div><div class="line"><span class="comment"># 每一句指令以换行或分号隔开：</span></div><div class="line"><span class="built_in">echo</span> <span class="string">'This is the first line'</span>; <span class="built_in">echo</span> <span class="string">'This is the second line'</span></div><div class="line"></div><div class="line"><span class="comment"># 声明一个变量：</span></div><div class="line">Variable=<span class="string">"Some string"</span></div><div class="line"></div><div class="line"><span class="comment"># 下面是错误的做法：</span></div><div class="line">Variable = <span class="string">"Some string"</span></div><div class="line"><span class="comment"># Bash 会把 Variable 当做一个指令，由于找不到该指令，因此这里会报错。</span></div><div class="line"></div><div class="line"><span class="comment"># 也不可以这样：</span></div><div class="line">Variable= <span class="string">'Some string'</span></div><div class="line"><span class="comment"># Bash 会认为 'Some string' 是一条指令，由于找不到该指令，这里再次报错。</span></div><div class="line"><span class="comment"># （这个例子中 'Variable=' 这部分会被当作仅对 'Some string' 起作用的赋值。）</span></div><div class="line"></div><div class="line"><span class="comment"># 使用变量：</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$Variable</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$Variable</span>"</span></div><div class="line"><span class="built_in">echo</span> <span class="string">'$Variable'</span></div><div class="line"><span class="comment"># 当你赋值 (assign) 、导出 (export)，或者以其他方式使用变量时，变量名前不加 $。</span></div><div class="line"><span class="comment"># 如果要使用变量的值， 则要加 $。</span></div><div class="line"><span class="comment"># 注意： ' (单引号) 不会展开变量（即会屏蔽掉变量）。</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 在变量内部进行字符串代换</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$&#123;Variable/Some/A&#125;</span></div><div class="line"><span class="comment"># 会把 Variable 中首次出现的 "some" 替换成 “A”。</span></div><div class="line"></div><div class="line"><span class="comment"># 变量的截取</span></div><div class="line">Length=7</div><div class="line"><span class="built_in">echo</span> <span class="variable">$&#123;Variable:0:Length&#125;</span></div><div class="line"><span class="comment"># 这样会仅返回变量值的前7个字符</span></div><div class="line"></div><div class="line"><span class="comment"># 变量的默认值</span></div><div class="line"><span class="built_in">echo</span> <span class="variable">$&#123;Foo:-"DefaultValueIfFooIsMissingOrEmpty"&#125;</span></div><div class="line"><span class="comment"># 对 null (Foo=) 和空串 (Foo="") 起作用； 零（Foo=0）时返回0</span></div><div class="line"><span class="comment"># 注意这仅返回默认值而不是改变变量的值</span></div><div class="line"></div><div class="line"><span class="comment"># 内置变量：</span></div><div class="line"><span class="comment"># 下面的内置变量很有用</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Last program return value: $?"</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Script's PID: $$"</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Number of arguments: <span class="variable">$#</span>"</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Scripts arguments: <span class="variable">$@</span>"</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Scripts arguments separated in different variables: <span class="variable">$1</span> <span class="variable">$2</span>..."</span></div><div class="line"></div><div class="line"><span class="comment"># 读取输入：</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"What's your name?"</span></div><div class="line"><span class="built_in">read</span> Name <span class="comment"># 这里不需要声明新变量</span></div><div class="line"><span class="built_in">echo</span> Hello, <span class="variable">$Name</span>!</div><div class="line"></div><div class="line"><span class="comment"># 通常的 if 结构看起来像这样：</span></div><div class="line"><span class="comment"># 'man test' 可查看更多的信息</span></div><div class="line"><span class="keyword">if</span> [ <span class="variable">$Name</span> -ne <span class="variable">$USER</span> ]</div><div class="line"><span class="keyword">then</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"Your name isn't your username"</span></div><div class="line"><span class="keyword">else</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"Your name is your username"</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="comment"># 根据上一个指令执行结果决定是否执行下一个指令</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Always executed"</span> || <span class="built_in">echo</span> <span class="string">"Only executed if first command fails"</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"Always executed"</span> &amp;&amp; <span class="built_in">echo</span> <span class="string">"Only executed if first command does NOT fail"</span></div><div class="line"></div><div class="line"><span class="comment"># 在 if 语句中使用 &amp;&amp; 和 || 需要多对方括号</span></div><div class="line"><span class="keyword">if</span> [ <span class="variable">$Name</span> == <span class="string">"Steve"</span> ] &amp;&amp; [ <span class="variable">$Age</span> -eq 15 ]</div><div class="line"><span class="keyword">then</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"This will run if <span class="variable">$Name</span> is Steve AND <span class="variable">$Age</span> is 15."</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="keyword">if</span> [ <span class="variable">$Name</span> == <span class="string">"Daniya"</span> ] || [ <span class="variable">$Name</span> == <span class="string">"Zach"</span> ]</div><div class="line"><span class="keyword">then</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"This will run if <span class="variable">$Name</span> is Daniya OR Zach."</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"></div><div class="line"><span class="comment"># 表达式的格式如下:</span></div><div class="line"><span class="built_in">echo</span> $(( 10 + 5 ))</div><div class="line"></div><div class="line"><span class="comment"># 与其他编程语言不同的是，bash 运行时依赖上下文。比如，使用 ls 时，列出当前目录。</span></div><div class="line">ls</div><div class="line"></div><div class="line"><span class="comment"># 指令可以带有选项：</span></div><div class="line">ls -l <span class="comment"># 列出文件和目录的详细信息</span></div><div class="line"></div><div class="line"><span class="comment"># 前一个指令的输出可以当作后一个指令的输入。grep 用来匹配字符串。</span></div><div class="line"><span class="comment"># 用下面的指令列出当前目录下所有的 txt 文件：</span></div><div class="line">ls -l | grep <span class="string">"\.txt"</span></div><div class="line"></div><div class="line"><span class="comment"># 重定向输入和输出（标准输入，标准输出，标准错误）。</span></div><div class="line"><span class="comment"># 以 ^EOF$ 作为结束标记从标准输入读取数据并覆盖 hello.py :</span></div><div class="line">cat &gt; hello.py &lt;&lt; EOF</div><div class="line"><span class="comment">#!/usr/bin/env python</span></div><div class="line">from __future__ import print_function</div><div class="line">import sys</div><div class="line"><span class="built_in">print</span>(<span class="string">"#stdout"</span>, file=sys.stdout)</div><div class="line"><span class="built_in">print</span>(<span class="string">"#stderr"</span>, file=sys.stderr)</div><div class="line"><span class="keyword">for</span> line <span class="keyword">in</span> sys.stdin:</div><div class="line">    <span class="built_in">print</span>(line, file=sys.stdout)</div><div class="line">EOF</div><div class="line"></div><div class="line"><span class="comment"># 重定向可以到输出，输入和错误输出。</span></div><div class="line">python hello.py &lt; <span class="string">"input.in"</span></div><div class="line">python hello.py &gt; <span class="string">"output.out"</span></div><div class="line">python hello.py 2&gt; <span class="string">"error.err"</span></div><div class="line">python hello.py &gt; <span class="string">"output-and-error.log"</span> 2&gt;&amp;1</div><div class="line">python hello.py &gt; /dev/null 2&gt;&amp;1</div><div class="line"><span class="comment"># &gt; 会覆盖已存在的文件， &gt;&gt; 会以累加的方式输出文件中。</span></div><div class="line">python hello.py &gt;&gt; <span class="string">"output.out"</span> 2&gt;&gt; <span class="string">"error.err"</span></div><div class="line"></div><div class="line"><span class="comment"># 丢弃错误和标准输出，0 stdin, 1 stdout, 2 stderr</span></div><div class="line">python hello.py &gt; /dev/null &gt; 2&gt;&amp;1</div><div class="line"></div><div class="line"><span class="comment"># 覆盖 output.out , 追加 error.err 并统计行数</span></div><div class="line">info bash <span class="string">'Basic Shell Features'</span> <span class="string">'Redirections'</span> &gt; output.out 2&gt;&gt; error.err</div><div class="line">wc -l output.out error.err</div><div class="line"></div><div class="line"><span class="comment"># 运行指令并打印文件描述符 （比如 /dev/fd/123）</span></div><div class="line"><span class="comment"># 具体可查看： man fd</span></div><div class="line"><span class="built_in">echo</span> &lt;(<span class="built_in">echo</span> <span class="string">"#helloworld"</span>)</div><div class="line"></div><div class="line"><span class="comment"># 以 "#helloworld" 覆盖 output.out:</span></div><div class="line">cat &gt; output.out &lt;(<span class="built_in">echo</span> <span class="string">"#helloworld"</span>)</div><div class="line"><span class="built_in">echo</span> <span class="string">"#helloworld"</span> &gt; output.out</div><div class="line"><span class="built_in">echo</span> <span class="string">"#helloworld"</span> | cat &gt; output.out</div><div class="line"><span class="built_in">echo</span> <span class="string">"#helloworld"</span> | tee output.out &gt;/dev/null</div><div class="line"></div><div class="line"><span class="comment"># 清理临时文件并显示详情（增加 '-i' 选项启用交互模式）</span></div><div class="line">rm -v output.out error.err output-and-error.log</div><div class="line"></div><div class="line"><span class="comment"># 一个指令可用 $( ) 嵌套在另一个指令内部：</span></div><div class="line"><span class="comment"># 以下的指令会打印当前目录下的目录和文件总数</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"There are <span class="variable">$(ls | wc -l)</span> items here."</span></div><div class="line"></div><div class="line"><span class="comment"># 反引号 `` 起相同作用，但不允许嵌套</span></div><div class="line"><span class="comment"># 优先使用 $(  ).</span></div><div class="line"><span class="built_in">echo</span> <span class="string">"There are `ls | wc -l` items here."</span></div><div class="line"></div><div class="line"><span class="comment"># Bash 的 case 语句与 Java 和 C++ 中的 switch 语句类似:</span></div><div class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$Variable</span>"</span> <span class="keyword">in</span></div><div class="line">    <span class="comment"># 列出需要匹配的字符串</span></div><div class="line">    0) <span class="built_in">echo</span> <span class="string">"There is a zero."</span>;;</div><div class="line">    1) <span class="built_in">echo</span> <span class="string">"There is a one."</span>;;</div><div class="line">    *) <span class="built_in">echo</span> <span class="string">"It is not null."</span>;;</div><div class="line"><span class="keyword">esac</span></div><div class="line"></div><div class="line"><span class="comment"># 循环遍历数组元素</span></div><div class="line">Arr=(1 2 3)</div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="variable">$&#123;Arr[*]&#125;</span> <span class="comment">#或者是 Arr[@]</span></div><div class="line"><span class="keyword">do</span></div><div class="line">  <span class="built_in">echo</span> <span class="variable">$item</span></div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line"><span class="comment"># 判断包含数组中元素</span></div><div class="line">Arr=(1 2 3)</div><div class="line">[[ <span class="variable">$Arr</span>[@] =~ 2 ]] &amp;&amp; <span class="built_in">echo</span> <span class="string">"2 is in the array"</span></div><div class="line"></div><div class="line"><span class="comment"># 你也可以遍历用空格分割的字符串列表</span></div><div class="line">Str=<span class="string">'name1 name2 name3'</span></div><div class="line"><span class="keyword">for</span> item <span class="keyword">in</span> <span class="variable">$&#123;Str[*]&#125;</span> <span class="comment">#或者是 Str[@]</span></div><div class="line"><span class="keyword">do</span></div><div class="line">  <span class="built_in">echo</span> <span class="variable">$item</span></div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line"><span class="comment"># 循环遍历给定的参数序列:</span></div><div class="line"><span class="comment"># 变量$Variable 的值会被打印 3 次。</span></div><div class="line"><span class="keyword">for</span> Variable <span class="keyword">in</span> &#123;1..3&#125;</div><div class="line"><span class="keyword">do</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"<span class="variable">$Variable</span>"</span></div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line"><span class="comment"># 或传统的 “for循环” ：</span></div><div class="line"><span class="keyword">for</span> ((a=1; a &lt;= 3; a++))</div><div class="line"><span class="keyword">do</span></div><div class="line">    <span class="built_in">echo</span> <span class="variable">$a</span></div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line"><span class="comment"># 也可以用于文件</span></div><div class="line"><span class="comment"># 用 cat 输出 file1 和 file2 内容</span></div><div class="line"><span class="keyword">for</span> Variable <span class="keyword">in</span> file1 file2</div><div class="line"><span class="keyword">do</span></div><div class="line">    cat <span class="string">"<span class="variable">$Variable</span>"</span></div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line"><span class="comment"># 或作用于其他命令的输出</span></div><div class="line"><span class="comment"># 对 ls 输出的文件执行 cat 指令。</span></div><div class="line"><span class="keyword">for</span> Output <span class="keyword">in</span> $(ls)</div><div class="line"><span class="keyword">do</span></div><div class="line">    cat <span class="string">"<span class="variable">$Output</span>"</span></div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line"><span class="comment"># while 循环：</span></div><div class="line"><span class="keyword">while</span> [ <span class="literal">true</span> ]</div><div class="line"><span class="keyword">do</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"loop body here..."</span></div><div class="line">    <span class="built_in">break</span></div><div class="line"><span class="keyword">done</span></div><div class="line"></div><div class="line"><span class="comment"># 你也可以使用函数</span></div><div class="line"><span class="comment"># 定义函数：</span></div><div class="line"><span class="keyword">function</span> foo ()</div><div class="line">&#123;</div><div class="line">    <span class="built_in">echo</span> <span class="string">"Arguments work just like script arguments: <span class="variable">$@</span>"</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"And: <span class="variable">$1</span> <span class="variable">$2</span>..."</span></div><div class="line">    <span class="built_in">echo</span> <span class="string">"This is a function"</span></div><div class="line">    <span class="built_in">return</span> 0</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment"># 更简单的方法</span></div><div class="line">bar ()</div><div class="line">&#123;</div><div class="line">    <span class="built_in">echo</span> <span class="string">"Another way to declare functions!"</span></div><div class="line">    <span class="built_in">return</span> 0</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment"># 调用函数</span></div><div class="line">foo <span class="string">"My name is"</span> <span class="variable">$Name</span></div><div class="line"></div><div class="line"><span class="comment"># 有很多有用的指令需要学习:</span></div><div class="line"><span class="comment"># 打印 file.txt 的最后 10 行</span></div><div class="line">tail -n 10 file.txt</div><div class="line"><span class="comment"># 打印 file.txt 的前 10 行</span></div><div class="line">head -n 10 file.txt</div><div class="line"><span class="comment"># 将 file.txt 按行排序</span></div><div class="line">sort file.txt</div><div class="line"><span class="comment"># 报告或忽略重复的行，用选项 -d 打印重复的行</span></div><div class="line">uniq -d file.txt</div><div class="line"><span class="comment"># 打印每行中 ',' 之前内容</span></div><div class="line">cut -d <span class="string">','</span> -f 1 file.txt</div><div class="line"><span class="comment"># 将 file.txt 文件所有 'okay' 替换为 'great', （兼容正则表达式）</span></div><div class="line">sed -i <span class="string">'s/okay/great/g'</span> file.txt</div><div class="line"><span class="comment"># 将 file.txt 中匹配正则的行打印到标准输出</span></div><div class="line"><span class="comment"># 这里打印以 "foo" 开头, "bar" 结尾的行</span></div><div class="line">grep <span class="string">"^foo.*bar$"</span> file.txt</div><div class="line"><span class="comment"># 使用选项 "-c" 统计行数</span></div><div class="line">grep -c <span class="string">"^foo.*bar$"</span> file.txt</div><div class="line"><span class="comment"># 如果只是要按字面形式搜索字符串而不是按正则表达式，使用 fgrep (或 grep -F)</span></div><div class="line">fgrep <span class="string">"^foo.*bar$"</span> file.txt </div><div class="line"></div><div class="line"></div><div class="line"><span class="comment"># 以 bash 内建的 'help' 指令阅读 Bash 自带文档：</span></div><div class="line"><span class="built_in">help</span></div><div class="line"><span class="built_in">help</span> <span class="built_in">help</span></div><div class="line"><span class="built_in">help</span> <span class="keyword">for</span></div><div class="line"><span class="built_in">help</span> <span class="built_in">return</span></div><div class="line"><span class="built_in">help</span> <span class="built_in">source</span></div><div class="line"><span class="built_in">help</span> .</div><div class="line"></div><div class="line"><span class="comment"># 用 man 指令阅读相关的 Bash 手册</span></div><div class="line">apropos bash</div><div class="line">man 1 bash</div><div class="line">man bash</div><div class="line"></div><div class="line"><span class="comment"># 用 info 指令查阅命令的 info 文档 （info 中按 ? 显示帮助信息）</span></div><div class="line">apropos info | grep <span class="string">'^info.*('</span></div><div class="line">man info</div><div class="line">info info</div><div class="line">info 5 info</div><div class="line"></div><div class="line"><span class="comment"># 阅读 Bash 的 info 文档：</span></div><div class="line">info bash</div><div class="line">info bash <span class="string">'Bash Features'</span></div><div class="line">info bash 6</div><div class="line">info --apropos bash</div></pre></td></tr></table></figure>
+<h1 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 使用xtrace选项在运行中打印执行命令（命令前面带+更清楚）</span></div><div class="line"><span class="built_in">set</span> -x</div><div class="line"><span class="built_in">echo</span> <span class="string">'see me'</span></div><div class="line"><span class="built_in">set</span> +x</div><div class="line"><span class="built_in">echo</span> <span class="string">'command is not printed'</span></div><div class="line"></div><div class="line"><span class="comment"># 捕获调试信号量</span></div><div class="line"><span class="built_in">trap</span> <span class="string">'echo "[CMD] $BASH_COMMAND"'</span> DEBUG</div><div class="line"></div><div class="line"><span class="comment"># 甚至可以单步调试</span></div><div class="line"><span class="built_in">trap</span> <span class="string">'(read -p "[$0 : $LINENO] $BASH_COMMAND ?")'</span> DEBUG</div></pre></td></tr></table></figure>
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2016/11/13/不折腾会死前端系列（一）：拂晓/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2017/01/24/ES6编程cheat-sheet/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2016/11/24/Shell编程cheat-sheet/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

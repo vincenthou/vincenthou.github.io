@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>峰值系统设计[整理] | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="collection,architecture," />
+  
+
+  <meta name="description" content="微博原文地址 本文一共分析了三个案例，分别介绍并发系统中的共享资源并发访问、计算型密集型任务缓存访问 、单一热点资源峰值流量问题和解决方案。 Q1：订票系统，某车次只有一张火车票，假定有1w个人同时打开12306网站来订票，如何解决并发问题？ A1： 首先介绍数据库层面的并发访问，解决的办法主要是乐观锁和悲观锁。 乐观锁假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性。 乐观锁使用一个自">
+<meta name="keywords" content="collection,architecture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="峰值系统设计[整理]">
+<meta property="og:url" content="https://vincenthou.github.io/2015/05/19/峰值系统设计-整理/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="微博原文地址 本文一共分析了三个案例，分别介绍并发系统中的共享资源并发访问、计算型密集型任务缓存访问 、单一热点资源峰值流量问题和解决方案。 Q1：订票系统，某车次只有一张火车票，假定有1w个人同时打开12306网站来订票，如何解决并发问题？ A1： 首先介绍数据库层面的并发访问，解决的办法主要是乐观锁和悲观锁。 乐观锁假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性。 乐观锁使用一个自">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/77062123jw1etvll319vcj20f50arabd.jpg">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="峰值系统设计[整理]">
+<meta name="twitter:description" content="微博原文地址 本文一共分析了三个案例，分别介绍并发系统中的共享资源并发访问、计算型密集型任务缓存访问 、单一热点资源峰值流量问题和解决方案。 Q1：订票系统，某车次只有一张火车票，假定有1w个人同时打开12306网站来订票，如何解决并发问题？ A1： 首先介绍数据库层面的并发访问，解决的办法主要是乐观锁和悲观锁。 乐观锁假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性。 乐观锁使用一个自">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/large/77062123jw1etvll319vcj20f50arabd.jpg">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#乐观锁"><span class="toc-text">乐观锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#悲观锁"><span class="toc-text">悲观锁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其次，介绍一下Memcached的CAS机制"><span class="toc-text">其次，介绍一下Memcached的CAS机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-text">Reference:</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-峰值系统设计-整理" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">峰值系统设计[整理]</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.05.19</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2015/05/19/峰值系统设计-整理/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p><a href="http://weibo.com/p/1001603862417250608209" target="_blank" rel="external">微博原文地址</a></p>
+<p>本文一共分析了三个案例，分别介绍并发系统中的共享资源并发访问、计算型密集型任务缓存访问 、单一热点资源峰值流量问题和解决方案。</p>
+<p>Q1：订票系统，某车次只有一张火车票，假定有1w个人同时打开12306网站来订票，如何解决并发问题？</p>
+<p>A1： 首先介绍数据库层面的并发访问，解决的办法主要是乐观锁和悲观锁。</p>
+<h2 id="乐观锁"><a href="#乐观锁" class="headerlink" title="乐观锁"></a>乐观锁</h2><p>假设不会发生并发冲突，只在提交操作时检查是否违反数据完整性。</p>
+<p>乐观锁使用一个自增的字段表示数据的版本号（或者timestamp），更新的时候检查版本号是否一致，比如数据库中版本号为4，更新时版本号使用版本号version=5，与数据库中的版本号version+1=（5）做比较，如果相等，则可以更新，如果不相等，其他程序已更新该记录，返回错误。</p>
+<h2 id="悲观锁"><a href="#悲观锁" class="headerlink" title="悲观锁"></a>悲观锁</h2><p>假定会发生并发冲突，屏蔽一切可能违反数据完整行的操作。</p>
+<p>一般需要使用数据库的锁机制，比如MysqlInnoDB引擎的行级锁。</p>
+<p>结论：在实际生产环境中，如果并发量不大且不允许脏读（原始数据为5，AB两个事务，B其他事务更新数据为2，事务未提交时，A读取到的仍然为5），可以使用悲观锁。并发访问量大时，使用悲观锁有非常大的性能问题，可以选择乐观锁。</p>
+<h2 id="其次，介绍一下Memcached的CAS机制"><a href="#其次，介绍一下Memcached的CAS机制" class="headerlink" title="其次，介绍一下Memcached的CAS机制"></a>其次，介绍一下Memcached的CAS机制</h2><p>CAS，又称Compare-and-Swap，代表一种原子操作。</p>
+<p>Memcached的CAS机制解决的问题及其原理：</p>
+<ol>
+<li>实现了Check-and-Set原子操作功能；</li>
+<li>其使用方式为：首先使用gets指令一个key-value及key对应value的版本号；其次操作产生新的value值；最后使用cas指令重新提交key-value，并附带刚刚获得到的版本号；</li>
+<li>当服务端判断cas操作中的版本号不是最新的时，则认为改key的值已经被修改，本次cas操作失败。程序设计人员通过CAS机制可实现自增和自减的原子操作；</li>
+</ol>
+<p>可以看到MemCache的CAS机制和数据库的乐观锁实现原理非常类似。</p>
+<p>Q2：假设系统中图片存储在TFS（Taobao File System)中，接口提供缩略图服务，首先在缓存中查找是否有缩略图，如果没有，则从TFS加载原图片，然后请求缩略图服务，缩略图计算完成后，设置回缓存服务中。</p>
+<p>遇到的问题：当一张图片分享给100w个人以后，同一时间有1w个并发请求，由于缩略图计算耗时较长（假设1s), 在这1s内，每个请求查询缓存都没有找到然后申请计算缩略图，导致重复的缩略图计算量和资源消耗。</p>
+<p><img src="http://ww4.sinaimg.cn/large/77062123jw1etvll319vcj20f50arabd.jpg" alt="image"></p>
+<p>A2：对于缩略图这种耗时的服务，非常适合使用缓存，不过在使用的时候，对于同一个图片，原则上只需要计算一次缩略图，在缩略图未计算完成时，可以对每张图片做额外的标记表示其正在Processing，并发请求遇到缩略图Processing时，可以等待缩略图计算完成（这是建议的方式）后从缓存直接读取，也可以是直接返回错误，通过客户端重试来解决。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">本案例中，如果缩略图请求在上传图片1分钟后才发生，则可以在后台预先计算缩略图并存储到缓存。另外就是在上传图片的时候计算缩略图，不过会增加上传图片的时间。</div></pre></td></tr></table></figure>
+<p>Q3:单点峰值流量，在并发系统中，除了请求整体的并发量高，还常见单一热点资源的并发请求量很高。例如，1万个人每人分享了一张图片，其中9999张图片的缩略图请求在10 QPS以内，剩下的一张图片为新闻热点图片，峰值请求在10万QPS左右， 系统会遇到的容量问题包括：1）接口前端机容量不够；2）缓存资源单实例遇到瓶颈。</p>
+<p>A3:针对单点峰值流量可能遇到的性能瓶颈，解决方案如下。</p>
+<p>1）接口层容量不够：这个问题比较简单，只要接口层设计是无状态的，当容量达到预警线，可以通过快速水平扩容解决。</p>
+<p>2）缓存资源单实例遇到性能瓶颈：如果使用的是分布式缓存，当希望突破单一key的访问瓶颈时（这个瓶颈既有可能是CPU资源紧张，也有可能是单机网络带宽跑满，还有可能是磁盘IO吞吐不够），一个办法是分布式缓存做多副本（x3）冗余设计，这样系统的吞吐量（x3）可以提高3倍，不过成本也提高3倍。另外一个办法是针对极热点数据，除了分布式缓存，同时在前端机上打开localCache，依靠数量众多的前端机来抗极热点请求。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h2><ul>
+<li><a href="http://www.csdn.net/article/2014-11-07/2822545" target="_blank" rel="external">小米网抢购系统开发实践</a></li>
+<li><a href="http://www.csdn.net/article/2014-11-11/2822576" target="_blank" rel="external">京东峰值系统设计</a></li>
+<li><a href="http://djt.qq.com/article/view/1349" target="_blank" rel="external">微信红包系统设计 &amp; 优化</a></li>
+<li><a href="http://www.csdn.net/article/2014-11-28/2822858" target="_blank" rel="external">Web系统大规模并发——电商秒杀与抢购</a></li>
+<li><a href="http://www.csdn.net/article/2014-11-04/2822459" target="_blank" rel="external">电商峰值系统架构设计</a></li>
+<li><a href="http://www.csdn.net/article/2014-11-11/2822582" target="_blank" rel="external">电商峰值监控经验谈</a></li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/05/11/Go-语言中的异常处理/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/09/09/Git项目依赖管理-submodule和subtree/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2015/05/19/峰值系统设计-整理/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

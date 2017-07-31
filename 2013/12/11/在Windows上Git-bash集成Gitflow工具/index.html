@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>在Windows上Git bash集成Gitflow工具 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,git," />
+  
+
+  <meta name="description" content="Git作为版本控制工具越来越流行，但是考虑到Git使用的灵活性，在进行大型项目开发的时候遵循一定的规范还是很有必要的，比较实用的一种工作流程要数Gitflow了，刚开始使用的时候会感觉这个流程很复杂，为了简化操作，Gitflow的工具应运而生，下面简单介绍一下。 在Windows上使用Gitflow规范流程1. 将Gitflow克隆到本地1git clone -recursive git://gi">
+<meta name="keywords" content="blog,git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Windows上Git bash集成Gitflow工具">
+<meta property="og:url" content="https://vincenthou.github.io/2013/12/11/在Windows上Git-bash集成Gitflow工具/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="Git作为版本控制工具越来越流行，但是考虑到Git使用的灵活性，在进行大型项目开发的时候遵循一定的规范还是很有必要的，比较实用的一种工作流程要数Gitflow了，刚开始使用的时候会感觉这个流程很复杂，为了简化操作，Gitflow的工具应运而生，下面简单介绍一下。 在Windows上使用Gitflow规范流程1. 将Gitflow克隆到本地1git clone -recursive git://gi">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Windows上Git bash集成Gitflow工具">
+<meta name="twitter:description" content="Git作为版本控制工具越来越流行，但是考虑到Git使用的灵活性，在进行大型项目开发的时候遵循一定的规范还是很有必要的，比较实用的一种工作流程要数Gitflow了，刚开始使用的时候会感觉这个流程很复杂，为了简化操作，Gitflow的工具应运而生，下面简单介绍一下。 在Windows上使用Gitflow规范流程1. 将Gitflow克隆到本地1git clone -recursive git://gi">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#在Windows上使用Gitflow规范流程"><span class="toc-text">在Windows上使用Gitflow规范流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-将Gitflow克隆到本地"><span class="toc-text">1. 将Gitflow克隆到本地</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-下载与msysgit集成Bin文件"><span class="toc-text">2. 下载与msysgit集成Bin文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-将Bin文件拷贝到msysgit的bin目录下"><span class="toc-text">3. 将Bin文件拷贝到msysgit的bin目录下</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-安装Gitflow工具"><span class="toc-text">4. 安装Gitflow工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-开始在console中使用Gitflow"><span class="toc-text">5. 开始在console中使用Gitflow</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用Gitflow之后的开发流程"><span class="toc-text">使用Gitflow之后的开发流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-为本地代码库添加Git-flow特性"><span class="toc-text">1. 为本地代码库添加Git flow特性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-开始增加新特性-修复bug"><span class="toc-text">2. 开始增加新特性/修复bug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-完成开发的工作"><span class="toc-text">3. 完成开发的工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-完成新特性-修复bug"><span class="toc-text">4. 完成新特性/修复bug</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-同步到中央代码库"><span class="toc-text">5. 同步到中央代码库</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-在Windows上Git-bash集成Gitflow工具" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">在Windows上Git bash集成Gitflow工具</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2013.12.11</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2013/12/11/在Windows上Git-bash集成Gitflow工具/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>Git作为版本控制工具越来越流行，但是考虑到Git使用的灵活性，在进行大型项目开发的时候遵循一定的规范还是很有必要的，比较实用的一种工作流程要数<a href="https://www.atlassian.com/git/workflows#!workflow-gitflow" target="_blank" rel="external">Gitflow</a>了，刚开始使用的时候会感觉这个流程很复杂，为了简化操作，Gitflow的工具应运而生，下面简单介绍一下。</p>
+<h2 id="在Windows上使用Gitflow规范流程"><a href="#在Windows上使用Gitflow规范流程" class="headerlink" title="在Windows上使用Gitflow规范流程"></a>在Windows上使用Gitflow规范流程</h2><h3 id="1-将Gitflow克隆到本地"><a href="#1-将Gitflow克隆到本地" class="headerlink" title="1. 将Gitflow克隆到本地"></a>1. 将Gitflow克隆到本地</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> -recursive git://github.com/nvie/gitflow.git</div></pre></td></tr></table></figure>
+<h3 id="2-下载与msysgit集成Bin文件"><a href="#2-下载与msysgit集成Bin文件" class="headerlink" title="2. 下载与msysgit集成Bin文件"></a>2. 下载与msysgit集成Bin文件</h3><p><a href="http://sourceforge.net/projects/gnuwin32/files/util-linux/2.14.1/util-linux-ng-2.14.1-bin.zip/download" target="_blank" rel="external">util-linux-ng-2.14.1-bin</a></p>
+<p><a href="http://sourceforge.net/projects/gnuwin32/files/util-linux/2.14.1/util-linux-ng-2.14.1-dep.zip/download" target="_blank" rel="external">util-linux-ng-2.14.1-dep</a></p>
+<h3 id="3-将Bin文件拷贝到msysgit的bin目录下"><a href="#3-将Bin文件拷贝到msysgit的bin目录下" class="headerlink" title="3. 将Bin文件拷贝到msysgit的bin目录下"></a>3. 将Bin文件拷贝到msysgit的bin目录下</h3><p>下载完成后分别将两个压缩包解压文件下bin目录中的getopt.exe，libintl3.dll和libiconv2.dll文件拷贝到msysgit安装目录下的bin目录中</p>
+<h3 id="4-安装Gitflow工具"><a href="#4-安装Gitflow工具" class="headerlink" title="4. 安装Gitflow工具"></a>4. 安装Gitflow工具</h3><p>打开cmd命令行，进入已经克隆好的gitflow contrib目录中执行命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">D:\gitflow contrib&gt;msysgit-install.cmd <span class="string">"C:\Program Files\Git"</span>.</div></pre></td></tr></table></figure>
+<h3 id="5-开始在console中使用Gitflow"><a href="#5-开始在console中使用Gitflow" class="headerlink" title="5. 开始在console中使用Gitflow"></a>5. 开始在console中使用Gitflow</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">usage: git flow &lt;subcommand&gt;</div><div class="line"></div><div class="line">Available subcommands are:</div><div class="line">   init      Initialize a new git repo with support <span class="keyword">for</span> the branching model.</div><div class="line">   feature   Manage your feature branches.</div><div class="line">   release   Manage your release branches.</div><div class="line">   hotfix    Manage your hotfix branches.</div><div class="line">   support   Manage your support branches.</div><div class="line">   version   Shows version information.</div><div class="line"></div><div class="line">Try <span class="string">'git flow &lt;subcommand&gt; help'</span> <span class="keyword">for</span> details.</div></pre></td></tr></table></figure>
+<h2 id="使用Gitflow之后的开发流程"><a href="#使用Gitflow之后的开发流程" class="headerlink" title="使用Gitflow之后的开发流程"></a>使用Gitflow之后的开发流程</h2><h3 id="1-为本地代码库添加Git-flow特性"><a href="#1-为本地代码库添加Git-flow特性" class="headerlink" title="1. 为本地代码库添加Git flow特性"></a>1. 为本地代码库添加Git flow特性</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow init</div></pre></td></tr></table></figure>
+<p>使用默认值进行初始化设定</p>
+<h3 id="2-开始增加新特性-修复bug"><a href="#2-开始增加新特性-修复bug" class="headerlink" title="2. 开始增加新特性/修复bug"></a>2. 开始增加新特性/修复bug</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature start &lt;feature-branch-name&gt;</div></pre></td></tr></table></figure>
+<h3 id="3-完成开发的工作"><a href="#3-完成开发的工作" class="headerlink" title="3. 完成开发的工作"></a>3. 完成开发的工作</h3><p>修改一些文件，添加修改的文件到暂存区(staging area)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git add .</div></pre></td></tr></table></figure>
+<p>将修改后的文件提交到本地的版本库中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git commit -am <span class="string">'Add a new feature'</span></div></pre></td></tr></table></figure>
+<h3 id="4-完成新特性-修复bug"><a href="#4-完成新特性-修复bug" class="headerlink" title="4. 完成新特性/修复bug"></a>4. 完成新特性/修复bug</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature finish &lt;feature-branch-name&gt;</div></pre></td></tr></table></figure>
+<h3 id="5-同步到中央代码库"><a href="#5-同步到中央代码库" class="headerlink" title="5. 同步到中央代码库"></a>5. 同步到中央代码库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git flow feature publish &lt;feature-branch-name&gt;</div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="http://danielkummer.github.io/git-flow-cheatsheet/index.zh_CN.html" target="_blank" rel="external">详细的Gitflow使用方法参考</a></p>
+<p><a href="http://nvie.com/posts/a-successful-git-branching-model/" target="_blank" rel="external">Gitflow原型</a><br><a href="http://wenku.baidu.com/view/1ea291bf960590c69ec37694.html" target="_blank" rel="external">TortoiseGit日常使用指南</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2013/12/06/Git-最佳实践/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2013/12/11/使用Grunt构建前端项目/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2013/12/11/在Windows上Git-bash集成Gitflow工具/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

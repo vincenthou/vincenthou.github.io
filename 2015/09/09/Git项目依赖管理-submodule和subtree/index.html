@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>Git项目依赖管理 - submodule和subtree | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="collection,git," />
+  
+
+  <meta name="description" content="命令指定目录结构添加子模块1git submodule add git@git.xxx.xxx:VincentHou/widget-slide.git widgets/slide 根据目录结构删除子模块 删除git cache和物理文件夹  12git rm -r --cached widget/sliderm -rf widget/slide  删除gitsubmodule文件中的内容  12[">
+<meta name="keywords" content="collection,git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git项目依赖管理 - submodule和subtree">
+<meta property="og:url" content="https://vincenthou.github.io/2015/09/09/Git项目依赖管理-submodule和subtree/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="命令指定目录结构添加子模块1git submodule add git@git.xxx.xxx:VincentHou/widget-slide.git widgets/slide 根据目录结构删除子模块 删除git cache和物理文件夹  12git rm -r --cached widget/sliderm -rf widget/slide  删除gitsubmodule文件中的内容  12[">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git项目依赖管理 - submodule和subtree">
+<meta name="twitter:description" content="命令指定目录结构添加子模块1git submodule add git@git.xxx.xxx:VincentHou/widget-slide.git widgets/slide 根据目录结构删除子模块 删除git cache和物理文件夹  12git rm -r --cached widget/sliderm -rf widget/slide  删除gitsubmodule文件中的内容  12[">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#命令"><span class="toc-text">命令</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#指定目录结构添加子模块"><span class="toc-text">指定目录结构添加子模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#根据目录结构删除子模块"><span class="toc-text">根据目录结构删除子模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#忽略-dirty-commit"><span class="toc-text">忽略 dirty commit</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#更新项目中的所有子模块的commit-ID"><span class="toc-text">更新项目中的所有子模块的commit ID</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#根据子模块远端的最新master分支代码更新子模块"><span class="toc-text">根据子模块远端的最新master分支代码更新子模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新拉项目-包括所有的子模块"><span class="toc-text">新拉项目(包括所有的子模块)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用subtree管理项目依赖（不会生成依赖配置文件）"><span class="toc-text">使用subtree管理项目依赖（不会生成依赖配置文件）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Submodule的参考"><span class="toc-text">Submodule的参考</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Subtree的参考"><span class="toc-text">Subtree的参考</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#两者的对比"><span class="toc-text">两者的对比</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Git项目依赖管理-submodule和subtree" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Git项目依赖管理 - submodule和subtree</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.09.09</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2015/09/09/Git项目依赖管理-submodule和subtree/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h1><h2 id="指定目录结构添加子模块"><a href="#指定目录结构添加子模块" class="headerlink" title="指定目录结构添加子模块"></a>指定目录结构添加子模块</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git submodule add git@git.xxx.xxx:VincentHou/widget-slide.git widgets/slide</div></pre></td></tr></table></figure>
+<h2 id="根据目录结构删除子模块"><a href="#根据目录结构删除子模块" class="headerlink" title="根据目录结构删除子模块"></a>根据目录结构删除子模块</h2><ul>
+<li>删除git cache和物理文件夹</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git rm -r --cached widget/slide</div><div class="line">rm -rf widget/slide</div></pre></td></tr></table></figure>
+<ul>
+<li>删除gitsubmodule文件中的内容</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">[submodule &quot;widget/slide&quot;]</div><div class="line">    url = /home/repo/path/widget/slide.git</div></pre></td></tr></table></figure>
+<h2 id="忽略-dirty-commit"><a href="#忽略-dirty-commit" class="headerlink" title="忽略 dirty commit"></a>忽略 dirty commit</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">[submodule <span class="string">"cpp-iniparser"</span>]</div><div class="line">    path = cpp-iniparser</div><div class="line">    url = https://github.com/zausiu/cpp-iniparser</div><div class="line">    ignore = dirty</div></pre></td></tr></table></figure>
+<h2 id="更新项目中的所有子模块的commit-ID"><a href="#更新项目中的所有子模块的commit-ID" class="headerlink" title="更新项目中的所有子模块的commit ID"></a>更新项目中的所有子模块的commit ID</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git submodule foreach git pull</div></pre></td></tr></table></figure>
+<h2 id="根据子模块远端的最新master分支代码更新子模块"><a href="#根据子模块远端的最新master分支代码更新子模块" class="headerlink" title="根据子模块远端的最新master分支代码更新子模块"></a>根据子模块远端的最新master分支代码更新子模块</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">git submodule init</div><div class="line">git submodule update --remote</div></pre></td></tr></table></figure>
+<h2 id="新拉项目-包括所有的子模块"><a href="#新拉项目-包括所有的子模块" class="headerlink" title="新拉项目(包括所有的子模块)"></a>新拉项目(包括所有的子模块)</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">git <span class="built_in">clone</span> --recursive /path/to/repos/foo.git</div></pre></td></tr></table></figure>
+<h2 id="使用subtree管理项目依赖（不会生成依赖配置文件）"><a href="#使用subtree管理项目依赖（不会生成依赖配置文件）" class="headerlink" title="使用subtree管理项目依赖（不会生成依赖配置文件）"></a>使用subtree管理项目依赖（不会生成依赖配置文件）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">git subtree add --prefix &lt;path&gt; &lt;repo path&gt; branch --squash</div><div class="line">git subtree pull --prefix &lt;path&gt; &lt;repo path&gt; branch --squash</div><div class="line">git subtree push --prefix &lt;path&gt; &lt;repo path&gt; branch --squash</div></pre></td></tr></table></figure>
+<h1 id="Submodule的参考"><a href="#Submodule的参考" class="headerlink" title="Submodule的参考"></a>Submodule的参考</h1><p><a href="http://git-scm.com/book/en/v2/Git-Tools-Submodules" target="_blank" rel="external">Official Guide</a><br><a href="http://fiji.sc/Git_submodule_tutorial" target="_blank" rel="external">Submodules in Fiji</a><br><a href="https://medium.com/@porteneuve/mastering-git-submodules-34c65e940407" target="_blank" rel="external">Mastering Git submodules</a><br><a href="http://www.kafeitu.me/git/2012/03/27/git-submodule.html" target="_blank" rel="external">Git Submodule使用完整教程</a><br><a href="http://blog.devtang.com/blog/2013/05/08/git-submodule-issues/" target="_blank" rel="external">Git Submodule的坑</a><br><a href="https://github.com/75team/novaUI/blob/master/.gitmodules" target="_blank" rel="external">75team novaUI submodules</a></p>
+<h1 id="Subtree的参考"><a href="#Subtree的参考" class="headerlink" title="Subtree的参考"></a>Subtree的参考</h1><p><a href="http://blogs.atlassian.com/2013/05/alternatives-to-git-submodule-git-subtree/" target="_blank" rel="external">Alternatives to Git Submodule Git Subtree</a><br><a href="https://developer.atlassian.com/blog/2015/05/the-power-of-git-subtree/" target="_blank" rel="external">the Power of Git Subtree</a></p>
+<h1 id="两者的对比"><a href="#两者的对比" class="headerlink" title="两者的对比"></a>两者的对比</h1><p><a href="http://efe.baidu.com/blog/git-submodule-vs-git-subtree/" target="_blank" rel="external">Git Submodule vs Git Subtree</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/05/19/峰值系统设计-整理/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/09/21/Nginx配置中一个斜杠引发的血案/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2015/09/09/Git项目依赖管理-submodule和subtree/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
