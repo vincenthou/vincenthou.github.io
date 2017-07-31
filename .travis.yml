@@ -19,6 +19,5 @@ deploy:
   local_dir: public
   skip_cleanup: true
   github_token: $GITHUB_TOKEN # Set in travis-ci.org dashboard
-branches:
-  only:
-  - source
+  on:
+    branch: source
