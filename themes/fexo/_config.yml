@@ -1,16 +1,16 @@
 # Blog info
-blog_name: Vincent Home
-slogan: I build things
-url: https://vincenthou.github.io
+blog_name: VincentHou's Home
+slogan: Less is more
+url: http://vincenthou.github.io
 
 # Set avatar (Absolute url and relative url)
-avatar: https://vdemo.qiniudn.com/avatar.jpg
+avatar: //vdemo.qiniudn.com/avatar.jpg?imageView2/0/w/100/h/100
 
 # Set favicon
-favicon: https://assets-cdn.github.com/favicon.ico
+favicon: //assets-cdn.github.com/favicon.ico
 
 # For seo
-keywords: vincenthou,前端,前端开发,frontend,nodejs,JavaScript
+keywords: vincenthou,前端,前端开发,frontend,nodejs,gopher,JavaScript,FullStack
 
 home_nav:
   - name: Blog
@@ -23,10 +23,10 @@ home_nav:
     url: https://github.com/vincenthou
     target_blank: true
   - name: ZhiHu
-    url: http://www.zhihu.com/people/hoy-vincent
+    url: https://www.zhihu.com/people/hoy-vincent
     target_blank: true
   - name: DouBan
-    url: http://www.douban.com/people/vincenthou/
+    url: https://www.douban.com/people/vincenthou/
     target_blank: true
 
 # config page nav
@@ -90,10 +90,10 @@ donation:
   items:
     - type: 微信
       text: 微信扫一扫
-      imgUrl: https://vdemo.qiniudn.com/qr-wechat.png
+      imgUrl: //vdemo.qiniudn.com/qr-wechat.png
     - type: 支付宝
       text: 支付宝扫一扫
-      imgUrl: https://vdemo.qiniudn.com/qr-alipay.png
+      imgUrl: //vdemo.qiniudn.com/qr-alipay.png
 
 post:
   header_align: CENTER # LEFT|CENTER
@@ -142,9 +142,9 @@ about:
   - type: me
     icon: icon-user
     text_value:
-    - "Vincent, 80/90s, FE, Gopher."
+    - "Vincent, FE, Gopher."
     - "喜欢一切美好的事物."
-    - "Web软件开发工程师，常用 Frontedn Stack / NodeJS / Golang."
+    - "Web应用开发工程师，常用 Frontend Stack / NodeJS / Golang / PHP."
   - type: Github
     icon: icon-github
     text_key: Github

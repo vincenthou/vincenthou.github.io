@@ -6,22 +6,12 @@ html.page-home {
   bottom: 0;
   background: linear-gradient(to left, #5f2c82, #49a09d);
   background-blend-mode: screen;
-  animation: blur 5s;
   -webkit-animation: blur 5s;
+  animation: blur 5s;
 }
 
 .content-home .slogan {
   color: #fff;
-}
-
-@keyframes blur
-{
-  from {
-    filter: blur(2px);
-  }
-  to {
-    filter: initial;
-  }
 }
 
 @-webkit-keyframes blur
@@ -31,5 +21,15 @@ html.page-home {
   }
   to {
     -webkit-filter: initial;
+  }
+}
+
+@keyframes blur
+{
+  from {
+    filter: blur(2px);
+  }
+  to {
+    filter: initial;
   }
 }
