@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>【翻译】 Angularjs 的一些模式 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="frontend,javascript,angularjs,translation," />
+  
+
+  <meta name="description" content="Angularjs 的一些模式好久没有整理文章了，这次放个大招 :smile:。使用AngularJS开发应用也有一年的时间，感觉算是比较熟悉了，总想整理些东西出来沉淀一下，但每次想写的时候还是感觉写的深度不够。看了angularjs-in-patterns，感觉正好和自己想整理的东西比较契合，就偷懒翻译一下，只是翻译之余结合项目中的经验，加入了自己的注解。还记得AngularJS的Demo看起来">
+<meta name="keywords" content="frontend,javascript,angularjs,translation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】 Angularjs 的一些模式">
+<meta property="og:url" content="https://vincenthou.github.io/2015/04/06/【翻译】-Angularjs-的一些模式/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="Angularjs 的一些模式好久没有整理文章了，这次放个大招 :smile:。使用AngularJS开发应用也有一年的时间，感觉算是比较熟悉了，总想整理些东西出来沉淀一下，但每次想写的时候还是感觉写的深度不够。看了angularjs-in-patterns，感觉正好和自己想整理的东西比较契合，就偷懒翻译一下，只是翻译之余结合项目中的经验，加入了自己的注解。还记得AngularJS的Demo看起来">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/singleton.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/factory-method.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/decorator.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/facade.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/proxy.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/active-record.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/intercepting-filters.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/composite.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/interpreter.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/template-view.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/observer.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/chain-of-responsibilities.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/command.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/page-controller.svg">
+<meta property="og:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/data-mapper.svg">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【翻译】 Angularjs 的一些模式">
+<meta name="twitter:description" content="Angularjs 的一些模式好久没有整理文章了，这次放个大招 :smile:。使用AngularJS开发应用也有一年的时间，感觉算是比较熟悉了，总想整理些东西出来沉淀一下，但每次想写的时候还是感觉写的深度不够。看了angularjs-in-patterns，感觉正好和自己想整理的东西比较契合，就偷懒翻译一下，只是翻译之余结合项目中的经验，加入了自己的注解。还记得AngularJS的Demo看起来">
+<meta name="twitter:image" content="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/singleton.svg">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Angularjs-的一些模式"><span class="toc-text">Angularjs 的一些模式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#概要"><span class="toc-text">概要</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#介绍"><span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AngularJS-概述"><span class="toc-text">AngularJS 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#模板"><span class="toc-text">模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制器"><span class="toc-text">控制器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域"><span class="toc-text">作用域</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指令"><span class="toc-text">指令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#过滤器"><span class="toc-text">过滤器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务"><span class="toc-text">服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AngularJS-模式"><span class="toc-text">AngularJS 模式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#服务-1"><span class="toc-text">服务</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#单例"><span class="toc-text">单例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工厂方法"><span class="toc-text">工厂方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#装饰器"><span class="toc-text">装饰器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#门面"><span class="toc-text">门面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#代理"><span class="toc-text">代理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#活动记录"><span class="toc-text">活动记录</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#拦截过滤器"><span class="toc-text">拦截过滤器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#指令-1"><span class="toc-text">指令</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#组合"><span class="toc-text">组合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#解释器"><span class="toc-text">解释器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模板视图"><span class="toc-text">模板视图</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#作用域-1"><span class="toc-text">作用域</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#观察者"><span class="toc-text">观察者</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#责任链"><span class="toc-text">责任链</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#命令"><span class="toc-text">命令</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#控制器-1"><span class="toc-text">控制器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#页面控制器"><span class="toc-text">页面控制器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#其他"><span class="toc-text">其他</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#模块模式"><span class="toc-text">模块模式</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据映射器"><span class="toc-text">数据映射器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-【翻译】-Angularjs-的一些模式" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">【翻译】 Angularjs 的一些模式</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.04.06</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2015/04/06/【翻译】-Angularjs-的一些模式/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="Angularjs-的一些模式"><a href="#Angularjs-的一些模式" class="headerlink" title="Angularjs 的一些模式"></a>Angularjs 的一些模式</h1><p>好久没有整理文章了，这次放个大招 :smile:。使用AngularJS开发应用也有一年的时间，感觉算是比较熟悉了，总想整理些东西出来沉淀一下，但每次想写的时候还是感觉写的深度不够。看了<a href="https://github.com/mgechev/angularjs-in-patterns" target="_blank" rel="external">angularjs-in-patterns</a>，感觉正好和自己想整理的东西比较契合，就偷懒翻译一下，只是翻译之余结合项目中的经验，加入了自己的注解。还记得AngularJS的Demo看起来是多么的激动人心，理想很丰满，现实很骨感，真正工程应用起来也是各种的坑啊~~但是AngularJS的很多设计理念和开发思想还是值得借鉴的。也正是这些精心的设计节省了很多的代码，开发效率得到了很大的提升，但有时候原来一些看起来很简单的bug反而变得更加难修。个人感觉AngualrJS还是有他的适用场景的，不是所有项目都适合跟风式地上，CMS在这种模式下可能效果更好些。不过不管怎么说，AngularJS都是组件化的一个很好的思路，DRY在他的核心组件中都有体现。下面闲话少扯，进入正题。</p>
+<!--toc-->
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#abstract">概要</a></li>
+<li><a href="#introduction">介绍</a></li>
+<li><a href="#angularjs-overview">AngularJS 概述</a><ul>
+<li><a href="#partials">模版</a></li>
+<li><a href="#controllers">控制器</a></li>
+<li><a href="#scope">作用域</a></li>
+<li><a href="#directives">指令</a></li>
+<li><a href="#filters">过滤器</a></li>
+<li><a href="#services">服务</a></li>
+</ul>
+</li>
+<li><a href="#angularjs-patterns">AngularJS 模式</a><ul>
+<li><a href="#services-1">服务</a><ul>
+<li><a href="#singleton">单例</a></li>
+<li><a href="#factory-method">工厂方法</a></li>
+<li><a href="#decorator">装饰器</a></li>
+<li><a href="#facade">门面</a></li>
+<li><a href="#proxy">代理</a></li>
+<li><a href="#active-record">活动记录</a></li>
+<li><a href="#intercepting-filters">拦截过滤器</a></li>
+</ul>
+</li>
+<li><a href="#directives-1">指令</a><ul>
+<li><a href="#composite">组合</a></li>
+</ul>
+</li>
+<li><a href="#interpreter">拦截器</a><ul>
+<li><a href="#template-view">模板视图</a></li>
+</ul>
+</li>
+<li><a href="#scope-1">作用域</a><ul>
+<li><a href="#observer">观察者</a></li>
+<li><a href="#chain-of-responsibilities">责任链</a></li>
+<li><a href="#command">命令</a></li>
+</ul>
+</li>
+<li><a href="#controller-1">控制器</a><ul>
+<li><a href="#page-controller">页面控制器</a></li>
+</ul>
+</li>
+<li><a href="#others">其他</a><ul>
+<li><a href="#module-pattern">模块模式</a></li>
+</ul>
+</li>
+<li><a href="#data-mapper">数据映射</a></li>
+</ul>
+</li>
+<li><a href="#references">参考</a></li>
+</ul>
+<!--endtoc-->
+<h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>学习新玩意最好的方法就是看看你已经烂熟于心的东西是怎么在新玩意里面被应用起来的。这篇文档不是要让读者熟悉设计和架构模式，只是想聊聊基本的OOP概念，设计模式和机构模式。<br>这篇文章的主要是想讲讲不同的软件设计和架构模式是如何在AngularJS和AngularJS的单页应用中应用的。</p>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>本文第一章先从AngularJS框架的简单概要说起。这点概要解释了AngularJS的主要组件 - 指令，过滤器，控制器，服务，作用域。第二章的部分描述了在框架中不同的设计和架构模式的实现。这些模式是按照被应用模式的AngularJS组件进行分组的。如果一些模式被多个组件使用，将会有显示的声明。最后一章包含了一些在大多数AngularJS单页应用中被使用的架构模式。</p>
+<h2 id="AngularJS-概述"><a href="#AngularJS-概述" class="headerlink" title="AngularJS 概述"></a>AngularJS 概述</h2><p>AngularJS是Google开发的Javascript框架。他就是为了开发基于增删改查的单页应用而生的。SPA是一种网页应用，它只会加载一次，在用户对它进行任何进一步的操作时都不需要重新加载整个页面。这就意味着所有的应用资源（数据，模板，脚本，样式）都要在初始请求载入或者更好 - 按需加载。因为大部分的增删改查应用有共同的特性和需求，AngularJS就是要提供开箱即用的优化工具集。一些重要的AngularJS特性是：</p>
+<ul>
+<li>双向数据绑定</li>
+<li>依赖注入</li>
+<li>关注点分离</li>
+<li>可测性</li>
+<li>抽象</li>
+</ul>
+<p>关注点分离是通过将每个AngularJS应用拆分成不同的组件，例如：</p>
+<ul>
+<li>模板</li>
+<li>控制器</li>
+<li>指令</li>
+<li>服务</li>
+<li>过滤器</li>
+</ul>
+<p>这些组件能够在不同的模块内被分组，这样有助于获得更高层次的抽象并且控制复杂度。每个组件封装了应用逻辑的某个特定的逻辑。</p>
+<p><strong>注解：</strong> 单页应用提升了应用的使用体验，但是却提高了开发的复杂度，复杂度过高促使软件可控性下降，bug增多。所以其实单页应用不是银弹，根据需要有针对性的使用才好，控制好可变化的范围和变化时机才能更好利用单页应用的特性。前端应用现在变得越来越复杂，很多原来后端的概念和工作都拿到前端来做，静态资源的管理更多是一个工程问题而不仅仅是个技术问题。对于首次全部加载的方式没有什么特别的，就是对于AMD(requirejs)模块使用R.js压成一个文件，前后端公用CommonJS模块使用browserfiy打包成一个bundle，使用强缓存，数字签名管理性能和部署。这种方式当然是比较简单粗暴的，更合理的方式当然是按需加载，特别是大型项目中尤为重要。现在有很多现成的工具支持lazyload，requirejs原生就支持，当然跟AngularJS也有很好的集成工具，在模块层面，controller层面都能做。这里涉及到更重要的点其实是合理的模块差分，公共模块的分离，复用范围的控制，更合理的划分加载模式才能达到更好的加载性能。AngularJS内置组件的定义很规范，也正是这种关注点分离的思想保证了前端模块的可测性。</p>
+<h3 id="模板"><a href="#模板" class="headerlink" title="模板"></a>模板</h3><p>模板就是HTML字符串，在元素或者属性中定义的AngularJS表达式会包含在模板里，AngularJS和其他框架最大的一个不同点就在于AngularJS的模板不是一种需要被转化为HTML的中间格式（mustache.js和handlerbars就是这种套路）。<br>初始时，每个单页应用加载 <code>index.html</code> 文件。在AngularJS的应用中，这个文件会包含一组标准和自定义的HTML属性，元素和注释，这些东西会配置并且拉起应用。每个后续的用户动作只需要加载另外的模板或者改变应用的状态，例如通过框架提供的数据绑定。</p>
+<p><strong>简单模板</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">ng-app</span>&gt;</span></div><div class="line"> <span class="comment">&lt;!-- Body tag augmented with ngController directive  --&gt;</span></div><div class="line"> <span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-controller</span>=<span class="string">"MyController"</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">input</span> <span class="attr">ng-model</span>=<span class="string">"foo"</span> <span class="attr">value</span>=<span class="string">"bar"</span>&gt;</span></div><div class="line">   <span class="comment">&lt;!-- Button tag with ng-click directive, and</span></div><div class="line"><span class="comment">          string expression 'buttonText'</span></div><div class="line"><span class="comment">          wrapped in "&#123;&#123; &#125;&#125;" markup --&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">"changeFoo()"</span>&gt;</span>&#123;&#123;buttonText&#125;&#125;<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"angular.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>模板通过AngularJS表达式定义对于什么样的用户操作会触发什么样的动作被执行。在上面的例子中， <code>ng-click</code> 属性表明在当前作用域下的 <code>changeFoo</code> 方法会在用户点击之后执行。</p>
+<p><strong>注解：</strong> AngularJS的模板支持很多声明式语法。为了语义，表现和结构的分离，前端一直推荐非侵入式的JS编程。AnguarJS反其道而行之，支持很多与页面绑定的行为定义，个人感觉完美主义还是要结合现实的，毕竟侵入式的写法真的很方便，而且其实很多行为本身就是是和语义结构绑定的。结合UI-Router可以实现更方便的自状态页面控制，让模板的渲染更加灵活。</p>
+<h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><p>AngularJS的控制器就是Javascript的方法，通过在 <em>scope</em> 上面绑定方法来处理用户和应用的交互（例如鼠标事件，键盘事件等等）。对于控制器需要的外部依赖组件都通过AngularJS的依赖注入机制提供。控制器也通过在 <em>scope</em> 上面绑定数据提供模板的 <em>model</em>。我们能把这种数据当作 <em>view model</em>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyController</span>(<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.buttonText = <span class="string">'Click me to change foo!'</span>;</div><div class="line">  $scope.foo = <span class="number">42</span>;</div><div class="line"></div><div class="line">  $scope.changeFoo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    $scope.foo += <span class="number">1</span>;</div><div class="line">    alert(<span class="string">'Foo changed'</span>);</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>举个例子，如果我们把上面的样例控制器绑在前面章节示例的模板上面，用户就能和应用进行一些不同方式的交互。</p>
+<ol>
+<li>通过在文本输入框中输入文字改变 <code>foo</code> 的值。因为双向绑定机制，输入的值将会立即反映到 <code>foo</code> 的值上面。</li>
+<li>通过点击带有 <code>Click me to change foo!</code> 标签的按钮也能改变 <code>foo</code> 的值</li>
+</ol>
+<p>如果之前被定义过，所有的自定义元素，属性，注释或者类都能被识别为AngularJS <em>指令</em>。</p>
+<p><strong>注解：</strong> 控制器大都是跟页面绑定的，可复用性相对较差，跟之前用Jquery做页面的思路其实大致相同，都是做一些初始化，数据缓存，事件绑定。就是通过AJAX局部刷新的时候比较方便，双向绑定的机制让我们只需要关心维护视图模型，视图模型变动引起的视图改变通过监听视图模型的指令来完成，很多不复杂并且相同的视图更新操作都能封装起来。MVC在前端也有很多尝试，但个人觉得Controller一层可能有点鸡肋，一般场景下的视图模型和视图的关联都是很固定的，这也是现在MVVM更流行的其中一个原因吧。忍不住赞一下依赖注入特性，真的是开箱即用，只是为了压缩写法上稍微有些不自然，不过现在好像有工具能支持去掉二次声明了。</p>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>AngularJS的作用域就是个暴露给模板的Javascript对象。作用域能够包含不同的属性 -内置类型，对象和方法。所有绑定在作用域上面的方法能够通过AngularJS指定作用域的模板里面定义的表达式求值被调用，也能够保留作用域的引用被组件直接调用。通过使用合适的 <em>指令</em>，关联到作用域的数据能够被绑定到视图上。每次页面的变动都会反映到作用域属性上，同时每次作用域属性的变动都会反映到页面上。</p>
+<p>作用域通过原型链连接（除了以 <em>isolated</em> 显示开头的作用域）是任何AngularJS应用的另外一个重要作用域特性。因为子作用域的父级属性是它们的直接或者间接原型，这样使得任何的子作用域就能调用父作用域的方法。</p>
+<p>作用域继承通过下面的例子说明：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"BaseCtrl"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"child"</span> <span class="attr">ng-controller</span>=<span class="string">"ChildCtrl"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"parent-method"</span> <span class="attr">ng-click</span>=<span class="string">"foo()"</span>&gt;</span>Parent method<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">"bar()"</span>&gt;</span>Child method<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">BaseCtrl</span>(<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.foo = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">'Base foo'</span>);</div><div class="line">  &#125;;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ChildCtrl</span>(<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.bar = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">'Child bar'</span>);</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>div#child</code> 绑上 <code>ChildCtrl</code> ，但是因为注入到 <code>ChildCtrl</code> 中的作用域原型继承自父作用域 (例如 注入到 <code>BaseCtrl</code> 中的作用域) <code>foo</code> 方法能够被 <code>button#parent-method</code> 访问到。</p>
+<p><strong>注解：</strong> Javascript本身没有继承机制，所有的所谓继承都是通过原型链实现的，AngularJS的作用域也就有了原型链的特性，当前没有向上找，一般情况下不推荐这种依赖继承层级关系的数据传递，父子级别的数据依赖还是通过pub/sub机制比较好，需求变动改动起来也方便。有时候依赖这种层次关系的数据产生的bug调起来真的很头大，通过Controller As的语法能够更好避免类似的问题。</p>
+<h3 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h3><p>所有DOM操作应该被放在指令里面。作为一条经验法则，当你在Controller里面有DOM操作的需要，要么你就弄个新的出来，要么重构已经有的能够处理必要DOM操作的指令。<br>每个指令都会有个名字和相关联的逻辑。最简单的指令示例中仅仅包含了名字和 <em>postLink</em> 方法的定义，所有必要的逻辑都被封装在指令里面。更复杂的指令中可能包含一些属性，例如：</p>
+<ul>
+<li>template</li>
+<li>compile 方法</li>
+<li>link 方法</li>
+<li>等等…</li>
+</ul>
+<p>通过引用指令的名字，指令能够在声明式模板中被使用。</p>
+<p>例子:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">myModule.directive(<span class="string">'alertButton'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    template: <span class="string">'&lt;button ng-transclude&gt;&lt;/button&gt;'</span>,</div><div class="line">    scope: &#123;</div><div class="line">      content: <span class="string">'@'</span></div><div class="line">    &#125;,</div><div class="line">    replace: <span class="literal">true</span>,</div><div class="line">    restrict: <span class="string">'E'</span>,</div><div class="line">    transclude: <span class="literal">true</span>,</div><div class="line">    link: <span class="function"><span class="keyword">function</span> (<span class="params">scope, el</span>) </span>&#123;</div><div class="line">      el.click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        alert(scope.content);</div><div class="line">      &#125;);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">alert-button</span> <span class="attr">content</span>=<span class="string">"42"</span>&gt;</span>Click me<span class="tag">&lt;/<span class="name">alert-button</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>上面例子中的标签 <code>&lt;alert-button&gt;&lt;/alert-button&gt;</code> 会被按钮元素给替换。当用户点击按钮，字符串 <code>42</code> 会被弹出来。</p>
+<p>因为这篇文章不是要解释AngularJS的复杂API，我们对于指令的描述在这里打住。</p>
+<p><strong>注解：</strong> 指令作为AngularJS对于Web Components的实现，在一定程度上实现了UI的组件化开发，但是基于视图模型的限制，AngularJS能够实现的组件功能相对较弱，因为双向绑定的特性也带来了AngularJS组件的性能瓶颈。有时候一个指令的外部接口输入输出格式是什么样的，哪些要双向绑定，哪些要单向绑定，哪些要有回调方法可能很难一次定义清楚，要不断重构和积累。其实ReactJS在UI组件化上的效果更好，因为只关注视图层，它可以很方便的继承到现有系统中，也有像Angular-react这样的项目可以结合两者的优势。</p>
+<h3 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h3><p>AngularJS的过滤器就是用来封装格式化数据的必要逻辑。一般过滤器用在模板里面，但是在控制器，指令， <em>服务</em> 和其他的过滤器里面通过依赖注入也是能够访问到的。</p>
+<p>这里有个样例过滤器的定义，就是把指定的字符串中字母转化为大写。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">myModule.filter(<span class="string">'uppercase'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> (<span class="params">str</span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> (str || <span class="string">''</span>).toUpperCase();</div><div class="line">  &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在模板里面这个过滤器能够通过Unix的管道语法来使用：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;&#123; name | uppercase &#125;&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在控制器里面，过滤器能够像下面一样使用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyCtrl</span>(<span class="params">uppercaseFilter</span>) </span>&#123;</div><div class="line">  $scope.name = uppercaseFilter(<span class="string">'foo'</span>); <span class="comment">//FOO</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>注解：</strong> 大部分情况下，AngularJS的内置过滤器就能满足我们大部分的应用需要了，结合业务需要会有少量的补充，本质上就是对于数据集的重新格式化，结合列表可以实现排序或者预处理的工作，用惯了Linux系统看着这语法还是很亲切的。</p>
+<h3 id="服务"><a href="#服务" class="headerlink" title="服务"></a>服务</h3><p>任何一段不属于上面描述组件的逻辑块应该被放在服务中。通常服务封装领域相关逻辑，持久化逻辑，异步请求，长连接等等。当应用中的控制器变得越来越臃肿，重复的代码应该放到服务中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">myModule.service(<span class="string">'Developer'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">this</span>.name = <span class="string">'Foo'</span>;</div><div class="line">  <span class="keyword">this</span>.motherLanguage = <span class="string">'JavaScript'</span>;</div><div class="line">  <span class="keyword">this</span>.live = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">while</span> (<span class="literal">true</span>) &#123;</div><div class="line">      <span class="keyword">this</span>.code();</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>服务能够被注入到任何支持依赖注入的组件中（控制器，其他服务，过滤器，指令）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MyCtrl</span>(<span class="params">developer</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> developer = <span class="keyword">new</span> Developer();</div><div class="line">  developer.live();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>注解：</strong> 服务可以看作我们应用开发中的Util方法集，通过特定功能和应用场景分组，将重复的代码抽取出来，因为需求上一般呈现出的是功能上的一致性，公共需求的改动只需要在单一的地方处理就好了。例如，异步请求的调用，当我们需要统一处理后台异常状态码的时候，改动可以最小化，同时不会对原有业务逻辑产生影响。有些公共服务是能够直接识别出来的，更多时候在业务需求基本稳定之后，Copy&amp;Paste的代码就要通过重构提取成一个服务。</p>
+<h2 id="AngularJS-模式"><a href="#AngularJS-模式" class="headerlink" title="AngularJS 模式"></a>AngularJS 模式</h2><p>下面的章节，我们就要看看传统的设计和架构模式是怎样在AngularJS的组件中组合应用的。</p>
+<p>最后一章我们会看看一些经常在AngularJS单页应用开发（不仅限于此）中使用的架构模式。</p>
+<h3 id="服务-1"><a href="#服务-1" class="headerlink" title="服务"></a>服务</h3><h4 id="单例"><a href="#单例" class="headerlink" title="单例"></a>单例</h4><blockquote>
+<p>单例模式是一种限制类的实例只有一个的设计模式。 当只需要一个对象来协调系统中的操作时，这种设计模式很有用。这种概念有时指代只有一个对象存在会更高效运作或者将初始化限制在一定数量的对象上的系统。</p>
+</blockquote>
+<p>下面的UML图中描绘了单例设计模式。</p>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/singleton.svg" alt="单例"></p>
+<p>当指定了任何组件需要的依赖之后，AngularJS是遵循下面的算法处理的：</p>
+<ul>
+<li>取得依赖组件的名字并且在定义在词法闭包中的哈希表里查找（所以它具有私有可见性）。</li>
+<li>如果依赖存在，AngularJS将它作为参数传递给需要它的组件。</li>
+<li>如果依赖不存在:<ul>
+<li>AngularJS 通过调用依赖提供者的工厂方法将它实例化（例如 <code>$get</code>）。为了处理所有的依赖需要的必要依赖，初始化依赖可能需要基于相同的算法递归的调用。这个过程可能会造成循环以来。</li>
+<li>AngularJS 在上面提到的哈希表里面缓存它。</li>
+<li>AngularJS 将它作为参数传递给依赖它的组件。</li>
+</ul>
+</li>
+</ul>
+<p>我们能够在AngularJS源码中的 <code>getService</code> 方法里看到清楚的实现：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getService</span>(<span class="params">serviceName</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (cache.hasOwnProperty(serviceName)) &#123;</div><div class="line">    <span class="keyword">if</span> (cache[serviceName] === INSTANTIATING) &#123;</div><div class="line">      <span class="keyword">throw</span> $injectorMinErr(<span class="string">'cdep'</span>, <span class="string">'Circular dependency found: &#123;0&#125;'</span>, path.join(<span class="string">' &lt;- '</span>));</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> cache[serviceName];</div><div class="line">  &#125; <span class="keyword">else</span> &#123;</div><div class="line">    <span class="keyword">try</span> &#123;</div><div class="line">      path.unshift(serviceName);</div><div class="line">      cache[serviceName] = INSTANTIATING;</div><div class="line">      <span class="keyword">return</span> cache[serviceName] = factory(serviceName);</div><div class="line">    &#125; <span class="keyword">catch</span> (err) &#123;</div><div class="line">      <span class="keyword">if</span> (cache[serviceName] === INSTANTIATING) &#123;</div><div class="line">        <span class="keyword">delete</span> cache[serviceName];</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">throw</span> err;</div><div class="line">    &#125; <span class="keyword">finally</span> &#123;</div><div class="line">      path.shift();</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们能够把所有的服务当作是单例的，因为所有的服务都不会被实例化两次。我们能够把缓存看作单例管理器。这里跟标准的单例有点不一样，我们不是在构造方法中保存对于单例的静态私有引用，而是在单例管理器（在上面的代码片段中定义为 <code>cache</code>）里面直接保留了引用。</p>
+<p>通过这种方式服务实际上都是单例但是不是通过单例模式实现的，这样比标准的实现提供了一些便利：</p>
+<ul>
+<li>它提升了你源代码的可测性</li>
+<li>你能控制单例对象的创建（在我们的例子中IoC容器通过延迟实例化单例为我们控制它）</li>
+</ul>
+<p>对相关主题的讨论可以看 Misko Hevery 在谷歌测试博客上的 <a href="http://googletesting.blogspot.com/2008/05/tott-using-dependancy-injection-to.html" target="_blank" rel="external">文章</a> 。</p>
+<h4 id="工厂方法"><a href="#工厂方法" class="headerlink" title="工厂方法"></a>工厂方法</h4><blockquote>
+<p>工厂方法模式是一种创建者模式，工厂方法用来处理对象的创建而不需要指定具体将要被创建对象所对应的类。 这是通过一个工厂方法来创建对象来做到的，可能是在一个实现定义接口（抽象类） 的类（实现类）或者在基类中实现，通过继承类覆盖，而不是通过构造器。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/factory-method.svg" alt="工厂方法"></p>
+<p>让我们看下面的代码片段:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">myModule.config(<span class="function"><span class="keyword">function</span> (<span class="params">$provide</span>) </span>&#123;</div><div class="line">  $provide.provider(<span class="string">'foo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> baz = <span class="number">42</span>;</div><div class="line">    <span class="keyword">return</span> &#123;</div><div class="line">      <span class="comment">//Factory method</span></div><div class="line">      $get: <span class="function"><span class="keyword">function</span> (<span class="params">bar</span>) </span>&#123;</div><div class="line">        <span class="keyword">var</span> baz = bar.baz();</div><div class="line">        <span class="keyword">return</span> &#123;</div><div class="line">          baz: baz</div><div class="line">        &#125;;</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码我们使用 <code>config</code> 回调来定义新的 “provider”. Provider 是个新对象, 有个叫 <code>$get</code>的方法。因为在JavaScript里我们不会有接口，并且这种语言是鸭子类型的，对于providers有这么个命名工厂方法的约定。</p>
+<p>每个服务，过滤器，指令和控制器都有一个provider (例如 对象有个叫 <code>$get</code> 的工厂方法), 负责创建组件的实例。</p>
+<p>我们可以深入挖掘下AngularJS的实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//...</span></div><div class="line"></div><div class="line">createInternalInjector(instanceCache, <span class="function"><span class="keyword">function</span>(<span class="params">servicename</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> provider = providerInjector.get(servicename + providerSuffix);</div><div class="line">  <span class="keyword">return</span> instanceInjector.invoke(provider.$get, provider, <span class="literal">undefined</span>, servicename);</div><div class="line">&#125;, strictDi));</div><div class="line"></div><div class="line"><span class="comment">//...</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">invoke</span>(<span class="params">fn, self, locals, serviceName</span>)</span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> locals === <span class="string">'string'</span>) &#123;</div><div class="line">    serviceName = locals;</div><div class="line">    locals = <span class="literal">null</span>;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> args = [],</div><div class="line">      $inject = annotate(fn, strictDi, serviceName),</div><div class="line">      length, i,</div><div class="line">      key;</div><div class="line"></div><div class="line">  <span class="keyword">for</span>(i = <span class="number">0</span>, length = $inject.length; i &lt; length; i++) &#123;</div><div class="line">    key = $inject[i];</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> key !== <span class="string">'string'</span>) &#123;</div><div class="line">      <span class="keyword">throw</span> $injectorMinErr(<span class="string">'itkn'</span>,</div><div class="line">              <span class="string">'Incorrect injection token! Expected service name as string, got &#123;0&#125;'</span>, key);</div><div class="line">    &#125;</div><div class="line">    args.push(</div><div class="line">      locals &amp;&amp; locals.hasOwnProperty(key)</div><div class="line">      ? locals[key]</div><div class="line">      : getService(key)</div><div class="line">    );</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (!fn.$inject) &#123;</div><div class="line">    <span class="comment">// this means that we must be an array.</span></div><div class="line">    fn = fn[length];</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> fn.apply(self, args);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上面的例子中我们能够看到 <code>$get</code> 方法实际是如何被使用的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">instanceInjector.invoke(provider.$get, provider, <span class="literal">undefined</span>, servicename)</div></pre></td></tr></table></figure>
+<p>上面的代码片段通过调用 <code>instanceInjector</code> 的 <code>invoke</code> 方法将指定服务的工厂方法（例如 <code>$get</code>）作为第一个参数来调用。 在 <code>invoke</code> 方法内工厂方法作为第一个参数被 <code>annotate</code> 调用。注解通过AngularJS的依赖注入机制处理所有的依赖，就像上面考虑到的。当所有的依赖都被处理好之后工厂方法被调用： <code>fn.apply(self, args)</code>。</p>
+<p>如果我们按照UML图来考虑上面的行为，我们能够称这个provider是个 “ConcreteCreator”，而实际的组件是生产出来的”Product”。</p>
+<p>在这种场景下因为不是直接创建对象，使用工厂模式有一些好处。通过这种方式框架能够在新组件实例化的时候处理好样板：</p>
+<ul>
+<li>组件需要被实例化的最佳时机</li>
+<li>处理好组件必要的所有依赖</li>
+<li>指定组件被允许创建的最多实例数量（对于服务和过滤器只有单个，但是对于控制器会有多个）<h4 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h4></li>
+</ul>
+<blockquote>
+<p>装饰器模式（配器模式中也被称作包装器）是允许在不影响类创建的其他对象前提下将行为静态地或者动态地添加到独立对象上的一种设计模式。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/decorator.svg" alt="装饰器"></p>
+<p>AngularJS 提供了开箱即用扩展或者增强已有服务功能的方式。通过使用 <code>$provide</code> 的 <code>decorator</code> 方法，你可以创建任何先前定义服务或者第三方服务的包装器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">myModule.controller(<span class="string">'MainCtrl'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">foo</span>) </span>&#123;</div><div class="line">  foo.bar();</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myModule.factory(<span class="string">'foo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    bar: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'I\'m bar'</span>);</div><div class="line">    &#125;,</div><div class="line">    baz: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'I\'m baz'</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myModule.config(<span class="function"><span class="keyword">function</span> (<span class="params">$provide</span>) </span>&#123;</div><div class="line">  $provide.decorator(<span class="string">'foo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$delegate</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> barBackup = $delegate.bar;</div><div class="line">    $delegate.bar = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="built_in">console</span>.log(<span class="string">'Decorated'</span>);</div><div class="line">      barBackup.apply($delegate, <span class="built_in">arguments</span>);</div><div class="line">    &#125;;</div><div class="line">    <span class="keyword">return</span> $delegate;</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面的例子定义了叫做 <code>foo</code> 的新服务。在 <code>config</code> 的回调中我们想要包装服务的名称 <code>&quot;foo&quot;</code>作为第一个参数被 <code>$provide.decorator</code> 调用，第二个工厂方法参数实现了真正的包装。 <code>$delegate</code> 保存了原始服务 <code>foo</code> 的引用。依赖于AngularJS的依赖注入机制，对于局部依赖的引用被作为构造函数的第一个参数传进去。<br>我们通过覆盖 <code>bar</code> 方法来装饰服务。实际的装饰只是通过额外调用 <code>console.log statement</code> - <code>console.log(&#39;Decorated&#39;);</code> 并且在这之后调用原始的有适当上下文的 <code>bar</code> 方法来扩展服务的 <code>bar</code> 方法。</p>
+<p>这种模式尤其在我们需要修改第三方服务的时候有用。如果需要多个相似的装饰器需要被添加（像对于多个方法的性能评估，授权，日志等等），我们会有很多的重复并且违背DRY原则. 在这种情况下使用<a href="http://en.wikipedia.org/wiki/Aspect-oriented_programming" target="_blank" rel="external">面向切面编程</a>会更好. 我所知道AngularJS最好的AOP框架是这个 <a href="https://github.com/mgechev/angular-aop" target="_blank" rel="external">github.com/mgechev/angular-aop</a>.</p>
+<h4 id="门面"><a href="#门面" class="headerlink" title="门面"></a>门面</h4><blockquote>
+<p>门面就是个封装了一大坨代码（例如某个类库），仅仅提供最简单接口的对象。门面能够：</p>
+<ol>
+<li>让软件库更好用，理解并且测试，因为门面对于公共的任务有便捷的方法；</li>
+<li>基于同样的原因让软件库可读性更好；</li>
+<li>在库内部减少对于外部代码的依赖，因为大部分代码使用门面，这样允许在系统中有更多的复杂性；</li>
+<li>将定义的很烂的一组API用一个设计良好的API来封装（按照不同任务的需要）。</li>
+</ol>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/facade.svg" alt="门面"></p>
+<p>在AngularJS中有很多门面. 每次要为给定功能提供更高层次API的时候，你实际上就是在创建一个门面。</p>
+<p>例如，让我们看看我们怎么创建一个 <code>XMLHttpRequest</code> POST 请求：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> http = <span class="keyword">new</span> XMLHttpRequest(),</div><div class="line">    url = <span class="string">'/example/new'</span>,</div><div class="line">    params = <span class="built_in">encodeURIComponent</span>(data);</div><div class="line">http.open(<span class="string">"POST"</span>, url, <span class="literal">true</span>);</div><div class="line"></div><div class="line">http.setRequestHeader(<span class="string">"Content-type"</span>, <span class="string">"application/x-www-form-urlencoded"</span>);</div><div class="line">http.setRequestHeader(<span class="string">"Content-length"</span>, params.length);</div><div class="line">http.setRequestHeader(<span class="string">"Connection"</span>, <span class="string">"close"</span>);</div><div class="line"></div><div class="line">http.onreadystatechange = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span>(http.readyState == <span class="number">4</span> &amp;&amp; http.status == <span class="number">200</span>) &#123;</div><div class="line">    alert(http.responseText);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">http.send(params);</div></pre></td></tr></table></figure>
+<p>但是如果你想要将数据通过AngularJS的 <code>$http</code> 服务来发送，你会这样写:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$http(&#123;</div><div class="line">  method: <span class="string">'POST'</span>,</div><div class="line">  url: <span class="string">'/example/new'</span>,</div><div class="line">  data: data</div><div class="line">&#125;)</div><div class="line">.then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</div><div class="line">  alert(response);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>or we can even:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$http.post(<span class="string">'/someUrl'</span>, data)</div><div class="line">.then(<span class="function"><span class="keyword">function</span> (<span class="params">response</span>) </span>&#123;</div><div class="line">  alert(response);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>第二种选择提供了预配置的版本，对于指定的URL创建了一个HTTP的POS请求。</p>
+<p>更高程度的抽象通过 <code>$resource</code> 创建,  <code>$resource</code> 是基于 <code>$http</code> 服务的. 我们会在<a href="#active-record">活动记录</a>和<a href="#proxy">代理</a>章节中进一步讨论 <code>$http</code> 服务.</p>
+<h4 id="代理"><a href="#代理" class="headerlink" title="代理"></a>代理</h4><blockquote>
+<p>一个代理，一般化的形式上，是某个类作为其他东西的接口工作。代理能够作为一切的接口： 网络连接，内存中的大对象，文件或者一些其他难以或者不能复制的资源。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/proxy.svg" alt="代理"></p>
+<p>我们可以分出三种不同类型的代理：</p>
+<ul>
+<li>虚拟代理</li>
+<li>远程代理</li>
+<li>受保护代理</li>
+</ul>
+<p>在这个子章节中我们会看看AngularJS对于虚拟代理的实现。</p>
+<p>在下面的代码片段中，调用了叫 <code>User</code> 的 <code>$resource</code> 实例方法 <code>get</code> ：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> User = $resource(<span class="string">'/users/:id'</span>),</div><div class="line">    user = User.get(&#123; <span class="attr">id</span>: <span class="number">42</span> &#125;);</div><div class="line"><span class="built_in">console</span>.log(user); <span class="comment">//&#123;&#125;</span></div></pre></td></tr></table></figure>
+<p><code>console.log</code> 会打印出来个空对象。因为AJAX请求发生在后台，当 <code>User.get</code> 被调用的时候是异步的，在 <code>console.log</code> 被调用的时候，我们还没有获得实际的user。在 <code>User.get</code> 发送GET请求之后，仅仅返回一个空对象并且保留对于它的引用。我们可以把这个对象当作虚拟代理（一个简单的占位符）。在客户端获取到服务器上实际的数据之后这个占位符才会被填充。</p>
+<p>AngularJS是怎么做到的呢? 好了，让我们看看下面的代码片段：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainCtrl</span>(<span class="params">$scope, $resource</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> User = $resource(<span class="string">'/users/:id'</span>),</div><div class="line">  $scope.user = User.get(&#123; <span class="attr">id</span>: <span class="number">42</span> &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-bind</span>=<span class="string">"user.name"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>开始的时候，上面的代码片段执行， <code>$scope</code> 对象的 <code>user</code> 属性会被赋予一个空对象 (<code>{}</code>)，这意味着 <code>user.name</code> 将会是未定义，啥也不会渲染。AngularJS内部会保留这个空对象的引用。一旦服务器返回get请求的数据，AngularJS 会用从服务其上获取到的数据填充对象。在下个 <code>$digest</code> 循环中AngularJS会检测到 <code>$scope.user</code>的变化, 进而触发视图的渲染。</p>
+<h4 id="活动记录"><a href="#活动记录" class="headerlink" title="活动记录"></a>活动记录</h4><blockquote>
+<p>活动记录是一种包含了数据和行为的对象。通常这种对象的大部分数据是持久化的。活动记录的职责就是处理好和数据库增删改查的通信。它可能会将这种职责代理给更低级别的对象，但是会调用活动记录的实例或者静态方法来和数据库通信。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/active-record.svg" alt="活动记录"></p>
+<p>AngularJS 定义了叫 <code>$resource</code> 的服务。在当前的AngularJS版本(1.2+)，它是排除在AngularJS的核心模块之外的.</p>
+<p>依据AngularJS的文档， <code>$resource</code> 是：</p>
+<blockquote>
+<p>一个创建了跟Restful服务器数据源进行交互的资源对象工厂实例<br>资源对象返回的对象有更高层次的方法，这样就不需要直接使用相对底层的$http服务</p>
+</blockquote>
+<p><code>$resource</code> 是这样用的:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> User = $resource(<span class="string">'/users/:id'</span>),</div><div class="line">    user = <span class="keyword">new</span> User(&#123;</div><div class="line">      name: <span class="string">'foo'</span>,</div><div class="line">      age : <span class="number">42</span></div><div class="line">    &#125;);</div><div class="line"></div><div class="line">user.$save();</div></pre></td></tr></table></figure>
+<p>调用 <code>$resource</code> 会为我们的模型实例创建一个构造方法。每个模型示例都有用于CRUD的方法。</p>
+<p>这样我们就能够像下面这样使用构造方法和上面的静态方法:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User.get(&#123; <span class="attr">userid</span>: userid &#125;);</div></pre></td></tr></table></figure>
+<p>上面的代码会立刻返回个空对象并且保留它的引用。一旦成功返回并且被解析，AngularJS 会用回去到的数据填充这个对象 (看 <a href="#proxy">代理</a>)。</p>
+<p>你可以找到更多关于 <code>$resource</code> <a href="http://blog.mgechev.com/2014/02/05/angularjs-resource-active-record-http/" target="_blank" rel="external">$resource的魔法</a> and <a href="https://docs.angularjs.org/api/ngResource/service/$resource" target="_blank" rel="external">AngularJS 的文档</a> 的信息。</p>
+<p>鉴于 Martin Fowler 这样说</p>
+<blockquote>
+<p>活动记录的责任就是为了CRUD跟数据库打交道</p>
+</blockquote>
+<p><code>$resource</code> 没有严格意义上实现活动记录模式，因为它是跟Restful服务而不是数据库打交道。不管怎么样，我们可以把它当作“像活动记录一样的Restful通信”。</p>
+<h4 id="拦截过滤器"><a href="#拦截过滤器" class="headerlink" title="拦截过滤器"></a>拦截过滤器</h4><blockquote>
+<p>在web请求中，为实现公共的预处理和后处理创建一个支持组合的过滤器链。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/intercepting-filters.svg" alt="Composite"></p>
+<p>有时候你需要对HTTP请求做一些预处理或者后处理。你在HTTP的请求/响应中做预处理或者后处理来包含日志，安全或者其他会被请求头部和消息体影响的东西。基本上拦截过滤器模式包含一个过滤器链，在链上的过滤器都会按照指定的顺序处理数据。每个过滤器的输出都是下个的输入。</p>
+<p>在AngularJS里面 <code>$httpProvider</code> 用了拦截过滤器的模式。 <code>$httpProvider</code> 有个叫 <code>interceptors</code> 的数组, 包含了一堆对象。每个对象都有叫: <code>request</code>, <code>response</code>, <code>requestError</code>, <code>responseError</code> 的属性。</p>
+<p><code>requestError</code> 是个拦截器, 在前面的拦截器抛出错误或者在promise中被拒绝掉的时候会被调用，同样的，<code>responseError</code> 会在前一个 <code>response</code> 拦截器抛出错误之后被调用。</p>
+<p>这有个使用对象语法创建拦截器的基本例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">$httpProvider.interceptors.push(<span class="function"><span class="keyword">function</span>(<span class="params">$q, dependency1, dependency2</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">   <span class="string">'request'</span>: <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</div><div class="line">       <span class="comment">// same as above</span></div><div class="line">    &#125;,</div><div class="line">    <span class="string">'response'</span>: <span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</div><div class="line">       <span class="comment">// same as above</span></div><div class="line">    &#125;</div><div class="line">  &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="指令-1"><a href="#指令-1" class="headerlink" title="指令"></a>指令</h3><h4 id="组合"><a href="#组合" class="headerlink" title="组合"></a>组合</h4><blockquote>
+<p>组合模式是个隔离设计模式。组合模式是说，一组对象按照同样的方式被当作对象的某个实例属性。组合的目的是将对象组合到一个树形结构中来代表局部和整体的层次关系。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/composite.svg" alt="组合"></p>
+<p>基于经典设计模式理论，MVC就是下面模式的组合：</p>
+<ul>
+<li>策略</li>
+<li>组合</li>
+<li>观察者</li>
+</ul>
+<p>理论中定义视图是组件的组合。在AngularJS中有相似的解决方案。我们的视图由指令和DOM元素的组合来构成，指令解释放在视图上的。</p>
+<p>让我们看看下面的例子：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">zippy</span> <span class="attr">title</span>=<span class="string">"Zippy"</span>&gt;</span></div><div class="line">      Zippy!</div><div class="line">    <span class="tag">&lt;/<span class="name">zippy</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">myModule.directive(<span class="string">'zippy'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    restrict: <span class="string">'E'</span>,</div><div class="line">    template: <span class="string">'&lt;div&gt;&lt;div class="header"&gt;&lt;/div&gt;&lt;div class="content" ng-transclude&gt;&lt;/div&gt;&lt;/div&gt;'</span>,</div><div class="line">    link: <span class="function"><span class="keyword">function</span> (<span class="params">scope, el</span>) </span>&#123;</div><div class="line">      el.find(<span class="string">'.header'</span>).click(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">        el.find(<span class="string">'.content'</span>).toggle();</div><div class="line">      &#125;);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这个例子定义了一个简单的UI组件指令。这个叫zippy的组件有头部和内容。点击头部会触发内容的显示或者隐藏。</p>
+<p>从第一个例子里面我们能注意到整个DOM树是元素的组合。根元素是 <code>html</code> 元素，直接跟着嵌套的 <code>head</code> 和 <code>body</code> 元素等等…</p>
+<p>在第二个Javascript的例子中，我们看到指令的 <code>template</code> 里面包含 <code>ng-transclude</code> 标记。这意味着在指令 <code>zippy</code> 里面我们有另外一个叫 <code>ng-transclude</code> 的指令, 也就是指令的组合。理论上我们能够在到达叶子节点之前一直嵌套组件。</p>
+<h3 id="解释器"><a href="#解释器" class="headerlink" title="解释器"></a>解释器</h3><blockquote>
+<p>在软件编程中，解释器模式是一种指定如何解析语言中句子的设计模式。最基本的思想就是给每个符号（终止符或者非终止符）作为某种语言中的类。语言里句子的语法树就是组合模式中的一个实例并且被用来解析句子。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/interpreter.svg" alt="解释器"></p>
+<p>在 <code>$parse</code> 服务里AngularJS提供了自己对于领域驱动语言解析器的实现。被使用的DSL是被简化和修改过的Javascript语言。<br>Javascript表达式和AngularJS表达式最大的不同在于AngularJS表达式：</p>
+<ul>
+<li>可能包含像UNIX管道语法的过滤器</li>
+<li>不会抛出任何错误</li>
+<li>没有任何流程控制语句（异常，循环，if声明尽管你能使用三元运算符）</li>
+<li>在指定上下文中被解析（当前 <code>$scope</code> 的上下文）</li>
+</ul>
+<p>在 <code>$parse</code> 服务中有两个主要的组件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Responsible for converting given string into tokens</span></div><div class="line"><span class="keyword">var</span> Lexer;</div><div class="line"><span class="comment">//Responsible for parsing the tokens and evaluating the expression</span></div><div class="line"><span class="keyword">var</span> Parser;</div></pre></td></tr></table></figure>
+<p>一旦指定表达式被标记化，基于性能的考虑就会被内部缓存。</p>
+<p>AngularJS DSL里面终止性的表达式是这样定义的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> OPERATORS = &#123;</div><div class="line">  <span class="comment">/* jshint bitwise : false */</span></div><div class="line">  <span class="string">'null'</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="literal">null</span>;&#125;,</div><div class="line">  <span class="string">'true'</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="literal">true</span>;&#125;,</div><div class="line">  <span class="string">'false'</span>:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;<span class="keyword">return</span> <span class="literal">false</span>;&#125;,</div><div class="line">  <span class="literal">undefined</span>:noop,</div><div class="line">  <span class="string">'+'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;</div><div class="line">        <span class="comment">//...</span></div><div class="line">      &#125;,</div><div class="line">  <span class="string">'*'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)*b(self, locals);&#125;,</div><div class="line">  <span class="string">'/'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)/b(self, locals);&#125;,</div><div class="line">  <span class="string">'%'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)%b(self, locals);&#125;,</div><div class="line">  <span class="string">'^'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)^b(self, locals);&#125;,</div><div class="line">  <span class="string">'='</span>:noop,</div><div class="line">  <span class="string">'==='</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a, b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)===b(self, locals);&#125;,</div><div class="line">  <span class="string">'!=='</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a, b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)!==b(self, locals);&#125;,</div><div class="line">  <span class="string">'=='</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)==b(self, locals);&#125;,</div><div class="line">  <span class="string">'!='</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)!=b(self, locals);&#125;,</div><div class="line">  <span class="string">'&lt;'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)&lt;b(self, locals);&#125;,</div><div class="line">  <span class="string">'&gt;'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)&gt;b(self, locals);&#125;,</div><div class="line">  <span class="string">'&lt;='</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)&lt;=b(self, locals);&#125;,</div><div class="line">  <span class="string">'&gt;='</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)&gt;=b(self, locals);&#125;,</div><div class="line">  <span class="string">'&amp;&amp;'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)&amp;&amp;b(self, locals);&#125;,</div><div class="line">  <span class="string">'||'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)||b(self, locals);&#125;,</div><div class="line">  <span class="string">'&amp;'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> a(self, locals)&amp;b(self, locals);&#125;,</div><div class="line">  <span class="string">'|'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a,b</span>)</span>&#123;<span class="keyword">return</span> b(self, locals)(self, locals, a(self, locals));&#125;,</div><div class="line">  <span class="string">'!'</span>:<span class="function"><span class="keyword">function</span>(<span class="params">self, locals, a</span>)</span>&#123;<span class="keyword">return</span> !a(self, locals);&#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>我们可以认为每个跟终止性表达符关联的方法是对 <code>AbstractExpression</code> 接口的实现。</p>
+<p>每个 <code>Client</code> 在指定上下文中解析特定的AngularJS表达式 - 特定的作用域.</p>
+<p>AngularJS表达式样例如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// toUpperCase filter is applied to the result of the expression</span></div><div class="line"><span class="comment">// (foo) ? bar : baz</span></div><div class="line">(foo) ? bar : baz | toUpperCase</div></pre></td></tr></table></figure>
+<h4 id="模板视图"><a href="#模板视图" class="headerlink" title="模板视图"></a>模板视图</h4><blockquote>
+<p>在页面上通过嵌入的标记语法渲染信息。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/template-view.svg" alt="模板视图"></p>
+<p>动态页面的渲染不是那么简单的事情。这里面掺和着一大堆的字符串连接，操作，还伴随着挫败感。写你自己的标记语言并且嵌入少量的表达式是创建动态页面更简单的方式，标记语言后续会被在特定的上下文里被解析出来，整个模板最终会被编译成最终的格式，在我们的情况下将会是HTML(或者可能是DOM)。这就是模板引擎做的事情 - 它们使用指定的DSL，在合适的上下文里解析并且将它转为最终的格式。</p>
+<p>模板更广泛用于后端。例如，你可以在HTML里面嵌入PHP代码来创建动态页面，你可以使用Smarty或者你可以为了在静态页面中嵌入Ruby代码使用eRuby。</p>
+<p>对于Javascript有很多的模板引擎，例如mustache.js, handlerbars等等。大部分引擎将模板作为字符串来操作。模板可以放在不同的地方 - 通过AJAX作为静态文件加载，作为 <code>script</code> 嵌入到你的视图中甚至是在Javascript里面。</p>
+<p>例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"template/mustache"</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="xml">  <span class="tag">&lt;<span class="name">h2</span>&gt;</span>Names<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span></div><div class="line"><span class="undefined">  &#123;&#123;#names&#125;&#125;</span></div><div class="line"><span class="xml">    <span class="tag">&lt;<span class="name">strong</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></span></div><div class="line"><span class="undefined">  &#123;&#123;/names&#125;&#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>模板引擎通过在特定上下文里面编译它，将这个字符串转化成DOM元素。所有内嵌在标记语言中的表达式被解析并且替换为实际的值。</p>
+<p>例如如果你要在下面对象 <code>{ names: [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;] }</code> 的上下文里面解析上面的模板，我们就会得到：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>Names<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">strong</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">strong</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">strong</span>&gt;</span>baz<span class="tag">&lt;/<span class="name">strong</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>AngularJS模板实际就是HTML，而不是如同传统模板一样仅仅是个中间的格式。<br>AngularJS编译器就是在DOM树上遍历并且找到已知的指令（元素，属性，类甚至是注释）。当AngularJS找到任何这些指令的时候，它会调用相关的逻辑，这也会包含在当前作用域下对于其他表达式的解析。</p>
+<p>例如:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">ul</span> <span class="attr">ng-repeat</span>=<span class="string">"name in names"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在作用域的上下文：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$scope.names = [<span class="string">'foo'</span>, <span class="string">'bar'</span>, <span class="string">'baz'</span>];</div></pre></td></tr></table></figure>
+<p>会产生和上面一样的结果。这里主要的不同点在于模板不是包含在 <code>script</code> 标签而是HTMl里面。</p>
+<h3 id="作用域-1"><a href="#作用域-1" class="headerlink" title="作用域"></a>作用域</h3><h4 id="观察者"><a href="#观察者" class="headerlink" title="观察者"></a>观察者</h4><blockquote>
+<p>观察者模式是一种这样的软件设计模式：有个称作主题的对象，维护了它所依赖观察者的列表，在任何状态改变的时候，自动通知所有的观察者，通常就是调用观察者的某个方法。这种模式主要用于实现分布式的时间处理系统。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/observer.svg" alt="观察者"></p>
+<p>在AngularJS应用中有两种在作用域之间通信的基本方式。第一种方式通过在子作用域中调用父作用域中的方法。能这样做是因为子作用域通过原型继承自父作用域，上面有提到（看<a href="#scope">作用域</a>）。这样允许我们进行单向的通信 - 子作用域到父作用域。有时候这在特定作用域中调用方法是很必要的。AngularJS提供了内置的观察者模式，允许这样做。另一个可能的观察者模式的用例是，当多个作用域对于特定的事件感兴趣的时候，触发事件的作用域并不会察觉到它。这样使得在不同作用域之间解耦成为可能，任何作用域都不应该察觉到其他作用域的存在。</p>
+<p>每个AngularJS的作用域都有共有的方法 <code>$on</code>, <code>$emit</code> 和 <code>$broadcast</code>。方法 <code>$on</code> 接受主题作为第一个参数并且将回调作为第二个。我们可以把回调当成是个观察者 - 一个实现了 <code>Observer</code> 接口的对象（在Javascript中函数是一等公民，所以你只需要实现 <code>notify</code> 方法）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ExampleCtrl</span>(<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.$on(<span class="string">'event-name'</span>, <span class="function"><span class="keyword">function</span> <span class="title">handler</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//body</span></div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过这种方式，当前的作用域“订阅”类型为 <code>event-name</code> 的事件. 当 <code>event-name</code> 事件在任何父或者子作用域中被触发的时候， <code>handler</code> 就会被调用。</p>
+<p>方法 <code>$emit</code> 和 <code>$broadcast</code> 在作用域链上分别用来触发向上传递或者向下传递的事件。<br>例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ExampleCtrl</span>(<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.$emit(<span class="string">'event-name'</span>, &#123; <span class="attr">foo</span>: <span class="string">'bar'</span> &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面例子中的作用域，向上级所有作用域触发 <code>event-name</code> 事件。这意味着所有父作用域上监听了 <code>event-name</code> 事件的作用域会被通知并且上面的回调方法会被调用。</p>
+<p>当 <code>$broadcast</code> 方法被调用的时候也是相似的。唯一不同的地方在于事件是被向下传递的 - 传给所有的子作用域。<br>每个作用域能够订阅任何事件，并且指定多个回调 （也就是说可以对于指定的事件关联多个观察者）。</p>
+<p>在JavaScript社区这一模式作为pus/sub更为人所知。</p>
+<h4 id="责任链"><a href="#责任链" class="headerlink" title="责任链"></a>责任链</h4><blockquote>
+<p>责任链模式是由一堆命令对象和一系列处理对象组成的一种设计模式。每个处理对象包含定义它能够处理的命令对象类型逻辑，它不能处理的命令类型被传递给责任链上下一个处理对象。在责任链尾部添加新的处理对象也是被支持的一种机制。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/chain-of-responsibilities.svg" alt="责任链"></p>
+<p>像上面说到的，AngularJS应用中的作用域构建了一个层次结构的作用域链。有些作用域是“独立的”，这意味着它们不会原型继承它们的父作用域，而是通过它们的 <code>$parent</code> 属性连接。</p>
+<p>当 <code>$emit</code> 或者 <code>$broadcast</code> 被调用的时候，我们可以把作用域链当作事件巴士，或者更准确地说是责任链。一旦事件被触发，它就会被向上或者向下传递（依赖被调用的方法）。每个子序列的作用域会：</p>
+<ul>
+<li>处理事件并且继续向下一级作用域传递</li>
+<li>处理事件，阻止传递</li>
+<li>直接向下一级作用域传递而不做任何处理</li>
+<li>阻止传递并且不做任何处理</li>
+</ul>
+<p>在下面的例子里面你会看到 <code>ChildCtrl</code> 触发了一个时间，该事件在作用域链上被向下传递。在上面的例子里面每个父作用域（在 <code>ParentCtrl</code> 中用到的和在 <code>MainCtrl</code> 用到的）会通过在控制台里打印 <code>&quot;foo received&quot;</code> 来处理事件。如果任何作用域需要被当作最后的处理目标，它可以调用通过回调传递获得到的事件对象上的 <code>stopPropagation</code> 方法来实现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">myModule.controller(<span class="string">'MainCtrl'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.$on(<span class="string">'foo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'foo received'</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myModule.controller(<span class="string">'ParentCtrl'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.$on(<span class="string">'foo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'foo received'</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">myModule.controller(<span class="string">'ChildCtrl'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$scope</span>) </span>&#123;</div><div class="line">  $scope.$emit(<span class="string">'foo'</span>);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在上面UML图中的不同处理器就是不同被注入到控制器中的作用域。</p>
+<h4 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h4><blockquote>
+<p>在面向对象编程中，命令模式是一种行为设计模式。说的是使用一个对象来表征和包裹之后需要调用的某个方法所必要的信息。这些信息包括方法名，包含方法和方法调用参数值的对象。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/command.svg" alt="命令"></p>
+<p>在继续说命令模式的应用之前让我们讲讲AngularJS是如何实现数据绑定的。</p>
+<p>当我们要把模型绑定到视图上的时候，我们使用指令 <code>ng-bind</code> （为了单向的数据绑定）和 <code>ng-model</code> （为了双向的数据绑定）。例如我们想要模型 <code>foo</code> 的每一个改动都放映到视图上，我们可以：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-bind</span>=<span class="string">"foo"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>现在每次我们改动 <code>foo</code> 的值span内部的文本都会被改变。我们能够能够通过更加复杂的AngularJS表达式来获得同样的效果：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-bind</span>=<span class="string">"foo + ' ' + bar | uppercase"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>在上面的示例中，span的值将会是 <code>foo</code> 和 <code>bar</code> 连接起来并且首字母大写的值。究竟发生了什么呢？</p>
+<p>每个 <code>$scope</code> 都有个叫 <code>$watch</code> 的方法。当AngularJS编译器找到 <code>ng-bind</code> 指令，它会创建一个新的对于 <code>foo + &#39; &#39; + bar | uppercase</code> 表达式的监听器也就是 <code>$scope.$watch(&quot;foo + &#39; &#39; + bar | uppercase&quot;, function () { /* body */ });</code>。回调会在每次表达式的值改变的时候被触发。在这个例子中回调方法会更新span的值。</p>
+<p>下面是 <code>$watch</code> 方法实现的头几行：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$watch: <span class="function"><span class="keyword">function</span>(<span class="params">watchExp, listener, objectEquality</span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> scope = <span class="keyword">this</span>,</div><div class="line">      get = compileToFn(watchExp, <span class="string">'watch'</span>),</div><div class="line">      array = scope.$$watchers,</div><div class="line">      watcher = &#123;</div><div class="line">        fn: listener,</div><div class="line">        last: initWatchVal,</div><div class="line">        get: get,</div><div class="line">        exp: watchExp,</div><div class="line">        eq: !!objectEquality</div><div class="line">      &#125;;</div><div class="line"><span class="comment">//...</span></div></pre></td></tr></table></figure>
+<p>我们可以把 <code>watcher</code> 对象当作一条命令。在每次<a href="https://docs.angularjs.org/api/ng/type/$rootScope.Scope#$digest" target="_blank" rel="external"><code>&quot;$digest&quot;</code></a>循环的时候命令表达式都会被解析。一旦AngularJS检测到表达式里面的改动，它调用 <code>listener</code> 方法。 <code>watcher</code> 命令封装了对于特定表达式的监听并且将命令的执行代理到 <code>listener</code> （实际的接受者）。我们可以把 <code>$scope</code> 当作命令的 <code>客户端</code> ，把 <code>$digest</code> 循环当作命令的 <code>调用者</code>.</p>
+<h3 id="控制器-1"><a href="#控制器-1" class="headerlink" title="控制器"></a>控制器</h3><h4 id="页面控制器"><a href="#页面控制器" class="headerlink" title="页面控制器"></a>页面控制器</h4><blockquote>
+<p>一个处理网站上特定页面或者动作请求的对象。 Martin Fowler</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/page-controller.svg" alt="页面控制器"></p>
+<p>根据 <a href="#references">4</a> 页面控制器是：</p>
+<blockquote>
+<p>页面控制器模式接受页面请求的输入，调用模型上被请求动作，并且决定正确的渲染页面。将分发的逻辑从视图相关的代码中分离出来</p>
+</blockquote>
+<p>因为在不同的页面上有许多重复的行为（像渲染页头，页脚，处理用户的回话等等）页面控制器能够构成层次结构。在AngularJS里我们使用的控制器担负的责任很有限。它们不接受用户请求，因为这时 <code>$route</code> 或者 <code>$state</code> 服务的责任，页面渲染的责任归 <code>ng-view</code>/<code>ui-view</code> 所有。</p>
+<p>跟页面控制器相似的是，AngularJS控制器处理用户的交互，提供和更新模型。当模型绑定到作用域上，它就暴露给了视图，所有由于用户动作被视图调用的方法都是已经绑定在作用域上的。另一个页面控制器和AngularJS控制器的相似点就是它们组成的层次关系。相当于作用于的层次关系，这种层次关系使得公共的动作可以放到基类的控制器里面。</p>
+<p>因为它们的责任几乎重叠，AngularJS里的控制器和ASP.NET的WebForms实现方式很相似。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!doctype html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">body</span> <span class="attr">ng-controller</span>=<span class="string">"MainCtrl"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"ChildCtrl"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">span</span>&gt;</span>&#123;&#123;user.name&#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">ng-click</span>=<span class="string">"click()"</span>&gt;</span>Click<span class="tag">&lt;/<span class="name">button</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainCtrl</span>(<span class="params">$scope, $location, User</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (!User.isAuthenticated()) &#123;</div><div class="line">    $location.path(<span class="string">'/unauthenticated'</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ChildCtrl</span>(<span class="params">$scope, User</span>) </span>&#123;</div><div class="line">  $scope.click = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">    alert(<span class="string">'You clicked me!'</span>);</div><div class="line">  &#125;;</div><div class="line">  $scope.user = User.get(<span class="number">0</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这个例子只是要说明如何通过基控制器来复用逻辑的最基本方式。在生产环境无论如何我都不推荐把权限认证的逻辑放在控制器里。对于不同路由的访问可以在更高层次的抽象里来实现。</p>
+<p><code>ChildCtrl</code> 负责处理像点击带有 <code>&quot;Click&quot;</code> 标签的按钮并且通过将它绑定到作用域上将模型暴露给视图。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h4 id="模块模式"><a href="#模块模式" class="headerlink" title="模块模式"></a>模块模式</h4><p>其实这不是G4里面的一种设计模式，也不是EAA的P中的一种。这是一种Javascript的 传统模式，主要的目的是提供封装和隐藏。</p>
+<p>通过使用模块模式你可以基于Javascript的函数级作用域获得隐藏性。每个模块可以有一个或者多个隐藏在函数作用域里面的成员属性。这个方法返回一个暴露指定模块公共API的对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Page = (<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> title;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">setTitle</span>(<span class="params">t</span>) </span>&#123;</div><div class="line">    <span class="built_in">document</span>.title = t;</div><div class="line">    title = t;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">getTitle</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> title;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    setTitle: setTitle,</div><div class="line">    getTitle: getTitle</div><div class="line">  &#125;;</div><div class="line">&#125;());</div></pre></td></tr></table></figure>
+<p>上面的例子我们创造了一个IIFE（立即执行函数表达式），在被调用后返回一个有两个方法 <code>setTitle</code> 和 <code>getTitle</code> 的对象。返回的对象被赋值给 <code>Page</code> 变量。</p>
+<p>在这个例子里， <code>Page</code> 对象的使用者没有直接访问 <code>title</code> 变量，该变量被定义在立即执行函数产生的作用域里。</p>
+<p>模块模式在定义AngularJS里的服务时非常有用。使用这种模式我们可以模拟（实际获得了）私有性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">app.factory(<span class="string">'foo'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">privateMember</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//body...</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">publicMember</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="comment">//body...</span></div><div class="line">    privateMember();</div><div class="line">    <span class="comment">//body</span></div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> &#123;</div><div class="line">    publicMember: publicMember</div><div class="line">  &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>一旦我们想要在其他的组件里注入 <code>foo</code> ，我们就只能用共有方法，而无法使用私有方法。这种解决方案在构建一个可以复用库的时候非常好用。</p>
+<h3 id="数据映射器"><a href="#数据映射器" class="headerlink" title="数据映射器"></a>数据映射器</h3><blockquote>
+<p>数据映射器是在数据持久层（通常是关系型数据库）和内存中的数据表征（领域模型层）直接进行双向数据转换的数据访问层。这种模式的目的是保持内层内数据表征和数据持久层以及数据映射器彼此独立。</p>
+</blockquote>
+<p><img src="https://rawgit.com/mgechev/angularjs-in-patterns/master/images/data-mapper.svg" alt="数据映射器"></p>
+<p>像上面描述的一样，数据映射器用来在数据持久层和内存内数据表征之间做数据转换。通常我们的AngularJS应用和服务器端的API服务器通信，服务器接口都是用服务器端语言实现的（Ruby, PHP, Java, Javascript等等）。</p>
+<p>通常如果我们有Restful接口 <code>$resource</code> 会帮我们用活动对象跟服务器通信。尽管在有些应用中服务器反悔的实体不是那么符合我们前端需要的格式。</p>
+<p>举个例子，让我们假定应用中每个用户都有：</p>
+<ul>
+<li>名字</li>
+<li>地址</li>
+<li>朋友列表</li>
+</ul>
+<p>我们的API有这些方法：</p>
+<ul>
+<li><code>GET /user/:id</code> - 返回指定用户的名字和地址</li>
+<li><code>GET /friends/:id</code> - 返回指定用户的朋友列表</li>
+</ul>
+<p>一种解决方案是我们使用不同的服务，其中一个为第一个方法使用，另外一个为第二个使用。可能更加有用的方法会是如果我们有个单独的叫 <code>User</code> 的服务在我们请求用户信息的时候把用户朋友加载进来：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">app.factory(<span class="string">'User'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">$q</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">User</span>(<span class="params">name, address, friends</span>) </span>&#123;</div><div class="line">    <span class="keyword">this</span>.name = name;</div><div class="line">    <span class="keyword">this</span>.address = address;</div><div class="line">    <span class="keyword">this</span>.friends = friends;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  User.get = <span class="function"><span class="keyword">function</span> (<span class="params">params</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> user = $http.get(<span class="string">'/user/'</span> + params.id),</div><div class="line">        friends = $http.get(<span class="string">'/friends/'</span> + params.id);</div><div class="line">    $q.all([user, friends])</div><div class="line">    .then(<span class="function"><span class="keyword">function</span> (<span class="params">user, friends</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="keyword">new</span> User(user.name, user.address, friends);</div><div class="line">    &#125;);</div><div class="line">  &#125;;</div><div class="line">  <span class="keyword">return</span> User;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>通过这种方式我们创建了一个伪数据映射器，根据我们单页应用的需要适配我们的API。</p>
+<p>我们可以这样使用 <code>User</code> 服务：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">MainCtrl</span>(<span class="params">$scope, User</span>) </span>&#123;</div><div class="line">  User.get(&#123; <span class="attr">id</span>: <span class="number">1</span> &#125;)</div><div class="line">  .then(<span class="function"><span class="keyword">function</span> (<span class="params">data</span>) </span>&#123;</div><div class="line">    $scope.user = data;</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>下面的页面模板：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    Name: &#123;&#123;user.name&#125;&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    Address: &#123;&#123;user.address&#125;&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">    Friends with ids:</div><div class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">li</span> <span class="attr">ng-repeat</span>=<span class="string">"friend in user.friends"</span>&gt;</span>&#123;&#123;friend&#125;&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a href="https://en.wikipedia.org/wiki" target="_blank" rel="external">百科</a>. The source of all brief descriptions of the design patterns is wikipedia.</li>
+<li><a href="https://docs.angularjs.org" target="_blank" rel="external">AngularJS官方文档</a></li>
+<li><a href="https://github.com/angular/angular.js" target="_blank" rel="external">AngularJS github仓库</a></li>
+<li><a href="http://msdn.microsoft.com/en-us/library/ff649595.aspx" target="_blank" rel="external">页面控制器</a></li>
+<li><a href="http://martinfowler.com/books/eaa.html" target="_blank" rel="external">企业应用架构模式(P of EAA)</a></li>
+<li><a href="http://googletesting.blogspot.com/2008/05/tott-using-dependancy-injection-to.html" target="_blank" rel="external">使用依赖注入来减少单例</a></li>
+<li><a href="https://stackoverflow.com/questions/13512949/why-would-one-use-the-publish-subscribe-pattern-in-js-jquery" target="_blank" rel="external">为什么要用在JS或者jQuery观察/订阅模式?</a></li>
+</ol>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/11/20/Yii2-快速上手/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/04/12/Go-语言中处理JSON的几种方式/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2015/04/06/【翻译】-Angularjs-的一些模式/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

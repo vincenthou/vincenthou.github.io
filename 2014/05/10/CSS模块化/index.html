@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>CSS模块化 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,css,frontend," />
+  
+
+  <meta name="description" content="背景如果只是几个简单页面从快速实现上来说，CSS模块化完全没有必要，想怎么写就怎么写。但是随着业务需求的变更或者是规模的增长，不只是你一个人在写CSS代码，CSS模块化就显得尤为重要了，如果没有很好的组织，到了后期简直是一场噩梦。 CSS代码组织的理论对于CSS模块化，前辈已经有了很多探索和实践，这里简述一下： 简单的组建化很直观的当我们拿到设计图的时候，会抽出来一些通用的组件，例如按钮，下拉框，">
+<meta name="keywords" content="blog,css,frontend">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS模块化">
+<meta property="og:url" content="https://vincenthou.github.io/2014/05/10/CSS模块化/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="背景如果只是几个简单页面从快速实现上来说，CSS模块化完全没有必要，想怎么写就怎么写。但是随着业务需求的变更或者是规模的增长，不只是你一个人在写CSS代码，CSS模块化就显得尤为重要了，如果没有很好的组织，到了后期简直是一场噩梦。 CSS代码组织的理论对于CSS模块化，前辈已经有了很多探索和实践，这里简述一下： 简单的组建化很直观的当我们拿到设计图的时候，会抽出来一些通用的组件，例如按钮，下拉框，">
+<meta property="og:image" content="http://media.creativebloq.futurecdn.net/sites/creativebloq.com/files/images/2013/09/drycss.jpg">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS模块化">
+<meta name="twitter:description" content="背景如果只是几个简单页面从快速实现上来说，CSS模块化完全没有必要，想怎么写就怎么写。但是随着业务需求的变更或者是规模的增长，不只是你一个人在写CSS代码，CSS模块化就显得尤为重要了，如果没有很好的组织，到了后期简直是一场噩梦。 CSS代码组织的理论对于CSS模块化，前辈已经有了很多探索和实践，这里简述一下： 简单的组建化很直观的当我们拿到设计图的时候，会抽出来一些通用的组件，例如按钮，下拉框，">
+<meta name="twitter:image" content="http://media.creativebloq.futurecdn.net/sites/creativebloq.com/files/images/2013/09/drycss.jpg">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CSS代码组织的理论"><span class="toc-text">CSS代码组织的理论</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#简单的组建化"><span class="toc-text">简单的组建化</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#OOCSS"><span class="toc-text">OOCSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SMACSS"><span class="toc-text">SMACSS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DRY-CSS"><span class="toc-text">DRY CSS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#额外的工具"><span class="toc-text">额外的工具</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-CSS模块化" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">CSS模块化</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.05.10</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2014/05/10/CSS模块化/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>如果只是几个简单页面从快速实现上来说，CSS模块化完全没有必要，想怎么写就怎么写。但是随着业务需求的变更或者是规模的增长，不只是你一个人在写CSS代码，CSS模块化就显得尤为重要了，如果没有很好的组织，到了后期简直是一场噩梦。</p>
+<h1 id="CSS代码组织的理论"><a href="#CSS代码组织的理论" class="headerlink" title="CSS代码组织的理论"></a>CSS代码组织的理论</h1><p>对于CSS模块化，前辈已经有了很多探索和实践，这里简述一下：</p>
+<h2 id="简单的组建化"><a href="#简单的组建化" class="headerlink" title="简单的组建化"></a>简单的组建化</h2><p>很直观的当我们拿到设计图的时候，会抽出来一些通用的组件，例如按钮，下拉框，选项卡等，这是很自然的行为，当组建的行为或者样式更改的时候，我们之需要修改相关的CSS片段就好了，这里为了防止一些通用名称如hd(header)，ft(footer)冲突，会需要是有后代选择器来构建命名空间，但是权重的提升会带来潜在的问题，这便是最朴素的做法。</p>
+<h2 id="OOCSS"><a href="#OOCSS" class="headerlink" title="OOCSS"></a>OOCSS</h2><p>这里的OO其实不是我们编写代码所理解的OO，其实更准确的理解应该是对于页面元素的抽象。OOCSS有两个最基本的原则就是：</p>
+<ol>
+<li>结构和皮肤分离</li>
+<li>容器和内容分离<br>这样区分的目的其实是分离变化，另外我觉的这两条规则隐含的一点是多使用组合来构建组件，少使用后代选择器（后代选择器提升的权重会是维护的梦魇）。其实在设计时为了保持风格统一，很多组件也会有重复的设计样式。<br>例如gitbhu这个编辑页面上，有个“This repository”和“Unwatch”的button，这两个元素从组件角度来看是不一样的，前者后面紧跟的是一个输入框，而后者后面跟的是操作的统计次数，但是它们又有相同的地方，就是都有圆角（左上和右下）box-shadow和小箭头(点击能有下拉)，这就是两个不同组件的共有特性部分，我们就可以这样来写：</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.select-btn</span> &#123;</div><div class="line">    <span class="attribute">position</span>: relative;</div><div class="line">    <span class="attribute">border-top-left-radius</span>: <span class="number">2px</span>;</div><div class="line">    <span class="attribute">border-bottom-left-radius</span>: <span class="number">2px</span>;</div><div class="line">   <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">0</span> <span class="number">5px</span> <span class="built_in">rgba</span>(81,167,232,0.5);</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.select-btn</span><span class="selector-pseudo">:before</span> &#123;</div><div class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</div><div class="line">    <span class="attribute">position</span>: absolute;</div><div class="line">    <span class="attribute">top</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">right</span>: <span class="number">10px</span>;</div><div class="line">    <span class="attribute">display</span>: block;</div><div class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">    <span class="attribute">border</span>: <span class="number">4px</span> solid;</div><div class="line">    <span class="attribute">border-right-color</span>: transparent;</div><div class="line">    <span class="attribute">border-left-color</span>: transparent;</div><div class="line">    <span class="attribute">border-bottom-color</span>: transparent;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这种做法会带来一定的复杂度，一般情况下，我们无法一下识别出这些相似的特性，或者由于设计师的修改，相似的特性会被转移或者破坏，这就需要不断的重构代码，对于开发的抽象能力有一定的要求。因为使用组合，这种方式会比较灵活。</p>
+<h2 id="SMACSS"><a href="#SMACSS" class="headerlink" title="SMACSS"></a>SMACSS</h2><p>可扩展和模块化的CSS架构 (Scalable and Modular Architecture for CSS) 是把所有的CSS文件视为一个整体来考虑的，他的基本理论是将CSS代码分类，包括基础，布局，模块，状态和皮肤这5类，对于细节代码的书写没有过多的限制，后代选择器和ID选择器也是可用的。</p>
+<ul>
+<li>基础 就是我们平常会用到的CSS reset，这个一般不会经常修改的</li>
+<li>布局(l-) 页面的大块的布局结构，例如header，content, footer, siebar这些</li>
+<li>模块(modula name) 放在布局结构中的小组件，就是朴素模块化中的组件概念</li>
+<li>状态(is-) 组件或者布局元素的伪类效果（:hover :focus :checked）或者自定义状态类(.is-expanded .is-folded)</li>
+<li>皮肤 定义颜色和字体</li>
+</ul>
+<p>bootstrap就是一个典型的实践，bootstrap使用了normalize.less来reset，布局使用了grid.less来让用户自定义进行布局，core css中的button.less，tables.less等和所有的coponent，状态是跟组件关联的没有单独抽出来，bootstrap有个theme文件方便用户定制组件的皮肤。</p>
+<h2 id="DRY-CSS"><a href="#DRY-CSS" class="headerlink" title="DRY CSS"></a>DRY CSS</h2><p>DRY CSS是最新的一项实践，个人感觉他的上手是最容易，复杂程度也是最低的。他有两条重要的原则</p>
+<ol>
+<li>将样式从内容分离</li>
+<li>通过控制层叠来避免特殊性</li>
+</ol>
+<p>通过内容的语义而不是样式来命名，使用ID选择器也没什么大不了的。<br>之需要三步你就可以开始上手了：</p>
+<ol>
+<li>将可以复用的CSS属性分组</li>
+<li>根据语义为分组命名</li>
+<li>添加相同分组样式的选择器</li>
+</ol>
+<p><img src="http://media.creativebloq.futurecdn.net/sites/creativebloq.com/files/images/2013/09/drycss.jpg" alt="DRY"><br>这样写代码会很快，也会有维护的便捷，但是可读性就一般了，比较适合快速搭建原型或者设计搞已经固定下来的开发。</p>
+<h1 id="额外的工具"><a href="#额外的工具" class="headerlink" title="额外的工具"></a>额外的工具</h1><p>近年来CSS预处理器渐渐流行起来，包括LESS，SASS，Stylus这些工具也有了应用。其实总体看来这些DSL的语法特性差别不是很大，包括变量、方法、嵌套和混入等，详细的语法对比看<a href="http://www.oschina.net/question/12_44255" target="_blank" rel="external">这里</a>。如果使用ruby作为开发SASS应该是不二的选择，配合Compass更能显出其威力，对应的LESS也有对应国产的<a href="https://github.com/feichang/veryless" target="_blank" rel="external">veryless</a>。stylus比较新，语法更自由些（你甚至可以不用括号和冒号），不过个人感觉过分自由的语法不利于项目的统一（总是看起来怪怪的）。虽然bootstrap有SASS和stylus的port，但是官方还是用LESS来开发的，如果是bootstrap的项目还是还是使用LESS比较方便。另外SASS和stylus需要额外的环境配置和工具安装，LESS在开发阶段之需要引入一个js就可以开始工作了，后期可以再编译合并进行优化。虽然都是DRY的实践，有一个语法特性是值得商榷的，就是mixin。mixin在ruby语法中是一个很好的特性，可以方便的实现多重继承，这些CSS预处理器引入了这一个编程语言特性，本来是未可厚非的，但是我觉得不应该过度使用。mixin的好处不用多说，开发时应用起来也很方便，但是一旦过度使用在编译后，CSS中就会有大量重复的代码块。我觉得组合的思想还是更适合在CSS中使用的，在bootstrap的LESS代码中也有体现，无参数的mixin用的是很少的，大部分mixin是使用有参数的（编译后的值不一样），不会造成重复。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>实际使用CSS预编译器会有一定的学习成本，团队中推动会有阻力（如果大家都有尝试新技术的兴趣，不妨一用），相比之下模块化组织CSS代码的思路会更实用些，根据实际项目需求取舍吧，最适合的才是最好的。<br>我觉得整体的CSS的模块化组织应该是这样的：</p>
+<ul>
+<li>使用SMACSS组织整体项目代码</li>
+<li>base: 尽量使用normal.css来作为base，如果要兼具语义化和设计图还原还是自己写</li>
+<li>layout: 可以认为header、footer这些也是module，layout中只是对于这些module在不同结构中的尺寸和布局（保证module的独立性）</li>
+<li>module: 应用OOCSS的思想，使用组合的类来创建组件，模块内使用百分比给定尺寸</li>
+<li>state: module特有的state直接和module相关代码放在一起，通用的state除了一些伪类的效果还有trasition和animation</li>
+<li>theme: 定义常用字体、字号和颜色，方便组合应用到模块和元素上</li>
+<li>common: 借鉴<a href="https://github.com/zhangxinxu/quickLayout" target="_blank" rel="external">quick layout</a>的思路，提取出常用的原子类方便组合。另外，清除浮动，垂直居中，字体溢出处理等元素处理的通用解决方案<br>最好的情况是这些部分由一两个人来维护，保证风格和意义的统一，其他开发之需要像使用bootstrap一样拿来就用就好。以往的开发过程中按照页面自己写自己的CSS虽然可以很方便的分配人物，但是这样的结果是写出来的代码既有重复，命名冲突也很严重。当然这种做法是颇费周折的，使用DRY CSS的做法就没这么麻烦了，就是出来的代码结构没有这么好看，不注意的话，可能会有很多重复的地方。<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1></li>
+<li><a href="http://oocss.org/" target="_blank" rel="external">OOCSS</a></li>
+<li><a href="http://smacss.com/" target="_blank" rel="external">SMACSS</a></li>
+<li><a href="http://www.vanseodesign.com/css/dry-principles/" target="_blank" rel="external">DRY CSS</a></li>
+<li><a href="http://www.creativebloq.com/css3/create-modular-and-scalable-css-9134351" target="_blank" rel="external">4 ways to create CSS that’s modular and scalable</a></li>
+<li><a href="http://lesscss.net/article/home.html" target="_blank" rel="external">LESS文档</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2012/06/sass.html" target="_blank" rel="external">SASS用法指南</a></li>
+<li><a href="http://compass-style.org/" target="_blank" rel="external">Compass官网</a></li>
+<li><a href="http://www.ruanyifeng.com/blog/2012/11/compass.html" target="_blank" rel="external">Compass用法指南</a></li>
+<li><a href="http://www.zhangxinxu.com/wordpress/2012/06/stylus-nodejs-expressive-dynamic-robust-css/" target="_blank" rel="external">Stylus-NodeJS下构建更富表现力/动态/健壮的CSS</a></li>
+<li><a href="http://learnboost.github.io/stylus/" target="_blank" rel="external">stylus官网</a></li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/04/30/【翻译】-facebook的性能优化/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/05/13/透明化跳板机/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2014/05/10/CSS模块化/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

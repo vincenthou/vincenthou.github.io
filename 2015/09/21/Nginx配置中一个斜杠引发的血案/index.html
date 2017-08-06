@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>Nginx配置中一个斜杠引发的血案 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,nginx," />
+  
+
+  <meta name="description" content="Nginx经常被用来做前端的代理服务器，代理相关配置好之后，需要配置proxy_pass，最近因为一个”/“引发了一系列的问题，记录一下． proxy_pass用来配置代理后端的服务器地址，可以带上端口号，有两种写法  不带 / : 根路径/会被保留，也就是 http://localhost/test/page, 后端获取到的是完整的路径/test/page  123location /test">
+<meta name="keywords" content="blog,nginx">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nginx配置中一个斜杠引发的血案">
+<meta property="og:url" content="https://vincenthou.github.io/2015/09/21/Nginx配置中一个斜杠引发的血案/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="Nginx经常被用来做前端的代理服务器，代理相关配置好之后，需要配置proxy_pass，最近因为一个”/“引发了一系列的问题，记录一下． proxy_pass用来配置代理后端的服务器地址，可以带上端口号，有两种写法  不带 / : 根路径/会被保留，也就是 http://localhost/test/page, 后端获取到的是完整的路径/test/page  123location /test">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.024Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nginx配置中一个斜杠引发的血案">
+<meta name="twitter:description" content="Nginx经常被用来做前端的代理服务器，代理相关配置好之后，需要配置proxy_pass，最近因为一个”/“引发了一系列的问题，记录一下． proxy_pass用来配置代理后端的服务器地址，可以带上端口号，有两种写法  不带 / : 根路径/会被保留，也就是 http://localhost/test/page, 后端获取到的是完整的路径/test/page  123location /test">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#顺便一记"><span class="toc-text">顺便一记</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Nginx配置中一个斜杠引发的血案" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Nginx配置中一个斜杠引发的血案</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2015.09.21</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2015/09/21/Nginx配置中一个斜杠引发的血案/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>Nginx经常被用来做前端的代理服务器，代理相关配置好之后，需要配置proxy_pass，最近因为一个”/“引发了一系列的问题，记录一下．</p>
+<p>proxy_pass用来配置代理后端的服务器地址，可以带上端口号，有两种写法</p>
+<ul>
+<li><strong>不带 <code>/</code> :</strong> 根路径<code>/</code>会被保留，也就是 <a href="http://localhost/test/page" target="_blank" rel="external">http://localhost/test/page</a>, 后端获取到的是完整的路径<code>/test/page</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /<span class="built_in">test</span> &#123;</div><div class="line">    proxy_pass http://127.0.0.1:81</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>带 <code>/</code> :</strong> 根路径<code>/</code>会被吃掉，也就是 <a href="http://localhost/test/page" target="_blank" rel="external">http://localhost/test/page</a>, 后端获取到的是完整的路径<code>/page</code></li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">location /<span class="built_in">test</span> &#123;</div><div class="line">    proxy_pass http://127.0.0.1:81/</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>大部分情况代理或者仅仅是做子站隔离的时候都是需要保留根路径的（特别是子站隔离很多时候就是用根路径的不同来区分的），所以第一种情况用的会更多一点，配置proxy_pass后根路径会被保留．</p>
+<h1 id="顺便一记"><a href="#顺便一记" class="headerlink" title="顺便一记"></a>顺便一记</h1><p>发现该问题是在使用Yii2.0项目开发出现的．一般我们都会配置urlManager, 正常配置一些rules，如下所示</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="string">'components'</span> =&gt; [</div><div class="line">       ...</div><div class="line">        <span class="string">'urlManager'</span> =&gt; [</div><div class="line">            <span class="string">'enablePrettyUrl'</span> =&gt; <span class="keyword">true</span>,</div><div class="line">            <span class="string">'enableStrictParsing'</span> =&gt; <span class="keyword">true</span>, <span class="comment">//注意这里</span></div><div class="line">            <span class="string">'showScriptName'</span> =&gt; <span class="keyword">false</span>,</div><div class="line">            <span class="string">'rules'</span> =&gt; [</div><div class="line">                <span class="string">'webapp/&lt;module:\w+&gt;/&lt;controller:[\w-]+&gt;/&lt;action:[\w-]+&gt;/&lt;id:[\w\d,]&#123;24&#125;(,[\w\d]&#123;24&#125;)*&gt;'</span>       =&gt; <span class="string">'&lt;module&gt;/&lt;controller&gt;/&lt;action&gt;'</span>,</div><div class="line">                <span class="string">'webapp/&lt;module:\w+&gt;/&lt;submodule:\w+&gt;/&lt;controller:[\w-]+&gt;/&lt;action:[\w-]+&gt;/&lt;id:[\w\d,]&#123;24&#125;&gt;'</span>     =&gt; <span class="string">'&lt;module&gt;/&lt;submodule&gt;/&lt;controller&gt;/&lt;action&gt;'</span>,</div><div class="line">                <span class="string">'webapp/&lt;module:\w+&gt;/&lt;controller:[\w-]+&gt;/&lt;action:[\w-]+&gt;'</span>                                      =&gt; <span class="string">'&lt;module&gt;/&lt;controller&gt;/&lt;action&gt;'</span>,</div><div class="line">                <span class="string">'webapp/&lt;module:\w+&gt;/&lt;submodule:\w+&gt;/&lt;controller:[\w-]+&gt;/&lt;action:[\w-]+&gt;'</span>                      =&gt; <span class="string">'&lt;module&gt;/&lt;submodule&gt;/&lt;controller&gt;/&lt;action&gt;'</span>,</div><div class="line">            ],</div><div class="line">        ],</div><div class="line">       ...</div></pre></td></tr></table></figure>
+<p>这里添加了<code>enableStrictParsing</code>的配置，如果设置为true则表示所有的路由匹配只能在rules的列表里面，这要不是列表中的配置项就返回404（其实也未可厚非），但关键是要能够匹配到啊！</p>
+<p>因为之前配置的问题，使用了上面提到的第二种配置方式，根路径被吃掉了．一个请求过来会先做路由解析，到<code>/yii2/web/Request.php</code>里面的<code>resolve</code>方法</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">resolve</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    $result = Yii::$app-&gt;getUrlManager()-&gt;parseRequest(<span class="keyword">$this</span>);</div><div class="line">    <span class="keyword">if</span> ($result !== <span class="keyword">false</span>) &#123;</div><div class="line">        <span class="keyword">list</span> ($route, $params) = $result;</div><div class="line">        $_GET = array_merge($_GET, $params);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> [$route, $_GET];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NotFoundHttpException(Yii::t(<span class="string">'yii'</span>, <span class="string">'Page not found.'</span>));</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>在解析路由中会使用我们之前配置的<code>urlManager</code>实例上的<code>parseRequest</code>方法，在<code>/yii2/web/UrlManager.php</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">parseRequest</span><span class="params">($request)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;enablePrettyUrl) &#123;</div><div class="line">        $pathInfo = $request-&gt;getPathInfo();</div><div class="line">        <span class="comment">/* <span class="doctag">@var</span> $rule UrlRule */</span></div><div class="line">       <span class="comment">//这里匹配你自己配置的规则</span></div><div class="line">        <span class="keyword">foreach</span> (<span class="keyword">$this</span>-&gt;rules <span class="keyword">as</span> $rule) &#123;</div><div class="line">            <span class="comment">//这里调用了rule对象的parseRequest方法，后面会追到</span></div><div class="line">            <span class="keyword">if</span> (($result = $rule-&gt;parseRequest(<span class="keyword">$this</span>, $request)) !== <span class="keyword">false</span>) &#123;</div><div class="line">                <span class="keyword">return</span> $result;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">　　<span class="comment">//这里是强制使用你自己配置生效的地方</span></div><div class="line">        <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;enableStrictParsing) &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        Yii::trace(<span class="string">'No matching URL rules. Using default URL parsing logic.'</span>, <span class="keyword">__METHOD__</span>);</div><div class="line">　　<span class="comment">//这里是yii自己默认生成的规则</span></div><div class="line">        $suffix = (string) <span class="keyword">$this</span>-&gt;suffix;</div><div class="line">        <span class="keyword">if</span> ($suffix !== <span class="string">''</span> &amp;&amp; $pathInfo !== <span class="string">''</span>) &#123;</div><div class="line">            $n = strlen(<span class="keyword">$this</span>-&gt;suffix);</div><div class="line">            <span class="keyword">if</span> (substr_compare($pathInfo, <span class="keyword">$this</span>-&gt;suffix, -$n, $n) === <span class="number">0</span>) &#123;</div><div class="line">                $pathInfo = substr($pathInfo, <span class="number">0</span>, -$n);</div><div class="line">                <span class="keyword">if</span> ($pathInfo === <span class="string">''</span>) &#123;</div><div class="line">                    <span class="comment">// suffix alone is not allowed</span></div><div class="line">                    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">                &#125;</div><div class="line">            &#125; <span class="keyword">else</span> &#123;</div><div class="line">                <span class="comment">// suffix doesn't match</span></div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> [$pathInfo, []];</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        Yii::trace(<span class="string">'Pretty URL not enabled. Using default URL parsing logic.'</span>, <span class="keyword">__METHOD__</span>);</div><div class="line">        $route = $request-&gt;getQueryParam(<span class="keyword">$this</span>-&gt;routeParam, <span class="string">''</span>);</div><div class="line">        <span class="keyword">if</span> (is_array($route)) &#123;</div><div class="line">            $route = <span class="string">''</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">return</span> [(string) $route, []];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调试发现就是我们配置的路由规则没有生效，继续往下找，话说这个rule对象是什么鬼？搜索后发现，rule列表是在init的时候生成的</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">init</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">parent</span>::init();</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">$this</span>-&gt;enablePrettyUrl || <span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;rules)) &#123;</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (is_string(<span class="keyword">$this</span>-&gt;cache)) &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;cache = Yii::$app-&gt;get(<span class="keyword">$this</span>-&gt;cache, <span class="keyword">false</span>);</div><div class="line">    &#125;</div><div class="line">　<span class="comment">//根据是否配置了cache在cache里面也放一份</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;cache <span class="keyword">instanceof</span> Cache) &#123;</div><div class="line">        $cacheKey = <span class="keyword">__CLASS__</span>;</div><div class="line">        $hash = md5(json_encode(<span class="keyword">$this</span>-&gt;rules));</div><div class="line">        <span class="keyword">if</span> (($data = <span class="keyword">$this</span>-&gt;cache-&gt;get($cacheKey)) !== <span class="keyword">false</span> &amp;&amp; <span class="keyword">isset</span>($data[<span class="number">1</span>]) &amp;&amp; $data[<span class="number">1</span>] === $hash) &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;rules = $data[<span class="number">0</span>];</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">$this</span>-&gt;rules = <span class="keyword">$this</span>-&gt;buildRules(<span class="keyword">$this</span>-&gt;rules);</div><div class="line">            <span class="keyword">$this</span>-&gt;cache-&gt;set($cacheKey, [<span class="keyword">$this</span>-&gt;rules, $hash]);</div><div class="line">        &#125;</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">$this</span>-&gt;rules = <span class="keyword">$this</span>-&gt;buildRules(<span class="keyword">$this</span>-&gt;rules);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>主要逻辑就是调用<code>buildRules</code>生成规则对象，继续看buildRules的实现，发现rule是使用yii的createObject方法，默认用<code>yii\web\UrlRule</code>生成规则对象</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="function"><span class="keyword">function</span> <span class="title">buildRules</span><span class="params">($rules)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    $compiledRules = [];</div><div class="line">    $verbs = <span class="string">'GET|HEAD|POST|PUT|PATCH|DELETE|OPTIONS'</span>;</div><div class="line">    <span class="keyword">foreach</span> ($rules <span class="keyword">as</span> $key =&gt; $rule) &#123;</div><div class="line">        <span class="keyword">if</span> (is_string($rule)) &#123;</div><div class="line">            $rule = [<span class="string">'route'</span> =&gt; $rule];</div><div class="line">            <span class="keyword">if</span> (preg_match(<span class="string">"/^((?:($verbs),)*($verbs))\\s+(.*)$/"</span>, $key, $matches)) &#123;</div><div class="line">                $rule[<span class="string">'verb'</span>] = explode(<span class="string">','</span>, $matches[<span class="number">1</span>]);</div><div class="line">                <span class="keyword">if</span> (!in_array(<span class="string">'GET'</span>, $rule[<span class="string">'verb'</span>])) &#123;</div><div class="line">                    $rule[<span class="string">'mode'</span>] = UrlRule::PARSING_ONLY;</div><div class="line">                &#125;</div><div class="line">                $key = $matches[<span class="number">4</span>];</div><div class="line">            &#125;</div><div class="line">            $rule[<span class="string">'pattern'</span>] = $key;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (is_array($rule)) &#123;</div><div class="line">　　　<span class="comment">// ruleConfig的默认配置如下:</span></div><div class="line">　　　<span class="comment">// public $ruleConfig = ['class' =&gt; 'yii\web\UrlRule'];</span></div><div class="line">            $rule = Yii::createObject(array_merge(<span class="keyword">$this</span>-&gt;ruleConfig, $rule));</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> (!$rule <span class="keyword">instanceof</span> UrlRuleInterface) &#123;</div><div class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> InvalidConfigException(<span class="string">'URL rule class must implement UrlRuleInterface.'</span>);</div><div class="line">        &#125;</div><div class="line">        $compiledRules[] = $rule;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">return</span> $compiledRules;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再看<code>yii\web\UrlRule</code>的<code>parseRequest</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">parseRequest</span><span class="params">($manager, $request)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;mode === <span class="keyword">self</span>::CREATION_ONLY) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (!<span class="keyword">empty</span>(<span class="keyword">$this</span>-&gt;verb) &amp;&amp; !in_array($request-&gt;getMethod(), <span class="keyword">$this</span>-&gt;verb, <span class="keyword">true</span>)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    $pathInfo = $request-&gt;getPathInfo();</div><div class="line">    $suffix = (string) (<span class="keyword">$this</span>-&gt;suffix === <span class="keyword">null</span> ? $manager-&gt;suffix : <span class="keyword">$this</span>-&gt;suffix);</div><div class="line">    <span class="keyword">if</span> ($suffix !== <span class="string">''</span> &amp;&amp; $pathInfo !== <span class="string">''</span>) &#123;</div><div class="line">        $n = strlen($suffix);</div><div class="line">        <span class="keyword">if</span> (substr_compare($pathInfo, $suffix, -$n, $n) === <span class="number">0</span>) &#123;</div><div class="line">            $pathInfo = substr($pathInfo, <span class="number">0</span>, -$n);</div><div class="line">            <span class="keyword">if</span> ($pathInfo === <span class="string">''</span>) &#123;</div><div class="line">                <span class="comment">// suffix alone is not allowed</span></div><div class="line">                <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">            &#125;</div><div class="line">        &#125; <span class="keyword">else</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;host !== <span class="keyword">null</span>) &#123;</div><div class="line">        $pathInfo = strtolower($request-&gt;getHostInfo()) . ($pathInfo === <span class="string">''</span> ? <span class="string">''</span> : <span class="string">'/'</span> . $pathInfo);</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//主要看这里，将匹配规则和匹配项目打印出来</span></div><div class="line">    <span class="comment">// var_dump([$this-&gt;pattern, $pathInfo]); </span></div><div class="line">    <span class="comment">// echo '&lt;/br&gt;';</span></div><div class="line">    <span class="keyword">if</span> (!preg_match(<span class="keyword">$this</span>-&gt;pattern, $pathInfo, $matches)) &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">foreach</span> (<span class="keyword">$this</span>-&gt;defaults <span class="keyword">as</span> $name =&gt; $value) &#123;</div><div class="line">        <span class="keyword">if</span> (!<span class="keyword">isset</span>($matches[$name]) || $matches[$name] === <span class="string">''</span>) &#123;</div><div class="line">            $matches[$name] = $value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    $params = <span class="keyword">$this</span>-&gt;defaults;</div><div class="line">    $tr = [];</div><div class="line">    <span class="keyword">foreach</span> ($matches <span class="keyword">as</span> $name =&gt; $value) &#123;</div><div class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;_routeParams[$name])) &#123;</div><div class="line">            $tr[<span class="keyword">$this</span>-&gt;_routeParams[$name]] = $value;</div><div class="line">            <span class="keyword">unset</span>($params[$name]);</div><div class="line">        &#125; <span class="keyword">elseif</span> (<span class="keyword">isset</span>(<span class="keyword">$this</span>-&gt;_paramRules[$name])) &#123;</div><div class="line">            $params[$name] = $value;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">if</span> (<span class="keyword">$this</span>-&gt;_routeRule !== <span class="keyword">null</span>) &#123;</div><div class="line">        $route = strtr(<span class="keyword">$this</span>-&gt;route, $tr);</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">        $route = <span class="keyword">$this</span>-&gt;route;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    Yii::trace(<span class="string">"Request parsed with URL rule: &#123;$this-&gt;name&#125;"</span>, <span class="keyword">__METHOD__</span>);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> [$route, $params];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>将匹配时候的正则表达式和最终匹配结果打印出来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">array(2) &#123; [0]=&gt; string(103) &quot;#^webapp/(?P\w+)/(?P[\w-]+)/(?P[\w-]+)/(?P[\w\d,]&#123;24&#125;(,[\w\d]&#123;24&#125;)*)$#u&quot; [1]=&gt; string(25) &quot;/demo/default/index&quot; &#125; </div><div class="line">array(2) &#123; [0]=&gt; string(108) &quot;#^webapp/(?P\w+)/(?P\w+)/(?P[\w-]+)/(?P[\w-]+)/(?P[\w\d,]&#123;24&#125;)$#u&quot; [1]=&gt; string(25) &quot;/demo/default/index&quot; &#125; </div><div class="line">array(2) &#123; [0]=&gt; string(69) &quot;#^webapp/(?P\w+)/(?P[\w-]+)/(?P[\w-]+)$#u&quot; [1]=&gt; string(25) &quot;/demo/default/index&quot; &#125;</div></pre></td></tr></table></figure>
+<p>可以看到<code>/webapp</code>都被吃掉了，这就是之前nginx配置引起的问题了，正则中还有<code>^webapp</code>，所以匹配到才怪了呢～</p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2015/09/09/Git项目依赖管理-submodule和subtree/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2015/09/23/静态资源的管理优化/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2015/09/21/Nginx配置中一个斜杠引发的血案/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

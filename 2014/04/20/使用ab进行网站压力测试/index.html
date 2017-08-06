@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>使用ab进行网站压力测试 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,pefermance," />
+  
+
+  <meta name="description" content="当我们完成了一个网站的开发工作后，为了保证网站的服务质量一般都会进行压力测试，有很多开源的工具可供使用，每种压力测试工具都提供了很好的特性支持，例如大名鼎鼎的JMeter。如果我们只是想要看到某个页面的效果，或者在几个技术方案中作出权衡，有个很好用的工具apache自带的压力测试工具ab(就是apache benchmark的缩写啦) ubuntu上安装1sudo apt-get install">
+<meta name="keywords" content="blog,pefermance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用ab进行网站压力测试">
+<meta property="og:url" content="https://vincenthou.github.io/2014/04/20/使用ab进行网站压力测试/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="当我们完成了一个网站的开发工作后，为了保证网站的服务质量一般都会进行压力测试，有很多开源的工具可供使用，每种压力测试工具都提供了很好的特性支持，例如大名鼎鼎的JMeter。如果我们只是想要看到某个页面的效果，或者在几个技术方案中作出权衡，有个很好用的工具apache自带的压力测试工具ab(就是apache benchmark的缩写啦) ubuntu上安装1sudo apt-get install">
+<meta property="og:image" content="http://mat1.gtimg.com/www/mb/images/face/32.gif">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用ab进行网站压力测试">
+<meta name="twitter:description" content="当我们完成了一个网站的开发工作后，为了保证网站的服务质量一般都会进行压力测试，有很多开源的工具可供使用，每种压力测试工具都提供了很好的特性支持，例如大名鼎鼎的JMeter。如果我们只是想要看到某个页面的效果，或者在几个技术方案中作出权衡，有个很好用的工具apache自带的压力测试工具ab(就是apache benchmark的缩写啦) ubuntu上安装1sudo apt-get install">
+<meta name="twitter:image" content="http://mat1.gtimg.com/www/mb/images/face/32.gif">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ubuntu上安装"><span class="toc-text">ubuntu上安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#工具参数"><span class="toc-text">工具参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#结果分析"><span class="toc-text">结果分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#小试验"><span class="toc-text">小试验</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考"><span class="toc-text">参考</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-使用ab进行网站压力测试" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">使用ab进行网站压力测试</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.04.20</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2014/04/20/使用ab进行网站压力测试/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>当我们完成了一个网站的开发工作后，为了保证网站的服务质量一般都会进行压力测试，有很多开源的工具可供使用，每种压力测试工具都提供了很好的特性支持，例如大名鼎鼎的JMeter。如果我们只是想要看到某个页面的效果，或者在几个技术方案中作出权衡，有个很好用的工具apache自带的压力测试工具ab(就是apache benchmark的缩写啦)</p>
+<h1 id="ubuntu上安装"><a href="#ubuntu上安装" class="headerlink" title="ubuntu上安装"></a>ubuntu上安装</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install apache2-utils</div></pre></td></tr></table></figure>
+<h1 id="工具参数"><a href="#工具参数" class="headerlink" title="工具参数"></a>工具参数</h1><p>ab 有许多配置参数，就不一一列出，可以通过help指令或者参考资料了解，说一个常用的参数</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">- n 总共需要发出的请求数</div><div class="line">- c 发送请求使用的并发数（简单理解为客户端数量）</div><div class="line">- t 等待服务器的最大响应时间（过期不候）</div><div class="line">- k 使用HTTP的keep-alive特性 (这个需要服务器的支持)</div></pre></td></tr></table></figure>
+<p><a href="http://blog.sina.com.cn/s/blog_564fc50a0100n7r6.html" target="_blank" rel="external">keep-alive特性</a></p>
+<h1 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h1><p>贴出一些使用ab压力测试的结果:</p>
+<ul>
+<li><a href="https://github.com/matyhtf/swoole/blob/master/wiki/bench.md" target="_blank" rel="external">压测nginx swoole node.js golang的http server</a></li>
+<li><a href="http://snoopyxdy.blog.163.com/blog/static/6011744020117315192204/" target="_blank" rel="external">多核单服务器各种配置和业务压力下的node.js性能测试  </a></li>
+</ul>
+<p>测试结果中有很多有用的信息，我们一般比较关注两个指标：<br>Request per second 每秒处理请求数（服务器负载能力的有力体现）<br>Time per request 每个请求的响应时间 （注意这里有两个值）<br>由于对于并发请求，cpu实际上并不是同时处理的，而是按照每个请求获得的时间片逐个轮转处理的，所以基本上第一个Time per request时间约等于第二个Time per request时间乘以并发请求数</p>
+<h1 id="小试验"><a href="#小试验" class="headerlink" title="小试验"></a>小试验</h1><ul>
+<li>基准测试</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ab -c 1000 -n 1000 http://localhost:8001/</div><div class="line">ab -c 1000 -n 1000 http://localhost/index.html</div><div class="line">ab -c 1000 -n 1000 http://localhost/index.php</div></pre></td></tr></table></figure>
+<p><a href="http://nodejs.org/" target="_blank" rel="external">nodejs官网</a> hello world: RPS 2000左右(实验次数越多，效率急剧下降)<br>ngnix 默认配置加载静态文件：RPS 10000左右<br>ngnix 默认配置加载php文件：RPS 5000左右<br>ngnix 反向代理nodejs: RPS 7000左右<br>ngnix 反向代理加负载均衡2个nodejs进程: RPS 8000左右</p>
+<ul>
+<li>减小并发数</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ab -c 100 -n 1000 http://localhost:8001/</div><div class="line">ab -c 100 -n 1000 http://localhost/index.html</div><div class="line">ab -c 100 -n 1000 http://localhost/index.php</div></pre></td></tr></table></figure>
+<p><a href="http://nodejs.org/" target="_blank" rel="external">nodejs官网</a> hello world: RPS 4000左右<br>ngnix 默认配置加载静态文件：RPS 10000左右 (添加-k选项可以达到16000)<br>ngnix 默认配置加载php文件：RPS 500左右<br>ngnix 反向代理nodejs: RPS 3000左右<br>ngnix 反向代理加负载均衡2个nodejs进程: RPS 2700左右</p>
+<ul>
+<li>增加请求量</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">ab -c 1000 -n 2000 http://localhost:8001/</div><div class="line">ab -c 1000 -n 2000 http://localhost/index.html</div><div class="line">ab -c 1000 -n 2000 http://localhost/index.php</div></pre></td></tr></table></figure>
+<p><a href="http://nodejs.org/" target="_blank" rel="external">nodejs官网</a> hello world: RPS 2000左右(实验次数越多，效率急剧下降)<br>ngnix 默认配置加载静态文件：RPS  8000左右(添加-k选项可以达到12000)<br>ngnix 默认配置加载php文件：Connection reset<br>ngnix 反向代理nodejs: RPS 2000左右<br>ngnix 反向代理加负载均衡2个nodejs进程: RPS 4000左右（但是不是很稳定）</p>
+<ul>
+<li>结论</li>
+</ul>
+<ol>
+<li>nodejs 处理高并发请求效率较差，并发数越多稳定性越不好</li>
+<li>nginx适合作为静态文件服务器，设置keep-alive header可以有效提升服务性能</li>
+<li>nginx使用负载均衡和反向代理可以有效提高nodejs处理并发的能力</li>
+<li>nodejs 处理低并发的大量请求效率还是很不错的，适合作为rest API</li>
+<li>简单使用php+nginx效率处理大量低并发请求明显小于nodejs, 大并发时效果出奇地好（有点疑问<img src="http://mat1.gtimg.com/www/mb/images/face/32.gif" alt="疑问">）<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1></li>
+</ol>
+<p><a href="http://www.nginx.cn/110.html" target="_blank" rel="external">使用ab对nginx进行压力测试</a><br><a href="http://leepiao.blog.163.com/blog/static/485031302010234352282/" target="_blank" rel="external">Apache ab 压力测试</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/04/14/Get-started-with-Yii-2-0/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/04/30/【翻译】-facebook的性能优化/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2014/04/20/使用ab进行网站压力测试/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

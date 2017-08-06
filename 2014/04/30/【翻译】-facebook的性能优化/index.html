@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>【翻译】 facebook的性能优化 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,frontend,pefermance," />
+  
+
+  <meta name="description" content="翻译文章在facebook,特性和应用被深度集成在每个页面里面，这样的深度集成给前端性能的优化带来了挑战和机会（前端指的是浏览器的渲染）：  每个特性被集成到多个页面里面。在不同的页面间有大量的通用HTML，JS，CSS重复。当一个用户在页面之间浏览的时候，即使在本地已经缓存，对于浏览器来说，重复执行通用的JS，重新载入内容是一件头痛的事情。 几乎Facebook的每个页面都包含不同产品团队开发的">
+<meta name="keywords" content="blog,frontend,pefermance">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【翻译】 facebook的性能优化">
+<meta property="og:url" content="https://vincenthou.github.io/2014/04/30/【翻译】-facebook的性能优化/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="翻译文章在facebook,特性和应用被深度集成在每个页面里面，这样的深度集成给前端性能的优化带来了挑战和机会（前端指的是浏览器的渲染）：  每个特性被集成到多个页面里面。在不同的页面间有大量的通用HTML，JS，CSS重复。当一个用户在页面之间浏览的时候，即使在本地已经缓存，对于浏览器来说，重复执行通用的JS，重新载入内容是一件头痛的事情。 几乎Facebook的每个页面都包含不同产品团队开发的">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【翻译】 facebook的性能优化">
+<meta name="twitter:description" content="翻译文章在facebook,特性和应用被深度集成在每个页面里面，这样的深度集成给前端性能的优化带来了挑战和机会（前端指的是浏览器的渲染）：  每个特性被集成到多个页面里面。在不同的页面间有大量的通用HTML，JS，CSS重复。当一个用户在页面之间浏览的时候，即使在本地已经缓存，对于浏览器来说，重复执行通用的JS，重新载入内容是一件头痛的事情。 几乎Facebook的每个页面都包含不同产品团队开发的">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#翻译文章"><span class="toc-text">翻译文章</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#个人理解"><span class="toc-text">个人理解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#原文资料"><span class="toc-text">原文资料</span></a></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-【翻译】-facebook的性能优化" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">【翻译】 facebook的性能优化</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.04.30</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2014/04/30/【翻译】-facebook的性能优化/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <h1 id="翻译文章"><a href="#翻译文章" class="headerlink" title="翻译文章"></a>翻译文章</h1><p>在facebook,特性和应用被深度集成在每个页面里面，这样的深度集成给前端性能的优化带来了挑战和机会（前端指的是浏览器的渲染）：</p>
+<ol>
+<li>每个特性被集成到多个页面里面。在不同的页面间有大量的通用HTML，JS，CSS重复。当一个用户在页面之间浏览的时候，即使在本地已经缓存，对于浏览器来说，重复执行通用的JS，重新载入内容是一件头痛的事情。</li>
+<li>几乎Facebook的每个页面都包含不同产品团队开发的不止一个特性的网页内容。评估在页面上添加新的特性对于前端性能的影响是一个巨大的挑战。</li>
+<li>网页上的新特性不仅依赖于快速的产品周期还依赖于用户的接受度。性能优化必须在快速的特性开发中是自适应并且可维护的。</li>
+</ol>
+<p>在这里我们要讨论一些改进和维持前端性能的经验，在以下几个方面详细阐述如何构建和操作这样一套基础架构：</p>
+<ol>
+<li>使用AJAX来渲染整个页面，过去AJAX一般被用来获取动态的内容或者响应用户的操作部分渲染页面，facebook开发了一套框架使用AJAX来渲染整个页面，同时利用JS保持原来传统页面的用户体验。这套纯粹使用AJAX来渲染页面的框架消除了跨页面重复执行通用JS和重新载入内容的问题。</li>
+<li>评估和性能测试：我们开发了一套性能评估框架来模拟和分析网页速度。除了传统的模拟特性，这套框架提供了A/B测试能力并且能与特性启动系统集成，这使得一个新的特性的引入对于整体性能的影响变得可以评估，其实是多个页面混合迭代的特性</li>
+<li>适应性的静态资源打包：许多静态资源打包系统都是在特性部署的时候执行。产品的开发人员指定某个特性可能需要的所有静态资源，构建系统将他们分组打包成JS和CSS文件，以及图片精灵。因为我们页面上用很多特性并且这写特性都是在迭代演进中的，部署时打包系统是不适用的。我们开发了一套适应性打包系统，这套系统基于使用率的评估来优化静态资源。使用成本效益分析模型，这套系统识别最佳打包策略，并且自动重平衡打包来追踪特性的演进。<h1 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h1></li>
+</ol>
+<p>2亿的用户，每天400亿的PV (数据有点老了) 虽然是一篇比较老的文章，但是有些思想还是可以借鉴的。</p>
+<ul>
+<li>使用AJAX来实现文中提出的效果会耗费更多的网络资源，一种更实际的技术叫做bigpipe，是为了解决重数据渲染而提出的一种思路，<a href="http://weibo.com/" target="_blank" rel="external">新浪微博</a>就是采用了这种技术，如果在网速较差的时候打开页面，可以明显看到，页面的布局结构已经呈现出来，同时数据还在不断的更新加载出空白的部分。打开页面调试工具可以看到在页面底部有一堆的script标签，每个标签中定义的结构大概是</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">FM.view(&#123;</div><div class="line">     <span class="string">"pid"</span>:<span class="string">"pl_leftnav_common"</span>,</div><div class="line">     <span class="string">"js"</span>:[<span class="string">"home\/js\/pl\/leftnav\/common\/index.js?version=c67133302083a411"</span>],</div><div class="line">     <span class="string">"css"</span>:[<span class="string">"style\/css\/module\/global\/WB_left_nav.css?version=2112cdcd580c86d4"</span>],</div><div class="line">     <span class="string">"html"</span>:<span class="string">"&lt;div class=\"level_1_Box\"&gt;\n\t\t   ...  &lt;\/div&gt;\n"</span></div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这里就是bigpipe技术的关键，将页面切分成若干模块，每个模块定义其基本组成单元（html+css+js），给模块一个唯一标识的id。在页面加载的时候首先在返回流中写入页面的布局文件，注册页面模块完成填充后的回调函数，让布局页面优先渲染。同时，持续写入模板数据和页面模块到返回流中，在模块和相关模块数据完成填充后，浏览器读取模块js脚本后，触发先前注册的模块事件，将模块添加到到页面的对应位置上。<br>这样的做法有效提升了用户的可感知页面性能，比一开始一个大白屏，等了几秒钟后，一下加载出来要好得多。当然要实现这项技术需要前后端配合，摒弃以往在后端数据填充模板，完成后再返回的模式，保持渲染的连贯性。结合nodejs异步IO的特性，页面渲染的时间将取决于并行异步数据加载中最慢的模块所需要的时间，可以将这一技术的特点进一步发挥。</p>
+<ul>
+<li>对于文中提到的这种框架能力是很强大的，不过对于facebook这样有多条产品线，不同产品线上重复功能的模块这样的框架测试能力是很有必要的，不过暂时没发现有比较好的开源实现。<br>对于一般产品线而言，性能优化总是放在最后来做的（如果定义好开发规范，我们可以通过一些经验和方法延迟甚至避免性能瓶颈的到来），而做性能优化也的确是慢得让我们自己都无法忍受了，这里展开话题就很多了，参考 #20 。有些工具还是很好用的，比如<a href="http://jsperf.com/" target="_blank" rel="external">jsperf</a>，最喜欢他跨浏览器测试的能力，图表显示也很直观，不过只适用于对于单独case的测试。整体性能优化就有YSlow，最近用了一款chrome的插件也不错，叫 PageSpeed Insights for Chrome，点击一下分析可以在控制台中查看结果了，很多结果的建议都是最佳实践的体现。</li>
+<li>静态资源的打包工具也用了不少，不过像文中提到的这么智能的还真没用过。打包工具有时是基于js模块管理工具的，例如像requirejs可以用r.js或者grunt插件, seajs有一套自己的打包工具。如grunt和gulp这样的工具灵活性比较强，可以很方便的根据项目的需求定制打包的流程，就是很多重复的工作要自己做。腾讯的前端团队推出了一套打包工具（不仅仅是打包工具）<a href="http://madscript.com/modjs/" target="_blank" rel="external">modjs</a> ，完成了一些通用性需求的打包方案，同时又不失灵活性，用起来非常顺手。<h1 id="原文资料"><a href="#原文资料" class="headerlink" title="原文资料"></a>原文资料</h1></li>
+</ul>
+<p><a href="http://velocityconf.com/velocity2009/public/schedule/detail/7611" target="_blank" rel="external">原文链接</a><br><a href="http://cdn.oreillystatic.com/en/assets/1/event/29/Frontend Performance Engineering in Facebook  Presentation.zip" target="_blank" rel="external">PPT地址</a></p>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/04/20/使用ab进行网站压力测试/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/05/10/CSS模块化/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2014/04/30/【翻译】-facebook的性能优化/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>

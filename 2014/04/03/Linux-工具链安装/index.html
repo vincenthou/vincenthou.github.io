@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+
+  <html class="light page-post">
+
+
+<head>
+  <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://vdemo.qiniudn.com">
+  
+  <title>Linux 工具链安装 | VincentHou</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  
+    <meta name="keywords" content="blog,linux," />
+  
+
+  <meta name="description" content="最近换用ubuntu的系统，很多工具要安装，挺繁琐的，在这里记录下来 LNMP Setup1sudo apt-get update Nginx1sudo apt-get intsall nginx  所有的配置文件都在/etc/nginx下,并且每个虚拟主机已经安排在了/etc/nginx/sites-available下 程序文件在/usr/sbin/nginx * 日志放在了/var/log/">
+<meta name="keywords" content="blog,linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 工具链安装">
+<meta property="og:url" content="https://vincenthou.github.io/2014/04/03/Linux-工具链安装/index.html">
+<meta property="og:site_name" content="VincentHou">
+<meta property="og:description" content="最近换用ubuntu的系统，很多工具要安装，挺繁琐的，在这里记录下来 LNMP Setup1sudo apt-get update Nginx1sudo apt-get intsall nginx  所有的配置文件都在/etc/nginx下,并且每个虚拟主机已经安排在了/etc/nginx/sites-available下 程序文件在/usr/sbin/nginx * 日志放在了/var/log/">
+<meta property="og:updated_time" content="2017-07-31T03:17:57.364Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 工具链安装">
+<meta name="twitter:description" content="最近换用ubuntu的系统，很多工具要安装，挺繁琐的，在这里记录下来 LNMP Setup1sudo apt-get update Nginx1sudo apt-get intsall nginx  所有的配置文件都在/etc/nginx下,并且每个虚拟主机已经安排在了/etc/nginx/sites-available下 程序文件在/usr/sbin/nginx * 日志放在了/var/log/">
+
+  
+
+  
+    <link rel="icon" href="https://assets-cdn.github.com/favicon.ico">
+  
+
+  <link href="/css/styles.css?v=c114cbe6" rel="stylesheet">
+
+
+  
+    <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+<!-- Google Analytics -->
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-39656503-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+<!-- End Google Analytics -->
+
+
+  
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?1e5d8068abdfb22e27ebe052a4feae14";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+  
+  <script type="text/javascript">
+	(function(){
+	    var bp = document.createElement('script');
+	    var curProtocol = window.location.protocol.split(':')[0];
+	    if (curProtocol === 'https') {
+	        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+	    }
+	    else {
+	        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+	    }
+	    var s = document.getElementsByTagName("script")[0];
+	    s.parentNode.insertBefore(bp, s);
+	})();
+  </script>
+
+
+
+  
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+  
+
+  
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  
+</head>
+
+<body>
+
+
+  
+    <span id="toolbox-mobile" class="toolbox-mobile">更多</span>
+  
+
+  <div class="post-header CENTER">
+   
+  <div class="toolbox">
+    <a class="toolbox-entry" href="/">
+      <span class="toolbox-entry-text">更多</span>
+      <i class="icon-angle-down"></i>
+      <i class="icon-home"></i>
+    </a>
+    <ul class="list-toolbox">
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/archives/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            博客
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/category/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            分类
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/tag/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            标签
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/link/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            友链
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/about/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            关于
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/atom.xml"
+            rel="noopener noreferrer"
+            target="_blank"
+            >
+            RSS
+          </a>
+        </li>
+      
+        <li class="item-toolbox">
+          <a
+            class="CIRCLE"
+            href="/search/"
+            rel="noopener noreferrer"
+            target="_self"
+            >
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+
+
+</div>
+
+
+  <div id="toc" class="toc-article">
+    <strong class="toc-title">文章目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LNMP-Setup"><span class="toc-text">LNMP Setup</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx"><span class="toc-text">Nginx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#PHP"><span class="toc-text">PHP</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#spawn-fcgi"><span class="toc-text">spawn-fcgi</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MySQL"><span class="toc-text">MySQL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Configuration"><span class="toc-text">Configuration</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Sublime-Text"><span class="toc-text">Sublime Text</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Setup"><span class="toc-text">Setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Plugins"><span class="toc-text">Plugins</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Package-Control"><span class="toc-text">Package Control</span></a></li></ol></li></ol></li></ol>
+  </div>
+
+
+
+<div class="content content-post CENTER">
+   <article id="post-Linux-工具链安装" class="article article-type-post" itemprop="blogPost">
+  <header class="article-header">
+    <h1 class="post-title">Linux 工具链安装</h1>
+
+    <div class="article-meta">
+      <span>
+        <i class="icon-calendar"></i>
+        <span>2014.04.03</span>
+      </span>
+
+      
+        <span class="article-author">
+          <i class="icon-user"></i>
+          <span>Vincent Hou</span>
+        </span>
+      
+
+      
+
+
+      
+        <span>
+          <i class="icon-comment"></i>
+          <a href="https://vincenthou.github.io/2014/04/03/Linux-工具链安装/#disqus_thread"></a>
+        </span>
+      
+
+      
+      <i class="fa fa-eye"></i> 
+        <span id="busuanzi_container_page_pv">
+           &nbsp热度 <span id="busuanzi_value_page_pv">
+           <i class="fa fa-spinner fa-spin"></i></span>℃
+        </span>
+      
+
+      
+      
+    </div>
+  </header>
+
+  <div class="article-content">
+    
+      <p>最近换用ubuntu的系统，很多工具要安装，挺繁琐的，在这里记录下来</p>
+<h1 id="LNMP-Setup"><a href="#LNMP-Setup" class="headerlink" title="LNMP Setup"></a>LNMP Setup</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div></pre></td></tr></table></figure>
+<h2 id="Nginx"><a href="#Nginx" class="headerlink" title="Nginx"></a>Nginx</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get intsall nginx</div></pre></td></tr></table></figure>
+<ul>
+<li>所有的配置文件都在/etc/nginx下,并且每个虚拟主机已经安排在了/etc/nginx/sites-available下</li>
+<li>程序文件在/usr/sbin/nginx * 日志放在了/var/log/nginx中</li>
+<li>在/etc/init.d/下创建了启动脚本nginx</li>
+<li>默认的虚拟主机的目录设置在了/var/www/nginx-default</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/nginx start </div><div class="line">    or</div><div class="line">service nginx start</div><div class="line"></div><div class="line">sudo killall apache2</div></pre></td></tr></table></figure>
+<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install php5 php5-cgi php5-mysql php5-curl php5-gd php5-idn php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-mhash php5-ming php5-pspell php5-recode php5-snmp php5-tidy php5-xmlrpc php5-sqlite php5-xsl</div></pre></td></tr></table></figure>
+<h3 id="spawn-fcgi"><a href="#spawn-fcgi" class="headerlink" title="spawn-fcgi"></a>spawn-fcgi</h3><p>为什么要安装spawn-fcgi呢,它用来控制php-cgi进程,以防止进程崩溃或是单进程的效率太低.<br>网上很多人都说要使用spawn-fcgi必须得安装lighttpd,实际上不必要,可以直接安装spawn-fcgi</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install spawn-fcgi</div></pre></td></tr></table></figure>
+<h2 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install mysql-server mysql-client</div><div class="line">sudo /etc/init.d/mysql start</div></pre></td></tr></table></figure>
+<h2 id="Configuration"><a href="#Configuration" class="headerlink" title="Configuration"></a>Configuration</h2><ol>
+<li>配置根目录和绝对路径</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/nginx/sites-available/default</div></pre></td></tr></table></figure>
+<p>修改配置文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">server &#123;</div><div class="line">   ...</div><div class="line">root &#123;web_root&#125;</div><div class="line">   ...</div><div class="line">location ~ .php$ &#123;</div><div class="line">    fastcgi_pass 127.0.0.1:9000;</div><div class="line">    fastcgi_index index.php;</div><div class="line">    fastcgi_param SCRIPT_FILENAME /var/www/nginx-default<span class="variable">$fastcgi_script_name</span>;(Optional)</div><div class="line">    include /etc/nginx/fastcgi_params; </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>去掉注释/etc/php5/cgi/php.ini中cgi.fix_pathinfo=1;这样php-cgi方能正常使用SCRIPT_FILENAME这个变量.</p>
+<ol>
+<li>启动fastcgi并且重新载入nginx配置</li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo /etc/init.d/nginx reload</div><div class="line">sudo /usr/bin/spawn-fcgi -a 127.0.0.1 -p 9000 -C 5 -u www-data -g www-data -f /usr/bin/php5-cgi -P /var/run/fastcgi-php.pid</div></pre></td></tr></table></figure>
+<p>参数含义如下</p>
+<ul>
+<li>-f 指定调用FastCGI的进程的执行程序位置,根据系统上所装的PHP的情况具体设置</li>
+<li>-a 绑定到地址addr</li>
+<li>-p 绑定到端口port</li>
+<li>-s 绑定到unix socket的路径path</li>
+<li>-C 指定产生的FastCGI的进程数,默认为5(仅用于PHP)</li>
+<li>-P指定产生的进程的PID文件路径</li>
+<li>-u和-g FastCGI使用什么身份(-u 用户 -g 用户组)运行,Ubuntu下可以使用www-data,其他的根据情况配置,如nobody、apache等现在可以在web根目录下放个探针或php文件测试一下了</li>
+</ul>
+<p>设置开机启动</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo vi /etc/rc.local</div></pre></td></tr></table></figure>
+<p>添加一行   </p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/spawn-fcgi -a 127.0.0.1 -p 9000 -C 5 -u www-data -g www-data -f /usr/bin/php5-cgi -P /var/run/fastcgi-php.pid</div></pre></td></tr></table></figure>
+<h1 id="Sublime-Text"><a href="#Sublime-Text" class="headerlink" title="Sublime Text"></a>Sublime Text</h1><h2 id="Setup"><a href="#Setup" class="headerlink" title="Setup"></a>Setup</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:webupd8team/sublime-text-2  </div><div class="line">sudo apt-get update </div><div class="line">sudo apt-get install sublime-text (sublime-text-dev/sublime-text-2)</div></pre></td></tr></table></figure>
+<h2 id="Plugins"><a href="#Plugins" class="headerlink" title="Plugins"></a>Plugins</h2><h3 id="Package-Control"><a href="#Package-Control" class="headerlink" title="Package Control"></a>Package Control</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> urllib2,os; pf=<span class="string">'Package Control.sublime-package'</span>; ipp=sublime.installed_packages_path(); os.makedirs(ipp) <span class="keyword">if</span> <span class="keyword">not</span> os.path.exists(ipp) <span class="keyword">else</span> <span class="keyword">None</span>; urllib2.install_opener(urllib2.build_opener(urllib2.ProxyHandler())); open(os.path.join(ipp,pf),<span class="string">'wb'</span>).write(urllib2.urlopen(<span class="string">'http://sublime.wbond.net/'</span>+pf.replace(<span class="string">' '</span>,<span class="string">'%20'</span>)).read()); <span class="keyword">print</span> <span class="string">'Please restart Sublime Text to finish installation'</span></div></pre></td></tr></table></figure>
+<ul>
+<li>Emmet - CSS style HTML Coding <a href="https://github.com/emmetio/pyv8-binaries" target="_blank" rel="external">Manually install pyv8</a></li>
+<li>Javascript Refactor - Refactor javascript code tool</li>
+<li>DocBlockr - Generate comment pattern based on your code</li>
+<li>MarkdownEditing - Visual editing markdown document</li>
+<li>Snippets - A lot of snippets for code block generation (AngularJS Jade LESS Sass SCSS CSS Grunt Gulp Mocha PHPUnit)</li>
+<li>Terminal - Open terminal in the sublime text project folders</li>
+<li>jsFormat - Format JS file</li>
+<li>CanIUse - Check the compability of CSS property</li>
+<li>Themes - Theme Brogrammer</li>
+</ul>
+
+    
+  </div>
+</article>
+
+
+   
+  <div class="text-center donation">
+    <div class="inner-donation">
+      <span class="btn-donation">支持一下</span>
+      <div class="donation-body">
+        <div class="tip text-center">扫一扫，支持vincenthou</div>
+        <ul class="theme.donation.items.length">
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-wechat.png" alt="">
+          </li>
+        
+          <li class="item">
+            <img src="https://vdemo.qiniudn.com/qr-alipay.png" alt="">
+          </li>
+        
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+   
+  <div class="box-prev-next clearfix">
+    <a class="show pull-left" href="/2014/03/20/前端性能优化/">
+        <i class="icon icon-angle-left"></i>
+    </a>
+    <a class="show pull-right" href="/2014/04/14/Get-started-with-Yii-2-0/">
+        <i class="icon icon-angle-right"></i>
+    </a>
+  </div>
+
+
+
+
+</div>
+
+
+  <a id="backTop" class="back-top">
+    <i class="icon-angle-up"></i>
+  </a>
+
+
+
+
+  <div class="modal" id="modal">
+  <span id="cover" class="cover hide"></span>
+  <div id="modal-dialog" class="modal-dialog hide-dialog">
+    <div class="modal-header">
+      <span id="close" class="btn-close">关闭</span>
+    </div>
+    <hr>
+    <div class="modal-body">
+      <ul class="list-toolbox">
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/archives/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              博客
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/category/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              分类
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/tag/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              标签
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/link/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              友链
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/about/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              关于
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/atom.xml"
+              rel="noopener noreferrer"
+              target="_blank"
+              >
+              RSS
+            </a>
+          </li>
+        
+          <li class="item-toolbox">
+            <a
+              class="CIRCLE"
+              href="/search/"
+              rel="noopener noreferrer"
+              target="_self"
+              >
+              搜索
+            </a>
+          </li>
+        
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+
+
+  
+      <div class="fexo-comments comments-post">
+    
+  <section class="disqus-comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+  </section>
+
+  <script>
+    var disqus_shortname = 'vincenthou';
+    
+    var disqus_url = 'https://vincenthou.github.io/2014/04/03/Linux-工具链安装/';
+    
+    (function(){
+      var dsq = document.createElement('script');
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+
+  <script id="dsq-count-scr" src="//vincenthou.disqus.com/count.js" async></script>
+
+
+
+    
+
+
+
+
+    
+
+    
+	
+  </div>
+
+  
+
+  <script type="text/javascript">
+  function loadScript(url, callback) {
+    var script = document.createElement('script')
+    script.type = 'text/javascript';
+
+    if (script.readyState) { //IE
+      script.onreadystatechange = function() {
+        if (script.readyState == 'loaded' ||
+          script.readyState == 'complete') {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else { //Others
+      script.onload = function() {
+        callback();
+      };
+    }
+
+    script.src = url;
+    document.getElementsByTagName('head')[0].appendChild(script);
+  }
+
+  window.onload = function() {
+    loadScript('/js/bundle.js?235683', function() {
+      // load success
+    });
+  }
+</script>
+
+</body>
+</html>
